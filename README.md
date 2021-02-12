@@ -17,8 +17,6 @@ Version: 11
 
 Build Tool: Maven
 
-Dependencies: jsoup 1.11.3
-
 # Build
 
 1. Clone
