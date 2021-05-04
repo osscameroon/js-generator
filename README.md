@@ -1,4 +1,4 @@
-# jsGenerator : From Js to Html Translator
+# jsGenerator : Translating from Js to Html
 
 # About
 
