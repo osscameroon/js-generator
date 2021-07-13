@@ -1,11 +1,11 @@
-package com.osscameroon.service;
+package com.osscameroon.jsGenerator.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
 
-import com.osscameroon.model.JsElement;
+import com.osscameroon.jsGenerator.model.JsElement;
 
 public class JsElementService {
 
