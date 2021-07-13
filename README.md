@@ -1,9 +1,9 @@
-# jsGenerator
+# jsGenerator : Translating from Html to Js
 
 # About
 
-It's a proposed solution to generating Javascript  from HTML  following the JavaScript DOM structure.
-Sometimes, we forget how to use javascript to generate html. Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. This project might be very useful for beginners learning html and javascript.
+The goal is to generate Javascript  from HTML  following the JavaScript DOM structure.
+Sometimes, we forget how to use javascript to build dynamic web apps. Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. This project will be very useful for beginners learning html and javascript.
 
 The project is based on [jsoup  library, a java html parser](https://jsoup.org/) / [Jsoup GitHub Repository](https://github.com/jhy/jsoup/) . It's all about using nodes to generate javascript. 
 
