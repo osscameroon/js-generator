@@ -1,13 +1,13 @@
 /*
  * 
  */
-package com.osscameroon;
+package com.osscameroon.jsGenerator;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
-import com.osscameroon.service.JsElementService;
+import com.osscameroon.jsGenerator.service.JsElementService;
 
 public class Main {
 
