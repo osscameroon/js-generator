@@ -7,7 +7,7 @@ Sometimes, we forget how to use javascript to build dynamic web apps. Thus, the 
 
 The project is based on [jsoup  library, a java html parser](https://jsoup.org/) / [Jsoup GitHub Repository](https://github.com/jhy/jsoup/) . It's all about using nodes to generate javascript. 
 
-Actually, it's just a console program but gradually we will build an API.
+Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to Google Translate : https://translate.google.com/ .
 
 # Code Info
 
@@ -32,4 +32,4 @@ Build Tool: Maven
 * ~~Fix to refactor tag names so multiple tags don't end up with the same name when appending~~
 * Add Tests and Documentation to this legacy code. We apologize for not respecting TDD (Test Driven Development) from the beginning.
 * Create a Maven/Gradle library.
-* Create a web app that will translate from Html from Js, an app similar to Google Translate : https://translate.google.com/
+* Create a web app translating from Html to Js, an app similar to Google Translate : https://translate.google.com/
