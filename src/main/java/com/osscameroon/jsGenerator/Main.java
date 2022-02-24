@@ -3,6 +3,7 @@
  */
 package com.osscameroon.jsGenerator;
 
+import com.osscameroon.jsGenerator.util.FileUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
@@ -10,8 +11,18 @@ import org.jsoup.parser.Parser;
 import com.osscameroon.jsGenerator.service.JsElementService;
 
 public class Main {
-
 	public static void main(String[] args) {
+		String htmlFile;
+
+		if(args.length == 0) htmlFile = "sample.html";
+		else htmlFile = args[0];
+
+		System.out.println("Converting " + htmlFile + " to js file");
+		convertFiles(htmlFile);
+		System.out.println("Conversion complete");
+	}
+
+	public static void fanonMain() {
 		// TODO Auto-generated method stub
 
 		StringBuilder sampleHtml = new StringBuilder();
@@ -42,8 +53,7 @@ public class Main {
 					.append("  </div>\n")
 					.append("</div>");
 
-		Element doc = Jsoup.parse(sampleHtml.toString(), "", Parser.xmlParser());
-		System.out.println(JsElementService.parseElement(doc));
+		convert(sampleHtml.toString());
 
 	}
 
