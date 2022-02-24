@@ -14,7 +14,7 @@ import org.jsoup.nodes.TextNode;
  */
 public class JsElement {
 
-	private Element element = null;
+	private final Element element;
 
 	public JsElement(Element element) {
 
@@ -29,13 +29,14 @@ public class JsElement {
 	 * @return code to append the element to the parent
 	 */
 	public String parse(List<String> usedTags) {
-		// atrributes
+		// attributes
 		Attributes attributes = this.element.attributes();
 		// text nodes
 		List<TextNode> innerHTML = this.element.textNodes();
 
 		// search tag name
-		usedTags.stream().filter(s -> s.equals(this.element.tagName()))
+		usedTags.stream()
+				.filter(s -> s.equals(this.element.tagName()))
 				.forEach(s -> this.element.tagName(this.element.tagName() + "_"));
 
 		// tag name
@@ -43,25 +44,14 @@ public class JsElement {
 		usedTags.add(tag);
 
 		// generation of code
-		String generatedCode = "var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n";
+		StringBuilder generatedCode = new StringBuilder("var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
 
-		for (Attribute attribute : attributes) {
-			generatedCode += tag + ".setAttribute(\"" + attribute.getKey() + "\", \"" + attribute.getValue() + "\");\n";
-		}
-
-		for (TextNode textNode : innerHTML) {
-			if (!textNode.isBlank())
-				generatedCode += tag + ".appendChild(document.createTextNode(\""
-						+ textNode.toString().replace("\n", "").trim() + "\"));\n";
-		}
-
-		return generatedCode;
-
+		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
 	}
 
 //	WITHOUT USED TAGS LIST
 	public String parse() {
-		// atrributes
+		// attributes
 		Attributes attributes = this.element.attributes();
 		// text nodes
 		List<TextNode> innerHTML = this.element.textNodes();
@@ -69,7 +59,9 @@ public class JsElement {
 		String tag = this.element.tagName();
 
 		// generation of code
-		String generatedCode = "var " + tag + " = document.createElement(\"" + tag + "\");\n";
+		StringBuilder generatedCode = new StringBuilder("var " + tag + " = document.createElement(\"" + tag + "\");\n");
+
+		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
 
 	}
 
@@ -83,29 +75,26 @@ public class JsElement {
 	 */
 	private String addAttributeToElement(Attributes attributes, List<TextNode> innerHTML, String tag, StringBuilder generatedCode) {
 		for (Attribute attribute : attributes) {
-			generatedCode += tag + ".setAttribute(\"" + attribute.getKey() + "\", \"" + attribute.getValue() + "\");\n";
+			generatedCode.append(tag).append(".setAttribute(\"").append(attribute.getKey()).append("\", \"").append(attribute.getValue()).append("\");\n");
 		}
 
 		for (TextNode textNode : innerHTML) {
 			if (!textNode.isBlank())
-				generatedCode += tag + ".appendChild(document.createTextNode(\""
-						+ textNode.toString().replace("\n", "").trim() + "\"));\n";
+				generatedCode.append(tag).append(".appendChild(document.createTextNode(\"").append(textNode.toString().replace("\n", "").trim()).append("\"));\n");
 		}
 
-		return generatedCode;
-
+		return generatedCode.toString();
 	}
 
 	public String appendChild() {
-		String generatedCode = new String();
+		StringBuilder generatedCode = new StringBuilder();
 
 		if (this.element.children().size() > 0) {
 			for (Element child : this.element.children()) {
-				generatedCode += this.element.tagName() + ".appendChild(" + child.tagName() + ");\n";
+				generatedCode.append(this.element.tagName()).append(".appendChild(").append(child.tagName()).append(");\n");
 			}
 		}
 
-		return generatedCode;
+		return generatedCode.toString();
 	}
-
 }
