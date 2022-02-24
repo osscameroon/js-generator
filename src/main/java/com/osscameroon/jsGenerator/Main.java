@@ -47,4 +47,26 @@ public class Main {
 
 	}
 
+	/**
+	 * Converts the html string to js string and prints it out.
+	 * @param content the html string
+	 */
+	public static void convert(String content) {
+		Element doc = Jsoup.parse(content, "", Parser.xmlParser());
+		System.out.println(JsElementService.parseElement(doc));
+	}
+
+	/**
+	 * Converts the html file to js file
+	 * @param pathToHtml the path to the html file
+	 */
+	public static void convertFiles(String pathToHtml) {
+		String jsFileName = pathToHtml.split(".html")[0] + ".js";
+
+		String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();
+		Element htmlDoc = Jsoup.parse(htmlContent, "", Parser.xmlParser());
+
+		String jsContent = JsElementService.parseElement(htmlDoc);
+		FileUtil.writeJsFile(jsContent, jsFileName);
+	}
 }
