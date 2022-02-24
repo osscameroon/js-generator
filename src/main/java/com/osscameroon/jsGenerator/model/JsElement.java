@@ -7,6 +7,11 @@ import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 
+/**
+ * @author osscameroon
+ * @version 1.0
+ * @description Represents a JS Element along with methods
+ */
 public class JsElement {
 
 	private Element element = null;
@@ -17,6 +22,12 @@ public class JsElement {
 	}
 
 //	WITH USED TAGS LIST
+
+	/**
+	 * For this element, it returns the code to append the element to the parent
+	 * @param usedTags List of used tags in the document
+	 * @return code to append the element to the parent
+	 */
 	public String parse(List<String> usedTags) {
 		// atrributes
 		Attributes attributes = this.element.attributes();
@@ -60,6 +71,17 @@ public class JsElement {
 		// generation of code
 		String generatedCode = "var " + tag + " = document.createElement(\"" + tag + "\");\n";
 
+	}
+
+	/**
+	 * Given an element, it adds the attributes to the element
+	 * @param attributes Attributes of the element
+	 * @param innerHTML Text nodes of the element
+	 * @param tag Tag name of the element
+	 * @param generatedCode Code generated in JS
+	 * @return generated code for the element
+	 */
+	private String addAttributeToElement(Attributes attributes, List<TextNode> innerHTML, String tag, StringBuilder generatedCode) {
 		for (Attribute attribute : attributes) {
 			generatedCode += tag + ".setAttribute(\"" + attribute.getKey() + "\", \"" + attribute.getValue() + "\");\n";
 		}
