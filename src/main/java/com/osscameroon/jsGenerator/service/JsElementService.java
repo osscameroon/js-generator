@@ -33,8 +33,7 @@ public class JsElementService {
 
 			String appends = parent.appendChild(); // append this current element's children code to parent code
 
-			if (!appends.equals(""))
-				generatedCode.append(appends);
+			if (!appends.equals("")) generatedCode.append(appends);
 		}
 		return generatedCode.toString();
 	}

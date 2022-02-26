@@ -29,12 +29,13 @@ public class JsElement {
 	 * @return code to append the element to the parent
 	 */
 	public String parse(List<String> usedTags) {
-		// attributes
+		// attributes: attributes of the element
 		Attributes attributes = this.element.attributes();
-		// text nodes
+
+		// text nodes: text nodes of the element (content in between tags)
 		List<TextNode> innerHTML = this.element.textNodes();
 
-		// search tag name
+		// search tag name among used tags
 		usedTags.stream()
 				.filter(s -> s.equals(this.element.tagName()))
 				.forEach(s -> this.element.tagName(this.element.tagName() + "_"));
@@ -43,13 +44,26 @@ public class JsElement {
 		String tag = this.element.tagName();
 		usedTags.add(tag);
 
+		StringBuilder generatedCode;
+
+		// This block is for self-closing tags
+		// TODO Review this with Fanon and implement accordingly
+		/*
+		if(this.element.tag().isSelfClosing()) {
+
+			generatedCode = new StringBuilder("var " + tag + " = document.createElement(\"" + tag + "\");\n");
+			return addAttributeToElement(this.element.attributes(), List.of(), this.element.tagName(), generatedCode);
+
+		}
+		 */
+
 		// generation of code
-		StringBuilder generatedCode = new StringBuilder("var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
+		generatedCode = new StringBuilder("var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
 
 		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
 	}
 
-//	WITHOUT USED TAGS LIST
+	//	WITHOUT USED TAGS LIST
 	public String parse() {
 		// attributes
 		Attributes attributes = this.element.attributes();
