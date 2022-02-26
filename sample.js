@@ -4,7 +4,7 @@ title.appendChild(document.createTextNode("Sample"));
 
 var link = document.createElement("link");
 link.setAttribute("rel", "stylesheet");
-link.setAttribute("href", "css/style.css");
+link.setAttribute("href", "");
 
 var meta = document.createElement("meta");
 meta.setAttribute("charset", "utf-8");
@@ -17,9 +17,14 @@ head.appendChild(meta);
 var h1 = document.createElement("h1");
 h1.appendChild(document.createTextNode("Sample"));
 
+var img = document.createElement("img");
+img.setAttribute("src", "kanye.jpg");
+img.setAttribute("alt", "kanye");
+
 var div = document.createElement("div");
 div.setAttribute("id", "header");
 div.appendChild(h1);
+div.appendChild(img);
 
 var h2 = document.createElement("h2");
 h2.appendChild(document.createTextNode("Main"));
@@ -27,10 +32,15 @@ h2.appendChild(document.createTextNode("Main"));
 var p = document.createElement("p");
 p.appendChild(document.createTextNode("This is the main content."));
 
+var img_ = document.createElement("img");
+img_.setAttribute("src", "");
+img_.setAttribute("alt", "");
+
 var div_ = document.createElement("div");
 div_.setAttribute("id", "main");
 div_.appendChild(h2);
 div_.appendChild(p);
+div_.appendChild(img_);
 
 var p_ = document.createElement("p");
 p_.appendChild(document.createTextNode("Copyright © 2019"));
