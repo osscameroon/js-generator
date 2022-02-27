@@ -27,6 +27,13 @@
 			<url>https://github.com/FanJups</url>
 			<id>FanJups</id>
 	  	</developer>
+
+      <developer>
+        <email>youremail@gmail.com</email>
+      <name>Elroy Kanye</name>
+      <url>https://github.com/elroykanye</url>
+      <id>elroykanye</id>
+      </developer>
   
   
   </developers>

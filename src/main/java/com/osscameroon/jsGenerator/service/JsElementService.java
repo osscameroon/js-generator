@@ -7,23 +7,35 @@ import org.jsoup.nodes.Element;
 
 import com.osscameroon.jsGenerator.model.JsElement;
 
+/**
+ * @author osscameroon
+ * @description JsElementService class is used as a driver for converting the Jsoup Elements to JsElement appended
+ * 			 strings.
+ */
 public class JsElementService {
 
-	private static List<String> usedTags = new ArrayList<>();
+	private static final List<String> usedTags = new ArrayList<>();
 
+	/**
+	 * Goes through the Jsoup Elements and converts them to JsElement objects.
+	 * @param element Jsoup Element
+	 * @return the generated code in JS
+	 */
 	public static String parseElement(Element element) {
-		String generatedCode = new String();
+		StringBuilder generatedCode = new StringBuilder();
 
 		for (Element child : element.children()) {
-			generatedCode += parseElement(child) + "\n";
-			JsElement parent = new JsElement(child);
-			generatedCode += parent.parse(usedTags);
-			String appends = parent.appendChild();
-			if (!appends.equals(new String()))
-				generatedCode += appends;
-		}
+			generatedCode.append(parseElement(child)).append("\n"); // recursive
 
-		return generatedCode;
+			JsElement parent = new JsElement(child);
+
+			generatedCode.append(parent.parse(usedTags)); // parse this current element
+
+			String appends = parent.appendChild(); // append this current element's children code to parent code
+
+			if (!appends.equals("")) generatedCode.append(appends);
+		}
+		return generatedCode.toString();
 	}
 
 }
