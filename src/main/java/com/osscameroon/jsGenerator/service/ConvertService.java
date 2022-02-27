@@ -9,13 +9,14 @@ import org.jsoup.parser.Parser;
 
 import com.osscameroon.jsGenerator.util.FileUtil;
 
+import static com.osscameroon.jsGenerator.model.Constants.HTML_SRC_DIR;
+import static com.osscameroon.jsGenerator.model.Constants.JS_DEST_DIR;
+
 /**
  * @author osscameroon
  *
  */
 public class ConvertService {
-	private final static String HTML_SRC_DIR = "src/main/resources/htmlFilesInput/";
-	private final static String JS_DEST_DIR = "src/main/resources/jsFilesOutput/";
 
 	/**
 	 * Converts the html string to js string and prints it out.
@@ -33,7 +34,7 @@ public class ConvertService {
 	 *
 	 * @param htmlFileName the html file name
 	 */
-	public static void convertFiles(String htmlFileName) {
+	public static void convertFile(String htmlFileName) {
 
 		String pathToHtml = HTML_SRC_DIR.concat(htmlFileName); // get the full supposed path to the html file
 		String jsFilePath = JS_DEST_DIR.concat(htmlFileName.split(".html")[0] + ".js"); // get the full supposed path to the js file
