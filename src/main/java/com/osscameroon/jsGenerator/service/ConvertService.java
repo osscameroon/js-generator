@@ -3,14 +3,14 @@
  */
 package com.osscameroon.jsGenerator.service;
 
+import static com.osscameroon.jsGenerator.util.Constants.HTML_SRC_DIR;
+import static com.osscameroon.jsGenerator.util.Constants.JS_DEST_DIR;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
 import com.osscameroon.jsGenerator.util.FileUtil;
-
-import static com.osscameroon.jsGenerator.model.Constants.HTML_SRC_DIR;
-import static com.osscameroon.jsGenerator.model.Constants.JS_DEST_DIR;
 
 /**
  * @author osscameroon

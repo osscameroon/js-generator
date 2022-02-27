@@ -3,9 +3,9 @@ package com.osscameroon.jsGenerator.service;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
+import static com.osscameroon.jsGenerator.util.Constants.JS_DEST_DIR;
 
-import static com.osscameroon.jsGenerator.model.Constants.JS_DEST_DIR;
+import java.io.File;
 
 public class ConvertServiceTest {
     @Test

@@ -1,4 +1,4 @@
-package com.osscameroon.jsGenerator.model;
+package com.osscameroon.jsGenerator.util;
 
 public class Constants {
     public final static String HTML_SRC_DIR = "src/main/resources/htmlFilesInput/";

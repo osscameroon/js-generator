@@ -4,7 +4,7 @@
 package com.osscameroon.jsGenerator;
 
 import static com.osscameroon.jsGenerator.service.ConvertService.convertAndPrintBuiltInCodeFromHtmlToJs;
-import static com.osscameroon.jsGenerator.service.ConvertService.convertFile;;
+import static com.osscameroon.jsGenerator.service.ConvertService.convertFile;
 
 /**
  * @author osscameroon

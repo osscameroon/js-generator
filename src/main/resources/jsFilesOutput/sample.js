@@ -43,7 +43,7 @@ div_.appendChild(p);
 div_.appendChild(img_);
 
 var p_ = document.createElement("p");
-p_.appendChild(document.createTextNode("Copyright Â© 2019"));
+p_.appendChild(document.createTextNode("Copyright © 2019"));
 
 var div__ = document.createElement("div");
 div__.setAttribute("id", "footer");
