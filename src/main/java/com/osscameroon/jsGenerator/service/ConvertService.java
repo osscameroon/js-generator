@@ -3,6 +3,9 @@
  */
 package com.osscameroon.jsGenerator.service;
 
+import static com.osscameroon.jsGenerator.util.Constants.HTML_SRC_DIR;
+import static com.osscameroon.jsGenerator.util.Constants.JS_DEST_DIR;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
@@ -29,17 +32,18 @@ public class ConvertService {
 	/**
 	 * Converts the html file to js file
 	 *
-	 * @param pathToHtml the path to the html file
+	 * @param htmlFileName the html file name
 	 */
-	public static void convertFiles(String pathToHtml) {
-		String jsFileName = pathToHtml.split(".html")[0] + ".js";
+	public static void convertFile(String htmlFileName) {
+
+		String pathToHtml = HTML_SRC_DIR.concat(htmlFileName); // get the full supposed path to the html file
+		String jsFilePath = JS_DEST_DIR.concat(htmlFileName.split(".html")[0] + ".js"); // get the full supposed path to the js file
 
 		String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();
 		Element htmlDoc = Jsoup.parse(htmlContent, "", Parser.xmlParser());
 
 		String jsContent = JsElementService.parseElement(htmlDoc);
-		FileUtil.writeJsFile(jsContent, jsFileName);
-
+		FileUtil.writeJsFile(jsContent, jsFilePath);
 	}
 
 	public static void convertAndPrintBuiltInCodeFromHtmlToJs() {
@@ -65,7 +69,7 @@ public class ConvertService {
 				.append("        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n")
 				.append("      </div>\n").append("    </div>\n").append("  </div>\n").append("</div>");
 
-		System.out.println(sampleHtml.toString() + "\n");
+		System.out.println(sampleHtml + "\n");
 
 		convert(sampleHtml.toString());
 

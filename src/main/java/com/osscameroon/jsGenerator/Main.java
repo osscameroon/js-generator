@@ -4,7 +4,7 @@
 package com.osscameroon.jsGenerator;
 
 import static com.osscameroon.jsGenerator.service.ConvertService.convertAndPrintBuiltInCodeFromHtmlToJs;
-import static com.osscameroon.jsGenerator.service.ConvertService.convertFiles;;
+import static com.osscameroon.jsGenerator.service.ConvertService.convertFile;
 
 /**
  * @author osscameroon
@@ -13,15 +13,15 @@ import static com.osscameroon.jsGenerator.service.ConvertService.convertFiles;;
  */
 public class Main {
 	public static void main(String[] args) {
-		String htmlFile;
+		String htmlFileName;
 
 		if (args.length == 0)
-			htmlFile = "sample.html";
+			htmlFileName = "sample.html";
 		else
-			htmlFile = args[0];
+			htmlFileName = args[0];
 
-		System.out.println("Converting " + htmlFile + " to js file");
-		convertFiles(htmlFile);
+		System.out.println("Converting " + htmlFileName + " to js file");
+		convertFile(htmlFileName);
 		System.out.println("Conversion complete");
 
 		convertAndPrintBuiltInCodeFromHtmlToJs();
