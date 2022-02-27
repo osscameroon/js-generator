@@ -1,69 +1,71 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.osscameroon</groupId>
-  <artifactId>jsGenerator</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>jsGenerator</name>
-  <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS</description>
-  
-  <properties>
-	  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	  <maven.compiler.source>11</maven.compiler.source>
-	  <maven.compiler.target>11</maven.compiler.target>
-  </properties>
-  
-  <developers>
-  
-	    <developer>
-	  		<email>wisdomnji@gmail.com</email>
-			<name>Wisdom-Nji</name>
-			<url>https://github.com/Wisdom-Nji</url>
-			<id>Wisdom-Nji</id>
-	  	</developer>
-	  	
-	  	<developer>
-	  		<email>jupsfan@gmail.com</email>
-			<name>Fan Jups</name>
-			<url>https://github.com/FanJups</url>
-			<id>FanJups</id>
-	  	</developer>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.osscameroon</groupId>
+    <artifactId>jsGenerator</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>jsGenerator</name>
+    <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS
+    </description>
 
-      <developer>
-        <email>youremail@gmail.com</email>
-      <name>Elroy Kanye</name>
-      <url>https://github.com/elroykanye</url>
-      <id>elroykanye</id>
-      </developer>
-  
-  
-  </developers>
-  
-  
-  <dependencies>
-  
-  	<dependency>
-  		<groupId>org.jsoup</groupId>
-  		<artifactId>jsoup</artifactId>
-  		<version>1.11.3</version>
-  	</dependency>
-  	
-  			    <!-- Arch unit & junit 4 -->
-    <dependency>
-	    <groupId>com.tngtech.archunit</groupId>
-	    <artifactId>archunit-junit4</artifactId>
-	    <version>0.10.2</version>
-	    <scope>test</scope>
-	</dependency>
-	
-	
-	<dependency>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <developers>
+
+        <developer>
+            <email>wisdomnji@gmail.com</email>
+            <name>Wisdom-Nji</name>
+            <url>https://github.com/Wisdom-Nji</url>
+            <id>Wisdom-Nji</id>
+        </developer>
+
+        <developer>
+            <email>jupsfan@gmail.com</email>
+            <name>Fan Jups</name>
+            <url>https://github.com/FanJups</url>
+            <id>FanJups</id>
+        </developer>
+
+        <developer>
+            <email>elroykanye@gmail.com</email>
+            <name>Elroy Kanye</name>
+            <url>https://github.com/elroykanye</url>
+            <id>elroykanye</id>
+        </developer>
+
+
+    </developers>
+
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.14.3</version>
+        </dependency>
+
+        <!-- Arch unit & junit 4 -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit4</artifactId>
+            <version>0.22.0</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.9.1</version>
+            <version>3.22.0</version>
             <scope>test</scope>
-    </dependency>
-  	
-  	
-  </dependencies>
-  
+        </dependency>
+
+
+    </dependencies>
+
 </project>
