@@ -4,9 +4,6 @@ on:
     types: [ opened ]
     branches:
       - main
-  #push:
-  #  branches:
-  #    - main
 
 jobs:
   notify:
