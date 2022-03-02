@@ -36,8 +36,11 @@ public class ConvertService {
 	 */
 	public static void convertFile(String htmlFileName) {
 
-		String pathToHtml = HTML_SRC_DIR.concat(htmlFileName); // get the full supposed path to the html file
-		String jsFilePath = JS_DEST_DIR.concat(htmlFileName.split(".html")[0] + ".js"); // get the full supposed path to the js file
+		String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName); // get the full supposed path to the html
+																			// file
+		String jsFilePath = JS_DEST_DIR.getFolder().concat(htmlFileName.split(".html")[0] + ".js"); // get the full
+																									// supposed path to
+																									// the js file
 
 		String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();
 		Element htmlDoc = Jsoup.parse(htmlContent, "", Parser.xmlParser());
