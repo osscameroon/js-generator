@@ -18,7 +18,7 @@ jobs:
       - name: notify telegram when pull request is a created
         shell: bash
         run: |
-          ./notify_on_pull_request_open/build_pull_request_notification.sh $GITHUB_EVENT_PATH > notify_on_pull_request_open_message
+          ./build_pull_request_notification.sh $GITHUB_EVENT_PATH > notify_on_pull_request_open_message
       - name: send contribution report to osscameroon channel
         uses: appleboy/telegram-action@v0.1.1
         with:
