@@ -21,4 +21,6 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B package site --file pom.xml
+    #To see the full stack trace of the errors, re-run Maven with the -e switch.
+    #Re-run Maven using the -X switch to enable full debug logging.
+      run: mvn -B -e -X package site --file pom.xml
