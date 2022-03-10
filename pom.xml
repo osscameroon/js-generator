@@ -176,8 +176,8 @@
   
   <scm>
 		<url>https://github.com/osscameroon/js-generator</url>
-		<connection>scm:git:git://github.com/osscameroon/js-generator.git</connection>
-		<developerConnection>scm:git:git://github.com/osscameroon/js-generator.git</developerConnection>
+		<connection>scm:git:git@github.com:osscameroon/js-generator.git</connection>
+		<developerConnection>scm:git:git@github.com:osscameroon/js-generator.git</developerConnection>
   </scm>
 
 </project>
