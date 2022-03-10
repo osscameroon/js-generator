@@ -1,4 +1,4 @@
-# jsGenerator : Translating fr
+# jsGenerator : Translating
 
 # About
 
