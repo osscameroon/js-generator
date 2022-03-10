@@ -5,8 +5,8 @@
     <artifactId>jsGenerator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jsGenerator</name>
-    <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS
-    </description>
+    <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS</description>
+    <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -166,7 +166,7 @@
     
   <organization>
 		<name>Open Source Society Cameroon : OSS CAMEROON</name>
-		<url>https://osscameroon.com/</url>
+		<url>https://github.com/osscameroon/js-generator/</url>
 	</organization>
   
   <issueManagement>
