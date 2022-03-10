@@ -9,6 +9,10 @@ The project is based on [jsoup  library, a java html parser](https://jsoup.org/)
 
 Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to Google Translate : https://translate.google.com/ .
 
+# Project Documentation
+
+https://osscameroon.github.io/js-generator/
+
 # Code Info
 
 Language: JAVA
