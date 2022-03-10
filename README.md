@@ -1,4 +1,4 @@
-# jsGenerator : Translating from Html 
+# jsGenerator : Translating 
 
 # About
 
