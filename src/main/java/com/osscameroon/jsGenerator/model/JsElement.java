@@ -10,7 +10,7 @@ import org.jsoup.nodes.TextNode;
 /**
  * @author osscameroon
  * @version 1.0
- * @description Represents a JS Element along with methods
+ * Represents a JS Element along with methods
  */
 public class JsElement {
 
