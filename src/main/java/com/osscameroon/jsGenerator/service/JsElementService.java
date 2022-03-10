@@ -9,8 +9,8 @@ import com.osscameroon.jsGenerator.model.JsElement;
 
 /**
  * @author osscameroon
- * @description JsElementService class is used as a driver for converting the Jsoup Elements to JsElement appended
- * 			 strings.
+ * JsElementService class is used as a driver for converting the Jsoup Elements to JsElement appended  strings.
+ * 			
  */
 public class JsElementService {
 
