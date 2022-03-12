@@ -1,0 +1,1 @@
+package com.osscameroon.jsGenerator.util;

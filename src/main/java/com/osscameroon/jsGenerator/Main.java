@@ -7,9 +7,9 @@ import static com.osscameroon.jsGenerator.service.ConvertService.convertAndPrint
 import static com.osscameroon.jsGenerator.service.ConvertService.convertFile;
 
 /**
+ * Main class responsible to launch the app.
+ *
  * @author osscameroon
- * @version 1.0
- * @since 1.0 Main class
  */
 public class Main {
 	public static void main(String[] args) {
