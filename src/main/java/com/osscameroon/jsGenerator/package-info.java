@@ -1,6 +1,5 @@
 /**
- * Provides the main class responsible to launch the app.
- *
- * @see {@link com.osscameroon.jsGenerator.Main }
+ * Provides the main class {@link com.osscameroon.jsGenerator.Main } responsible
+ * to launch the app.
  */
 package com.osscameroon.jsGenerator;
