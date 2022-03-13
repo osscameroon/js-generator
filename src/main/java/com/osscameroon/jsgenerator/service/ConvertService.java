@@ -1,59 +1,95 @@
-/**
- *
- */
-package com.osscameroon.jsGenerator.service;
+package com.osscameroon.jsgenerator.service;
 
-import static com.osscameroon.jsGenerator.util.Constants.HTML_SRC_DIR;
-import static com.osscameroon.jsGenerator.util.Constants.JS_DEST_DIR;
+import static com.osscameroon.jsgenerator.util.Constants.HTML_SRC_DIR;
+import static com.osscameroon.jsgenerator.util.Constants.JS_DEST_DIR;
+
+import java.io.File;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 
-import com.osscameroon.jsGenerator.util.FileUtil;
+import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
+ * Provides the convertion logic from Html to Js.
+ *
  * @author osscameroon
  *
  */
 public class ConvertService {
 
 	/**
-	 * Converts the html string to js string and prints it out.
+	 * Converts the Html string to Js string and prints it out.
 	 *
-	 * @param content the html string
+	 * @param content the Html string
 	 */
-	public static void convert(String content) {
+	private static void convert(String content) {
 		Element doc = Jsoup.parse(content, "", Parser.xmlParser());
-		System.out.println("generated js: ");
+		System.out.println(" **** generated js:  **** ");
 		System.out.println(JsElementService.parseElement(doc));
 	}
 
 	/**
-	 * Converts the html file to js file
+	 * Converts the Html file already located in
+	 * "src/main/resources/htmlFilesInput/" to Js file generated in
+	 * "src/main/resources/jsFilesOutput/" folder. By default, the input folder
+	 * exists but the output folder don't.
 	 *
-	 * @param htmlFileName the html file name
+	 * @param htmlFileName the Html file name
 	 */
-	public static void convertFile(String htmlFileName) {
 
-		String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName); // get the full supposed path to the html
-																			// file
-		String jsFilePath = JS_DEST_DIR.getFolder().concat(htmlFileName.split(".html")[0] + ".js"); // get the full
-																									// supposed path to
-																									// the js file
+	public static void convertHtmlFiletoJsFile(String htmlFileName) {
+
+		/*
+		 * If HTML_SRC_DIR folder doesn't exist then it will create them
+		 *
+		 * new File(HTML_SRC_DIR.getFolder()).createNewFile();
+		 */
+
+		System.out.println(" **** Converting " + htmlFileName + " to js file **** ");
+
+		// get the full supposed path to the html file
+
+		String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName);
+
+		/*
+		 * By default, the input folder exists but the output folder don't. So, if
+		 * JS_DEST_DIR folder doesn't exist then it will create it
+		 */
+
+		File outputFolder = new File(JS_DEST_DIR.getFolder());
+
+		if (outputFolder.exists() && outputFolder.isDirectory()) {
+
+		} else
+
+			outputFolder.mkdir();
+
+		// get the full supposed path to the js file
+
+		String jsFilePath = JS_DEST_DIR.getFolder().concat(htmlFileName.split(".html")[0] + ".js");
 
 		String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();
 		Element htmlDoc = Jsoup.parse(htmlContent, "", Parser.xmlParser());
 
 		String jsContent = JsElementService.parseElement(htmlDoc);
 		FileUtil.writeJsFile(jsContent, jsFilePath);
+
+		System.out.println(" **** Conversion complete **** ");
 	}
+
+	/**
+	 * Converts a built-in code from Html to Js and prints the result. This method
+	 * calls {@link #convert(String)} to convert the built-in code.
+	 *
+	 */
 
 	public static void convertAndPrintBuiltInCodeFromHtmlToJs() {
 		// TODO Auto-generated method stub
 
-		System.out.println("\n" + "Converting built-in code from html to js");
-		System.out.println("html to convert: " + "\n");
+		System.out.println("\n" + " **** Converting built-in code from html to js **** ");
+		System.out.println(" **** Html to convert:  **** " + "\n");
 
 		StringBuilder sampleHtml = new StringBuilder();
 

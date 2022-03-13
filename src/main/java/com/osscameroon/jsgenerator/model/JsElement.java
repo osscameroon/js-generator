@@ -1,4 +1,4 @@
-package com.osscameroon.jsGenerator.model;
+package com.osscameroon.jsgenerator.model;
 
 import java.util.List;
 
