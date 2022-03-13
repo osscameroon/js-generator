@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.osscameroon.jsGenerator.model"},{"l":"com.osscameroon.jsGenerator.service"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.osscameroon.jsgenerator.model"},{"l":"com.osscameroon.jsgenerator.service"}]

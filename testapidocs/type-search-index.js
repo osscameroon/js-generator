@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.osscameroon.jsGenerator.service","l":"ConvertServiceTest"},{"p":"com.osscameroon.jsGenerator.service","l":"JsElementServiceTest"},{"p":"com.osscameroon.jsGenerator.model","l":"JsElementTest"}]
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"com.osscameroon.jsgenerator.service","l":"ConvertServiceTest"},{"p":"com.osscameroon.jsgenerator.service","l":"JsElementServiceTest"},{"p":"com.osscameroon.jsgenerator.model","l":"JsElementTest"}]
