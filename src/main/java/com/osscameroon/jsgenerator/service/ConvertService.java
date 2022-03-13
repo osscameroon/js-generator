@@ -3,6 +3,8 @@ package com.osscameroon.jsgenerator.service;
 import static com.osscameroon.jsgenerator.util.Constants.HTML_SRC_DIR;
 import static com.osscameroon.jsgenerator.util.Constants.JS_DEST_DIR;
 
+import java.io.File;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
@@ -31,7 +33,8 @@ public class ConvertService {
 	/**
 	 * Converts the Html file already located in
 	 * "src/main/resources/htmlFilesInput/" to Js file generated in
-	 * "src/main/resources/jsFilesOutput/" folder.
+	 * "src/main/resources/jsFilesOutput/" folder. By default, the input folder
+	 * exists but the output folder don't.
 	 *
 	 * @param htmlFileName the Html file name
 	 */
@@ -49,6 +52,19 @@ public class ConvertService {
 		// get the full supposed path to the html file
 
 		String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName);
+
+		/*
+		 * By default, the input folder exists but the output folder don't. So, if
+		 * JS_DEST_DIR folder doesn't exist then it will create it
+		 */
+
+		File outputFolder = new File(JS_DEST_DIR.getFolder());
+
+		if (outputFolder.exists() && outputFolder.isDirectory()) {
+
+		} else
+
+			outputFolder.mkdir();
 
 		// get the full supposed path to the js file
 

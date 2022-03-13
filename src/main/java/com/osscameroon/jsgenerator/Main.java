@@ -26,7 +26,8 @@ public class Main {
 	 * "src/main/resources/htmlFilesInput/" folder, so make sure to put the html
 	 * file to convert into that folder. If this input folder doesn't exist then the
 	 * program will create that. The generated Js files will be located in
-	 * "src/main/resources/jsFilesOutput/" folder.</b> The method
+	 * "src/main/resources/jsFilesOutput/" folder. By default, the input folder
+	 * exists but the output folder don't.</b> The method
 	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFile(String)}
 	 * is responsible to convert the Html to Js file.
 	 * </p>
