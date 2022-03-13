@@ -1,7 +1,4 @@
-/**
- *
- */
-package com.osscameroon.jsGenerator.util;
+package com.osscameroon.jsgenerator.util;
 
 /**
  * @author osscameroon

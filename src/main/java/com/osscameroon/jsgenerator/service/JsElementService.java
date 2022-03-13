@@ -1,16 +1,18 @@
-package com.osscameroon.jsGenerator.service;
+package com.osscameroon.jsgenerator.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Element;
 
-import com.osscameroon.jsGenerator.model.JsElement;
+import com.osscameroon.jsgenerator.model.JsElement;
 
 /**
+ *
+ * JsElementService class is used as a driver for converting the Jsoup Elements
+ * to JsElement appended strings.
+ * 
  * @author osscameroon
- * JsElementService class is used as a driver for converting the Jsoup Elements to JsElement appended  strings.
- * 			
  */
 public class JsElementService {
 
@@ -18,6 +20,7 @@ public class JsElementService {
 
 	/**
 	 * Goes through the Jsoup Elements and converts them to JsElement objects.
+	 *
 	 * @param element Jsoup Element
 	 * @return the generated code in JS
 	 */
@@ -33,7 +36,8 @@ public class JsElementService {
 
 			String appends = parent.appendChild(); // append this current element's children code to parent code
 
-			if (!appends.equals("")) generatedCode.append(appends);
+			if (!appends.equals(""))
+				generatedCode.append(appends);
 		}
 		return generatedCode.toString();
 	}
