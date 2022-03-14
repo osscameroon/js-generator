@@ -24,10 +24,13 @@ public class Main {
 	 * app will convert all arguments representing Html files. <b>The program
 	 * supposes that these Html files are already located in
 	 * "src/main/resources/htmlFilesInput/" folder, so make sure to put the html
-	 * file to convert into that folder. If this input folder doesn't exist then the
-	 * program will create that. The generated Js files will be located in
-	 * "src/main/resources/jsFilesOutput/" folder. By default, the input folder
-	 * exists but the output folder don't.</b> The method
+	 * file to convert into that folder. If this input folder doesn't exist on a
+	 * project using our library jsgenerator then it will be created. The generated
+	 * Js files will be located in "src/main/resources/jsFilesOutput/" folder.
+	 * Concerning this library, by default, the input folder exists but the output
+	 * folder don't. When a project will use jsgenerator as dependency or plugin, an
+	 * input folder will be created as soon as possible its classpath will contain
+	 * jsgenerator.</b> The method
 	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFile(String)}
 	 * is responsible to convert the Html to Js file.
 	 * </p>
