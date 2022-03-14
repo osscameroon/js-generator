@@ -83,7 +83,8 @@ public class ConvertServiceImpl implements ConvertService {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * {@inheritDoc} This method calls {@link #convert(String)} to convert the
+	 * built-in code.
 	 *
 	 */
 

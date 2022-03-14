@@ -22,8 +22,7 @@ public interface ConvertService {
 	void convertHtmlFiletoJsFile(String htmlFileName);
 
 	/**
-	 * Converts a built-in code from Html to Js and prints the result. This method
-	 * calls {@link #convert(String)} to convert the built-in code.
+	 * Converts a built-in code from Html to Js and prints the result.
 	 *
 	 */
 
