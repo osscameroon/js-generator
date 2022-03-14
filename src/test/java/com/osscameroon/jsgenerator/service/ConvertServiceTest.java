@@ -13,6 +13,7 @@ import org.junit.Test;
 public class ConvertServiceTest {
 
 	File destFile;
+	ConvertService convertService;
 
 	@Before
 	public void setUp() throws Exception {
@@ -23,12 +24,14 @@ public class ConvertServiceTest {
 
 		destFile = new File(JS_DEST_DIR.getFolder().concat(destFileName));
 
+		convertService = new ConvertServiceImpl();
+
 	}
 
 	/**
 	 * Deletes JS_DEST_DIR because this folder doesn't exist by default. It is only
 	 * created if it doesn't exist already when the method
-	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFile(String)}
+	 * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convertHtmlFiletoJsFile(String)}
 	 * is called.
 	 */
 
@@ -41,7 +44,7 @@ public class ConvertServiceTest {
 	public void testConvertFile() throws Exception {
 		String srcFileName = "sample.html";
 
-		ConvertService.convertHtmlFiletoJsFile(srcFileName);
+		convertService.convertHtmlFiletoJsFile(srcFileName);
 
 		Assert.assertTrue(destFile.exists());
 
