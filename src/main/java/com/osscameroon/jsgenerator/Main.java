@@ -29,12 +29,12 @@ public class Main {
 	 * folder don't. When a project will use jsgenerator as dependency or plugin, an
 	 * input folder will be created as soon as possible its classpath will contain
 	 * jsgenerator.</b> The method
-	 * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convertHtmlFiletoJsFile(String)}
+	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFile(String)}
 	 * is responsible to convert the Html to Js file.
 	 * </p>
 	 * <p>
 	 * Then, the method
-	 * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convertAndPrintBuiltInCodeFromHtmlToJs()}
+	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertAndPrintBuiltInCodeFromHtmlToJs()}
 	 * converts a built-in code from Html to Js and prints the result.
 	 * </p>
 	 *

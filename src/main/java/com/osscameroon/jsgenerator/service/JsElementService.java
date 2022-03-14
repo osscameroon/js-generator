@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.osscameroon.jsgenerator.service;
 
 import org.jsoup.nodes.Element;
