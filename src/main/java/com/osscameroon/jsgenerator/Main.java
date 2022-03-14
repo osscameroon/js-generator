@@ -1,11 +1,9 @@
 package com.osscameroon.jsgenerator;
 
-import static com.osscameroon.jsgenerator.service.ConvertService.convertAndPrintBuiltInCodeFromHtmlToJs;
-import static com.osscameroon.jsgenerator.service.ConvertService.convertHtmlFiletoJsFile;
-
 import java.util.Arrays;
 
 import com.osscameroon.jsgenerator.service.ConvertService;
+import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
 
 /**
  * Main class responsible to launch the app.
@@ -31,12 +29,12 @@ public class Main {
 	 * folder don't. When a project will use jsgenerator as dependency or plugin, an
 	 * input folder will be created as soon as possible its classpath will contain
 	 * jsgenerator.</b> The method
-	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFile(String)}
+	 * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convertHtmlFiletoJsFile(String)}
 	 * is responsible to convert the Html to Js file.
 	 * </p>
 	 * <p>
 	 * Then, the method
-	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertAndPrintBuiltInCodeFromHtmlToJs()}
+	 * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convertAndPrintBuiltInCodeFromHtmlToJs()}
 	 * converts a built-in code from Html to Js and prints the result.
 	 * </p>
 	 *
@@ -44,15 +42,17 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
+		ConvertService convertService = new ConvertServiceImpl();
+
 		if (args.length == 0)
 
-			convertHtmlFiletoJsFile("sample.html");
+			convertService.convertHtmlFiletoJsFile("sample.html");
 
 		else
 
-			Arrays.asList(args).stream().forEach(ConvertService::convertHtmlFiletoJsFile);
+			Arrays.asList(args).stream().forEach(convertService::convertHtmlFiletoJsFile);
 
-		convertAndPrintBuiltInCodeFromHtmlToJs();
+		convertService.convertAndPrintBuiltInCodeFromHtmlToJs();
 	}
 
 }
