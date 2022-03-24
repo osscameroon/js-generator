@@ -72,7 +72,7 @@ public class Main {
 
 					// TODO: throw exception because there are 2 files with same name
 
-					System.out.println("There are 2 files with same name on CLI : " + s);
+					System.out.println("There are at least 2 files with same name on CLI : " + s);
 
 				}
 			});
