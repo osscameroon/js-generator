@@ -9,6 +9,15 @@ package com.osscameroon.jsgenerator.service;
 public interface ConvertService {
 
 	/**
+	 * Converts the Html string to Js string and prints it out.
+	 *
+	 * @param content the Html string
+	 * @return a String Object containing Js
+	 */
+
+	String convert(String content);
+
+	/**
 	 * Converts the Html file already located in
 	 * "src/main/resources/htmlFilesInput/" to Js file generated in
 	 * "src/main/resources/jsFilesOutput/" folder. Concerning this library, by
@@ -19,13 +28,19 @@ public interface ConvertService {
 	 * @param htmlFileName the Html file name
 	 */
 
-	void convertHtmlFiletoJsFile(String htmlFileName);
+	void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName);
 
 	/**
-	 * Converts a built-in code from Html to Js and prints the result.
+	 * Converts the Html file to Js file generated in output folder.
 	 *
+	 * It is similar to
+	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFileFromCommandLineInterface(String)}
+	 * but it will be useful for the web API.
+	 *
+	 * @param htmlFileName the Html file name
+	 * @param outputFolder the output folder containing the generated Js file
 	 */
 
-	void convertAndPrintBuiltInCodeFromHtmlToJs();
+	void convertHtmlFiletoJsFileFromWeb(String htmlFileName, String outputFolder);
 
 }

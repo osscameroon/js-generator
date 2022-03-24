@@ -42,7 +42,7 @@ public class FileUtil {
 	 */
 	public static void writeJsFile(String content, String filePath) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-			;
+
 			bw.write(content);
 		} catch (IOException e) {
 			e.printStackTrace();
