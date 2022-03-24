@@ -4,11 +4,17 @@ import static com.osscameroon.jsgenerator.util.Constants.HTML_SRC_DIR;
 import static com.osscameroon.jsgenerator.util.Constants.JS_DEST_DIR;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.parser.Parser;
 
+import com.osscameroon.jsgenerator.model.JsElement;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
@@ -19,18 +25,23 @@ import com.osscameroon.jsgenerator.util.FileUtil;
  */
 public class ConvertServiceImpl implements ConvertService {
 
-	JsElementService jsElementService = new JsElementServiceImpl();
+	private List<String> usedTags = new ArrayList<>();
 
 	/**
-	 * Converts the Html string to Js string and prints it out.
-	 *
-	 * @param content the Html string
+	 * {@inheritDoc}
 	 */
 
-	private void convert(String content) {
-		Element doc = Jsoup.parse(content, "", Parser.xmlParser());
-		System.out.println(" **** generated js:  **** ");
-		System.out.println(jsElementService.parseElement(doc));
+	@Override
+	public String convert(String content) {
+		Element htmlDoc = Jsoup.parse(content, "", Parser.xmlParser());
+
+		/*
+		 * trim() is added to delete leading and trailing space. Before adding that, the
+		 * generated Js code contained these not important spaces. It was difficult to
+		 * test this method.
+		 */
+
+		return parseElement(htmlDoc).trim();
 	}
 
 	/**
@@ -39,7 +50,9 @@ public class ConvertServiceImpl implements ConvertService {
 	 */
 
 	@Override
-	public void convertHtmlFiletoJsFile(String htmlFileName) {
+	public void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName) {
+
+		// Use log instead of system.out.println to show steps
 
 		/*
 		 * If HTML_SRC_DIR folder doesn't exist then it will create them
@@ -74,9 +87,9 @@ public class ConvertServiceImpl implements ConvertService {
 		String jsFilePath = JS_DEST_DIR.getFolder().concat(htmlFileName.split(".html")[0] + ".js");
 
 		String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();
-		Element htmlDoc = Jsoup.parse(htmlContent, "", Parser.xmlParser());
 
-		String jsContent = jsElementService.parseElement(htmlDoc);
+		String jsContent = convert(htmlContent);
+
 		FileUtil.writeJsFile(jsContent, jsFilePath);
 
 		System.out.println(" **** Conversion complete **** ");
@@ -85,36 +98,140 @@ public class ConvertServiceImpl implements ConvertService {
 	/**
 	 * {@inheritDoc}
 	 *
+	 *
 	 */
 
+	// Will be implemented soon
+
 	@Override
-	public void convertAndPrintBuiltInCodeFromHtmlToJs() {
-		// TODO Auto-generated method stub
+	public void convertHtmlFiletoJsFileFromWeb(String htmlFileName, String outputFolder) {
+		throw new UnsupportedOperationException();
+	}
 
-		System.out.println("\n" + " **** Converting built-in code from html to js **** ");
-		System.out.println(" **** Html to convert:  **** " + "\n");
+	/**
+	 * Goes through the Jsoup Elements and converts them to JsElement objects.
+	 *
+	 * @param element Jsoup Element
+	 * @return the generated code in JS
+	 */
 
-		StringBuilder sampleHtml = new StringBuilder();
+	private String parseElement(Element element) {
+		StringBuilder generatedCode = new StringBuilder();
 
-		sampleHtml.append("<!-- Button trigger modal -->\n").append(
-				"<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\">\n")
-				.append("  Launch demo modal\n").append("</button>\n").append("\n").append("<!-- Modal -->\n")
-				.append("<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n")
-				.append("  <div class=\"modal-dialog\" role=\"document\">\n")
-				.append("    <div class=\"modal-content\">\n").append("      <div class=\"modal-header\">\n")
-				.append("        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\n")
-				.append("        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n")
-				.append("          <span aria-hidden=\"true\">&times;</span>\n").append("        </button>\n")
-				.append("      </div>\n").append("      <div class=\"modal-body\">\n").append("        ...\n")
-				.append("      </div>\n").append("      <div class=\"modal-footer\">\n")
-				.append("        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n")
-				.append("        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n")
-				.append("      </div>\n").append("    </div>\n").append("  </div>\n").append("</div>");
+		for (Element child : element.children()) {
+			generatedCode.append(parseElement(child)).append("\n"); // recursive
 
-		System.out.println(sampleHtml + "\n");
+			JsElement parent = new JsElement(child);
 
-		convert(sampleHtml.toString());
+			generatedCode.append(parse(usedTags, parent)); // parse this current element
 
+			String appends = appendChild(parent); // append this current element's children code to parent code
+
+			if (!appends.equals(""))
+				generatedCode.append(appends);
+		}
+		return generatedCode.toString();
+	}
+
+//	WITH USED TAGS LIST
+
+	/**
+	 * For this element, it returns the code to append the element to the parent
+	 *
+	 * @param usedTags  List of used tags in the document
+	 * @param jsElement
+	 * @return code to append the element to the parent
+	 */
+
+	private String parse(List<String> usedTags, JsElement jsElement) {
+		// attributes: attributes of the element
+		Attributes attributes = jsElement.getElement().attributes();
+
+		// text nodes: text nodes of the element (content in between tags)
+		List<TextNode> innerHTML = jsElement.getElement().textNodes();
+
+		// search tag name among used tags
+		usedTags.stream().filter(s -> s.equals(jsElement.getElement().tagName()))
+				.forEach(s -> jsElement.getElement().tagName(jsElement.getElement().tagName() + "_"));
+
+		// tag name
+		String tag = jsElement.getElement().tagName();
+		usedTags.add(tag);
+
+		StringBuilder generatedCode;
+
+		// This block is for self-closing tags
+		// TODO Review this with Fanon and implement accordingly
+		/*
+		 * if(jsElement.element.tag().isSelfClosing()) {
+		 *
+		 * generatedCode = new StringBuilder("var " + tag +
+		 * " = document.createElement(\"" + tag + "\");\n"); return
+		 * addAttributeToElement(jsElement.element.attributes(), List.of(),
+		 * jsElement.element.tagName(), generatedCode);
+		 *
+		 * }
+		 */
+
+		// generation of code
+		generatedCode = new StringBuilder(
+				"var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
+
+		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
+	}
+
+	// WITHOUT USED TAGS LIST
+	private String parse(JsElement jsElement) {
+		// attributes
+		Attributes attributes = jsElement.getElement().attributes();
+		// text nodes
+		List<TextNode> innerHTML = jsElement.getElement().textNodes();
+		// tag name
+		String tag = jsElement.getElement().tagName();
+
+		// generation of code
+		StringBuilder generatedCode = new StringBuilder("var " + tag + " = document.createElement(\"" + tag + "\");\n");
+
+		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
+
+	}
+
+	private String appendChild(JsElement jsElement) {
+		StringBuilder generatedCode = new StringBuilder();
+
+		if (jsElement.getElement().children().size() > 0) {
+			for (Element child : jsElement.getElement().children()) {
+				generatedCode.append(jsElement.getElement().tagName()).append(".appendChild(").append(child.tagName())
+						.append(");\n");
+			}
+		}
+
+		return generatedCode.toString();
+	}
+
+	/**
+	 * Given an element, it adds the attributes to the element
+	 *
+	 * @param attributes    Attributes of the element
+	 * @param innerHTML     Text nodes of the element
+	 * @param tag           Tag name of the element
+	 * @param generatedCode Code generated in JS
+	 * @return generated code for the element
+	 */
+	private String addAttributeToElement(Attributes attributes, List<TextNode> innerHTML, String tag,
+			StringBuilder generatedCode) {
+		for (Attribute attribute : attributes) {
+			generatedCode.append(tag).append(".setAttribute(\"").append(attribute.getKey()).append("\", \"")
+					.append(attribute.getValue()).append("\");\n");
+		}
+
+		for (TextNode textNode : innerHTML) {
+			if (!textNode.isBlank())
+				generatedCode.append(tag).append(".appendChild(document.createTextNode(\"")
+						.append(textNode.toString().replace("\n", "").trim()).append("\"));\n");
+		}
+
+		return generatedCode.toString();
 	}
 
 }

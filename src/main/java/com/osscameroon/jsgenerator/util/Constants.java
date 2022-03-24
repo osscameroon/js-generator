@@ -1,6 +1,8 @@
 package com.osscameroon.jsgenerator.util;
 
 /**
+ * Provides 2 constants representing the Html input and Js output folders
+ *
  * @author osscameroon
  *
  */
