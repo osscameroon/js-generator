@@ -1,6 +1,6 @@
 ![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
 
-# jsGenerator : Translating from Html to Js
+# jsgenerator : Translating from Html to Js
 
 # About
 
