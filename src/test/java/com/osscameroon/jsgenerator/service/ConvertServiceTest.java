@@ -3,6 +3,7 @@ package com.osscameroon.jsgenerator.service;
 import static com.osscameroon.jsgenerator.util.ConstantsTest.JS_DEST_DIR_TEST;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -71,8 +72,13 @@ public class ConvertServiceTest {
 	 */
 
 	@After
-	public void tearDown() throws Exception {
-		FileUtils.deleteDirectory(new File(JS_DEST_DIR_TEST.getFolder()));
+	public void tearDown() {
+		try {
+			FileUtils.deleteDirectory(new File(JS_DEST_DIR_TEST.getFolder()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
