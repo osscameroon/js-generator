@@ -25,6 +25,10 @@ import com.osscameroon.jsgenerator.util.FileUtil;
  */
 public class ConvertServiceImpl implements ConvertService {
 
+	/**
+	 * Tags present in the document to convert
+	 */
+
 	private List<String> usedTags = new ArrayList<>();
 
 	/**
@@ -41,7 +45,21 @@ public class ConvertServiceImpl implements ConvertService {
 		 * test this method.
 		 */
 
-		return parseElement(htmlDoc).trim();
+		String result = parseElement(htmlDoc).trim();
+
+		/*
+		 * Without this line, the result of convert method with same parameter changed
+		 * everytime if we used the same object to call this function. The result of
+		 * convert with same parameter was constant if we used different objects. To
+		 * avoid this issue, we were forced to create different objects but that's not
+		 * how it should be done.
+		 *
+		 * Now, the program clears the list of used tags in order to always get an empty
+		 * list when we call this method.
+		 */
+		usedTags.clear();
+
+		return result;
 	}
 
 	/**
