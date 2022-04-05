@@ -41,6 +41,14 @@
             <url>https://github.com/elroykanye</url>
             <id>elroykanye</id>
         </developer>
+	    
+        <developer>
+            <email>mofirojean@gmail.com</email>
+            <name>Jean Mofiro</name>
+            <url>https://github.com/mofirojean</url>
+            <id>mofirojean</id>
+        </developer>
+
 
 
     </developers>
