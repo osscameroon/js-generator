@@ -179,7 +179,9 @@ public class ConvertServiceImpl implements ConvertService {
 		StringBuilder generatedCode;
 
 		// This block is for self-closing tags
+		// https://www.tutorialstonight.com/self-closing-tags-in-html.php#:~:text=HTML%20Self%20Closing%20Tag,%2C%20etc.
 		// TODO Review this with Fanon and implement accordingly
+		// Not working
 		/*
 		 * if(jsElement.element.tag().isSelfClosing()) {
 		 *
