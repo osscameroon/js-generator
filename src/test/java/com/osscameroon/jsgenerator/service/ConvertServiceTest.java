@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -50,6 +51,25 @@ public class ConvertServiceTest {
 		String divHtml = "<div></div>";
 		String divJs = "var div = document.createElement(\"div\");";
 
+		String divWithChildHtml = "<div><div></div></div>";
+		System.out.println(convertService.convert(divWithChildHtml));
+
+		Assert.assertTrue(convertService.convert(divHtml).equals(divJs));
+
+	}
+
+	// Parameterize this test with other tags
+	@Ignore
+	@Test
+
+	public void testConvertDivTagWithChild() {
+
+		String divHtml = "<div></div>";
+		String divJs = "var div = document.createElement(\"div\");";
+
+		String divWithChildHtml = "<div><div></div></div>";
+		System.out.println(convertService.convert(divWithChildHtml));
+
 		Assert.assertTrue(convertService.convert(divHtml).equals(divJs));
 
 	}
@@ -65,6 +85,8 @@ public class ConvertServiceTest {
 	}
 
 	/**
+	 * Free resources
+	 *
 	 * Deletes JS_DEST_DIR because this folder doesn't exist by default. It is only
 	 * created if it doesn't exist already when the method
 	 * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFileFromCommandLineInterface(String)}
@@ -73,6 +95,9 @@ public class ConvertServiceTest {
 
 	@After
 	public void tearDown() {
+
+		convertService = null;
+
 		try {
 			FileUtils.deleteDirectory(new File(JS_DEST_DIR_TEST.getFolder()));
 		} catch (IOException e) {
