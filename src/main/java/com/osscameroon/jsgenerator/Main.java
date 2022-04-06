@@ -117,6 +117,59 @@ public class Main {
 		System.out.println(" **** generated js:  **** ");
 		System.out.println(convertService.convert(sampleHtml.toString()));
 
+		// -------------------
+
+		// Self closing tags
+
+		/*
+		 * When input doesn't end with a slash /> at the end of the tag , it doesn't
+		 * work. img looks like a child of input but it's false.
+		 */
+
+		/* Jsoup consider self closing tag as the one with a slash /> at the end */
+
+		/*
+		 * The program should throw an exception if a non self closing tag like div is
+		 * considered as self closing tag ?
+		 */
+
+		System.out.println(" **** Self closing tags Not working  **** ");
+
+		String selfClosingTagsNotWorking = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+
+		System.out.println(selfClosingTagsNotWorking + "\n");
+
+		System.out.println(" **** generated js:  **** ");
+		System.out.println(convertService.convert(selfClosingTagsNotWorking));
+
+		System.out.println(" **** ***********************  **** ");
+
+		String selfClosingTagsNotWorking2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+
+		System.out.println(selfClosingTagsNotWorking2 + "\n");
+
+		System.out.println(" **** generated js:  **** ");
+		System.out.println(convertService.convert(selfClosingTagsNotWorking2));
+
+		/* When input ends with a slash /> at the end of the tag , it works */
+		System.out.println(" **** Self closing tags working  **** ");
+
+		String selfClosingTagsWorking = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+
+		System.out.println(selfClosingTagsWorking + "\n");
+
+		System.out.println(" **** generated js:  **** ");
+		System.out.println(convertService.convert(selfClosingTagsWorking));
+
+		System.out.println(" **** ***********************  **** ");
+
+		String selfClosingTagsWorking2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
+
+		System.out.println(selfClosingTagsWorking2 + "\n");
+
+		System.out.println(" **** generated js:  **** ");
+		System.out.println(convertService.convert(selfClosingTagsWorking2));
+
 	}
 
 }
