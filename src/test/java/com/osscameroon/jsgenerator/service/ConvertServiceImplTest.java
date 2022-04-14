@@ -4,6 +4,8 @@ import static com.osscameroon.jsgenerator.util.ConstantsTest.HTML_SRC_DIR_TEST;
 import static com.osscameroon.jsgenerator.util.ConstantsTest.JS_DEST_DIR_TEST;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.osscameroon.jsgenerator.util.FileUtil;
 
@@ -16,6 +18,8 @@ import com.osscameroon.jsgenerator.util.FileUtil;
  */
 
 public class ConvertServiceImplTest extends ConvertServiceImpl {
+
+	private static final Logger logger = Logger.getLogger(ConvertServiceImplTest.class.getName());
 
 	/**
 	 * This method is similar to
@@ -36,7 +40,7 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
 		 * new File(HTML_SRC_DIR.getFolder()).createNewFile();
 		 */
 
-		System.out.println(" **** Converting " + htmlFileName + " to js file **** ");
+		logger.log(Level.INFO, " **** Converting " + htmlFileName + " to js file **** ");
 
 		// get the full supposed path to the html file
 
@@ -66,7 +70,8 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
 		String jsContent = convert(htmlContent);
 		FileUtil.writeJsFile(jsContent, jsFilePath);
 
-		System.out.println(" **** Conversion complete **** ");
+		logger.log(Level.INFO, " **** Conversion complete **** ");
+
 	}
 
 }
