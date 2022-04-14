@@ -4,6 +4,8 @@ import static com.osscameroon.jsgenerator.util.ConstantsTest.JS_DEST_DIR_TEST;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -18,6 +20,8 @@ import org.junit.Test;
  *
  */
 public class ConvertServiceTest {
+
+	private static final Logger logger = Logger.getLogger(ConvertServiceTest.class.getName());
 
 	File destFile;
 	ConvertService convertService;
@@ -90,9 +94,6 @@ public class ConvertServiceTest {
 		String divHtml = "<div></div>";
 		String divJs = "var div = document.createElement(\"div\");";
 
-		String divWithChildHtml = "<div><div></div></div>";
-		System.out.println(convertService.convert(divWithChildHtml));
-
 		Assert.assertTrue(convertService.convert(divHtml).equals(divJs));
 
 	}
@@ -107,11 +108,11 @@ public class ConvertServiceTest {
 
 		String divWithChildJs = "var div = document.createElement(\"div\");var div_ = document.createElement(\"div\");div_.appendChild(div);";
 
-		System.out.println("----------------testConvertDivTagWithChild with line breaks--------------------");
+		logger.log(Level.INFO, "----------------testConvertDivTagWithChild with line breaks--------------------");
 
 		System.out.println(convertService.convert(divWithChildHtml));
 
-		System.out.println("----------------testConvertDivTagWithChild without line breaks-------------------");
+		logger.log(Level.INFO, "----------------testConvertDivTagWithChild without line breaks--------------------");
 
 		System.out.println(convertService.convert(divWithChildHtml).replace("\n", ""));
 

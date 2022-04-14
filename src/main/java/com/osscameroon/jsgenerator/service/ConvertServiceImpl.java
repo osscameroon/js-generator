@@ -6,6 +6,8 @@ import static com.osscameroon.jsgenerator.util.Constants.JS_DEST_DIR;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
@@ -24,6 +26,8 @@ import com.osscameroon.jsgenerator.util.FileUtil;
  *
  */
 public class ConvertServiceImpl implements ConvertService {
+
+	private static final Logger logger = Logger.getLogger(ConvertServiceImpl.class.getName());
 
 	/**
 	 * Tags present in the document to convert
@@ -78,7 +82,7 @@ public class ConvertServiceImpl implements ConvertService {
 		 * new File(HTML_SRC_DIR.getFolder()).createNewFile();
 		 */
 
-		System.out.println(" **** Converting " + htmlFileName + " to js file **** ");
+		logger.log(Level.INFO, " **** Converting " + htmlFileName + " to js file **** ");
 
 		// get the full supposed path to the html file
 
@@ -110,7 +114,8 @@ public class ConvertServiceImpl implements ConvertService {
 
 		FileUtil.writeJsFile(jsContent, jsFilePath);
 
-		System.out.println(" **** Conversion complete **** ");
+		logger.log(Level.INFO, " **** Conversion complete **** ");
+
 	}
 
 	/**

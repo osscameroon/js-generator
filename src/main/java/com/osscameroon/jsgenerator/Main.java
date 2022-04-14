@@ -3,6 +3,8 @@ package com.osscameroon.jsgenerator;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.osscameroon.jsgenerator.service.ConvertService;
 import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
@@ -13,6 +15,8 @@ import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
  * @author osscameroon
  */
 public class Main {
+
+	private static final Logger logger = Logger.getLogger(Main.class.getName());
 
 	static ConvertService convertService = new ConvertServiceImpl();
 
@@ -72,7 +76,7 @@ public class Main {
 
 					// TODO: throw exception because there are 2 files with same name
 
-					System.out.println("There are at least 2 files with same name on CLI : " + s);
+					logger.log(Level.INFO, "There are at least 2 files with same name on CLI : " + s);
 
 				}
 			});
@@ -92,8 +96,8 @@ public class Main {
 	static void convertAndPrintBuiltInCodeFromHtmlToJs() {
 
 		// Use log instead of system.out.println to show steps
-		System.out.println("\n" + " **** Converting built-in code from html to js **** ");
-		System.out.println(" **** Html to convert:  **** " + "\n");
+		logger.log(Level.INFO, " **** Converting built-in code from html to js **** ");
+		logger.log(Level.INFO, " **** Html to convert:  **** ");
 
 		StringBuilder sampleHtml = new StringBuilder();
 
@@ -112,12 +116,11 @@ public class Main {
 				.append("        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n")
 				.append("      </div>\n").append("    </div>\n").append("  </div>\n").append("</div>");
 
-		System.out.println(sampleHtml + "\n");
+		logger.log(Level.INFO, "\n\n" + sampleHtml + "\n");
 
-		System.out.println(" **** generated js:  **** ");
+		logger.log(Level.INFO, " **** generated js:  **** ");
+
 		System.out.println(convertService.convert(sampleHtml.toString()));
-
-		// -------------------
 
 		// Self closing tags
 
@@ -133,41 +136,45 @@ public class Main {
 		 * considered as self closing tag ?
 		 */
 
-		System.out.println(" **** Self closing tags Not working  **** ");
+		logger.log(Level.INFO, " **** Self closing tags Not working  **** ");
 
 		String selfClosingTagsNotWorking = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
 
-		System.out.println(selfClosingTagsNotWorking + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorking + "\n");
 
-		System.out.println(" **** generated js:  **** ");
+		logger.log(Level.INFO, " **** generated js:  **** ");
+
 		System.out.println(convertService.convert(selfClosingTagsNotWorking));
 
-		System.out.println(" **** ***********************  **** ");
+		logger.log(Level.INFO, " **** ***********************  **** ");
 
 		String selfClosingTagsNotWorking2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
 
-		System.out.println(selfClosingTagsNotWorking2 + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorking2 + "\n");
 
-		System.out.println(" **** generated js:  **** ");
+		logger.log(Level.INFO, " **** generated js:  **** ");
+
 		System.out.println(convertService.convert(selfClosingTagsNotWorking2));
 
 		/* When input ends with a slash /> at the end of the tag , it works */
-		System.out.println(" **** Self closing tags working  **** ");
+		logger.log(Level.INFO, " **** Self closing tags working  **** ");
 
 		String selfClosingTagsWorking = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
 
-		System.out.println(selfClosingTagsWorking + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorking + "\n");
 
-		System.out.println(" **** generated js:  **** ");
+		logger.log(Level.INFO, " **** generated js:  **** ");
+
 		System.out.println(convertService.convert(selfClosingTagsWorking));
 
-		System.out.println(" **** ***********************  **** ");
+		logger.log(Level.INFO, " **** ***********************  **** ");
 
 		String selfClosingTagsWorking2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
 
-		System.out.println(selfClosingTagsWorking2 + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorking2 + "\n");
 
-		System.out.println(" **** generated js:  **** ");
+		logger.log(Level.INFO, " **** generated js:  **** ");
+
 		System.out.println(convertService.convert(selfClosingTagsWorking2));
 
 	}
