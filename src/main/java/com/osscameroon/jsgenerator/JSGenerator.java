@@ -14,9 +14,9 @@ import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
  *
  * @author osscameroon
  */
-public class Main {
+public class JSGenerator {
 
-	private static final Logger logger = Logger.getLogger(Main.class.getName());
+	private static final Logger logger = Logger.getLogger(JSGenerator.class.getName());
 
 	static ConvertService convertService = new ConvertServiceImpl();
 
@@ -44,7 +44,7 @@ public class Main {
 	 * </p>
 	 * <p>
 	 * Then, the method
-	 * {@link com.osscameroon.jsgenerator.Main#convertAndPrintBuiltInCodeFromHtmlToJs()}
+	 * {@link com.osscameroon.jsgenerator.JSGenerator#convertAndPrintBuiltInCodeFromHtmlToJs()}
 	 * converts a built-in code from Html to Js and prints the result.
 	 * </p>
 	 *
