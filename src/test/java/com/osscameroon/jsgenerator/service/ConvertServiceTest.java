@@ -1,6 +1,7 @@
 package com.osscameroon.jsgenerator.service;
 
 import static com.osscameroon.jsgenerator.util.ConstantsTest.JS_DEST_DIR_TEST;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
@@ -117,7 +118,7 @@ public class ConvertServiceTest {
 		System.out.println(convertService.convert(divWithChildHtml).replace("\n", ""));
 
 		/*
-		 * As we all know, in Js line breaks after 2 instructions ended by comma have no
+		 * As we all know in Js, line break between 2 instructions ended by comma have no
 		 * value, it's just for readability. In order to compare Strings easily we
 		 * delete line breaks
 		 */
@@ -136,6 +137,90 @@ public class ConvertServiceTest {
 
 	}
 
+	@Test
+	public void testSelfClosingTagWithoutSlashIssue()  {
+		
+		/*
+		 * Use Regex to replace self closing tag without slash with slashin order to follow the rule of jsoup
+		 * */
+		
+		// Self closing tags
+
+		/*
+		 * When input doesn't end with a slash /> at the end of the tag , it doesn't
+		 * work. img looks like a child of input but it's false.
+		 */
+
+		/* Jsoup consider self closing tag as the one with a slash /> at the end */
+
+		/*
+		 * The program should throw an exception if a non self closing tag like div is
+		 * considered as self closing tag ?
+		 */
+
+		logger.log(Level.INFO, " **** Self closing tags Not working  **** ");
+
+		String selfClosingTagsNotWorkingHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+		
+		String selfClosingTagsNotWorkingJs ="var img = document.createElement(\"img\");img.setAttribute(\"src\", \"#URL\");img.setAttribute(\"alt\", \"image\");var input = document.createElement(\"input\");input.setAttribute(\"type\", \"text\");input.appendChild(img);";
+
+		String selfClosingTagsWorkingJs ="var input = document.createElement(\"input\");input.setAttribute(\"type\", \"text\");var img = document.createElement(\"img\");img.setAttribute(\"src\", \"#URL\");img.setAttribute(\"alt\", \"image\");";
+
+		
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorkingHtml + "\n");
+
+		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
+		
+
+		System.out.println(convertService.convert(selfClosingTagsNotWorkingHtml).replace("\n", ""));
+		
+		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsNotWorkingHtml).replace("\n", ""));
+
+		logger.log(Level.INFO, " **** ***********************  **** ");
+
+		String selfClosingTagsNotWorkingHtml2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorkingHtml2 + "\n");
+
+		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
+
+		System.out.println(convertService.convert(selfClosingTagsNotWorkingHtml2).replace("\n", ""));
+		
+		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsNotWorkingHtml2).replace("\n", ""));
+
+
+		/* When input ends with a slash /> at the end of the tag , it works */
+		logger.log(Level.INFO, " **** Self closing tags working  **** ");
+
+		String selfClosingTagsWorkingHtml = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+		
+		
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorkingHtml + "\n");
+
+		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
+
+		System.out.println(convertService.convert(selfClosingTagsWorkingHtml).replace("\n", ""));
+		
+		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsWorkingHtml).replace("\n", ""));
+
+
+		logger.log(Level.INFO, " **** ***********************  **** ");
+
+		String selfClosingTagsWorkingHtml2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
+
+		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorkingHtml2 + "\n");
+
+		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
+
+		System.out.println(convertService.convert(selfClosingTagsWorkingHtml2).replace("\n", ""));
+		
+		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsWorkingHtml2).replace("\n", ""));
+
+
+
+	}
+
+	
 	/**
 	 * Free resources
 	 *
