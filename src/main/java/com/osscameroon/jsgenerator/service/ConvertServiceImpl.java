@@ -181,25 +181,11 @@ public class ConvertServiceImpl implements ConvertService {
 		String tag = jsElement.getElement().tagName();
 		usedTags.add(tag);
 
-		StringBuilder generatedCode;
+		 
 
-		// This block is for self-closing tags
-		// https://www.tutorialstonight.com/self-closing-tags-in-html.php#:~:text=HTML%20Self%20Closing%20Tag,%2C%20etc.
-		// TODO Review this with Fanon and implement accordingly
-		// Not working
-		/*
-		 * if(jsElement.element.tag().isSelfClosing()) {
-		 *
-		 * generatedCode = new StringBuilder("var " + tag +
-		 * " = document.createElement(\"" + tag + "\");\n"); return
-		 * addAttributeToElement(jsElement.element.attributes(), List.of(),
-		 * jsElement.element.tagName(), generatedCode);
-		 *
-		 * }
-		 */
 
-		// generation of code
-		generatedCode = new StringBuilder(
+		
+		StringBuilder generatedCode = new StringBuilder(
 				"var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
 
 		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
