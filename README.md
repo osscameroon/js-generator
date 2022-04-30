@@ -32,7 +32,3 @@ Build Tool: Maven
 3. Browse through source codes and find Main file
 
 4. Paste HTML code and test... should output some JS for you...
-
-# todo
-* ~~Fix to recognise open-ended tags e.g ``<img src="" alt="">`` should be treated as ``<img src="" alt=""></img>`` - behaviour now is functions like sibling attribute is child~~
-* ~~Fix to refactor tag names so multiple tags don't end up with the same name when appending~~
