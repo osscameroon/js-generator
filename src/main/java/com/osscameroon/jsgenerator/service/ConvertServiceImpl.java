@@ -223,6 +223,13 @@ public class ConvertServiceImpl implements ConvertService {
 
 	private String appendChild(JsElement jsElement) {
 		StringBuilder generatedCode = new StringBuilder();
+		
+		logger.log(Level.FINEST, " **** Analyze jsElement :"+jsElement.getElement().tag().getName()
+				+" -> isEmpty : "+ jsElement.getElement().tag().isEmpty()
+				+" -> isSelfClosing : "+ jsElement.getElement().tag().isSelfClosing() 
+				+" -> isKnown : "+ jsElement.getElement().tag().isKnownTag()
+				+ " -> hasChild : "+ jsElement.getElement().childrenSize()+ " **** ");
+
 
 		if (jsElement.getElement().children().size() > 0) {
 			for (Element child : jsElement.getElement().children()) {
