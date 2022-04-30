@@ -14,6 +14,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.osscameroon.jsgenerator.model.JsElement;
+
 /**
  * Provide methods to test {@link ConvertServiceImpl} methods.
  *
@@ -140,81 +142,101 @@ public class ConvertServiceTest {
 	@Test
 	public void testSelfClosingTagWithoutSlashIssue()  {
 		
-		/*
-		 * Use Regex to replace self closing tag without slash with slashin order to follow the rule of jsoup
-		 * */
-		
-		// Self closing tags
-
-		/*
+	
+		/*  Self closing tags Issue
+		 * 
+		 * <input type="text"> <img src="#URL" alt="image">
+		 * 
+		 * ------------------------------------------------------
+		 * 
+		 * <input type="text"/> <img src="#URL" alt="image">
+		 * 
 		 * When input doesn't end with a slash /> at the end of the tag , it doesn't
-		 * work. img looks like a child of input but it's false.
+		 * work because img looks like a child of input but it's false.
+		 * 
+		 * Jsoup considers the ones with and without a slash /> at the end as self closing tags. 
+		 * 
+		 * But the one without slash could have children and that's false.
+		 * 
+		 * To correct that, we updated the method String appendChild(JsElement jsElement) in ConvertServiceImpl, just take a look at it.
+		 * 
+		 * Useful links:
+		 * 
+		 *  https://www.educba.com/types-of-tags-in-html/
+		
+		https://www.tutorialstonight.com/self-closing-tags-in-html.php#:~:text=HTML%20Self%20Closing%20Tag,%2C%20etc.
+
+		 * 
 		 */
 
-		/* Jsoup consider self closing tag as the one with a slash /> at the end */
-
+		
 		/*
-		 * The program should throw an exception if a non self closing tag like div is
-		 * considered as self closing tag ?
-		 */
+		 * When there is an element with child, the program creates the Js Children variables before parent.
+		 * In this case, it creates img before input
+		 * */
 
-		logger.log(Level.INFO, " **** Self closing tags Not working  **** ");
+		logger.log(Level.INFO, " **** Self closing tags without slash   **** ");
 
-		String selfClosingTagsNotWorkingHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+		String selfClosingTagInputWithoutSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+			
+		String selfClosingTagInputWithoutSlashJs="var img = document.createElement(\"img\");img.setAttribute(\"src\", \"#URL\");img.setAttribute(\"alt\", \"image\");var input = document.createElement(\"input\");input.setAttribute(\"type\", \"text\");";
 		
-		String selfClosingTagsNotWorkingJs ="var img = document.createElement(\"img\");img.setAttribute(\"src\", \"#URL\");img.setAttribute(\"alt\", \"image\");var input = document.createElement(\"input\");input.setAttribute(\"type\", \"text\");input.appendChild(img);";
-
-		String selfClosingTagsWorkingJs ="var input = document.createElement(\"input\");input.setAttribute(\"type\", \"text\");var img = document.createElement(\"img\");img.setAttribute(\"src\", \"#URL\");img.setAttribute(\"alt\", \"image\");";
-
-		
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorkingHtml + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithoutSlashHtml + "\n");
 
 		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 		
 
-		System.out.println(convertService.convert(selfClosingTagsNotWorkingHtml).replace("\n", ""));
+		System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
 		
-		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsNotWorkingHtml).replace("\n", ""));
+		assertEquals("error", selfClosingTagInputWithoutSlashJs, convertService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
 
 		logger.log(Level.INFO, " **** ***********************  **** ");
 
-		String selfClosingTagsNotWorkingHtml2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+		String selfClosingTagInputWithoutSlashHtml2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
 
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorkingHtml2 + "\n");
-
-		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
-
-		System.out.println(convertService.convert(selfClosingTagsNotWorkingHtml2).replace("\n", ""));
-		
-		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsNotWorkingHtml2).replace("\n", ""));
-
-
-		/* When input ends with a slash /> at the end of the tag , it works */
-		logger.log(Level.INFO, " **** Self closing tags working  **** ");
-
-		String selfClosingTagsWorkingHtml = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
-		
-		
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorkingHtml + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithoutSlashHtml2 + "\n");
 
 		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 
-		System.out.println(convertService.convert(selfClosingTagsWorkingHtml).replace("\n", ""));
+		System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
 		
-		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsWorkingHtml).replace("\n", ""));
+		assertEquals("error", selfClosingTagInputWithoutSlashJs, convertService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
+
+
+		/* When input ends with a slash /> at the end of the tag , it works perfectly. */
+		
+		/*
+		 * When there is an element without child, the program creates the Js variable of this element  before moving forward.
+		 * In this case, it creates input before img
+		 * */
+		logger.log(Level.INFO, " **** Self closing tags with slash  **** ");
+
+		String selfClosingTagInputWithSlashHtml = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+		
+		String selfClosingTagInputWithSlashJs ="var input = document.createElement(\"input\");input.setAttribute(\"type\", \"text\");var img = document.createElement(\"img\");img.setAttribute(\"src\", \"#URL\");img.setAttribute(\"alt\", \"image\");";
+
+		
+		
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithSlashHtml + "\n");
+
+		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
+
+		System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
+		
+		assertEquals("error", selfClosingTagInputWithSlashJs, convertService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
 
 
 		logger.log(Level.INFO, " **** ***********************  **** ");
 
-		String selfClosingTagsWorkingHtml2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
+		String selfClosingTagInputWithSlashHtml2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
 
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorkingHtml2 + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithSlashHtml2 + "\n");
 
 		logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 
-		System.out.println(convertService.convert(selfClosingTagsWorkingHtml2).replace("\n", ""));
+		System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml2).replace("\n", ""));
 		
-		assertEquals("error", selfClosingTagsWorkingJs, convertService.convert(selfClosingTagsWorkingHtml2).replace("\n", ""));
+		assertEquals("error", selfClosingTagInputWithSlashJs, convertService.convert(selfClosingTagInputWithSlashHtml2).replace("\n", ""));
 
 
 

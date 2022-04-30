@@ -220,17 +220,83 @@ public class ConvertServiceImpl implements ConvertService {
 		return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
 
 	}
+	
+	/*
+	 * TODO: We have to add the update info (date, author,...) everywhere when it is needed
+	 * */
+	
+	/**
+	 * Updated on April 30th, 2022 by Fanon Jupkwo
+	 * */
 
 	private String appendChild(JsElement jsElement) {
+		
 		StringBuilder generatedCode = new StringBuilder();
+		
+		
+		/*
+		 * Please, think twice before deleting this log, it helps to understand what is going on under the hood.
+		 * It is really helpful to understand that there is a bug in Jsoup library.
+		 * 
+		 * Let's take an example, 
+		 * 
+		 * 
+		 * <input type="text"> <img src="#URL" alt="image">
+		 * 
+		 * ------------------------------------------------------
+		 * 
+		 * <input type="text"/> <img src="#URL" alt="image">
+		 * 
+		 * Jsoup considers  <input> and <input/> as self closing tags.
+		 * 
+		 * Consequently, they should not have children.
+		 * 
+		 * But there is something weird with Jsoup, <input> could have children if there is another html tag close to its position, this behavior is incorrect. 
+		 * <input/> could not, this is correct.
+		 * 
+		 * How could you verify that ? Just run the tests and look the logs. 
+		 * 
+		 * Here is the previous  code with self closing tag issue : https://github.com/osscameroon/js-generator/tree/self-closing-tag-issue
+		 * 
+		 * In order to correct that, we created a condition to test if the tag is self closing then we do nothing. 
+		 * If it is not self closing and if there are children, only then we append children.
+		 * 
+		 *  Before this change, the only condition was if the element has children. 
+		     This is why we had self closing tag with the possibility of having children, that's completely wrong.
+		   
+		 *  Useful links:
+		 * 
+		 *  https://www.educba.com/types-of-tags-in-html/
+		
+		    https://www.tutorialstonight.com/self-closing-tags-in-html.php#:~:text=HTML%20Self%20Closing%20Tag,%2C%20etc.
 
-		if (jsElement.getElement().children().size() > 0) {
-			for (Element child : jsElement.getElement().children()) {
-				generatedCode.append(jsElement.getElement().tagName()).append(".appendChild(").append(child.tagName())
-						.append(");\n");
+		 * */
+		
+		logger.log(Level.FINEST, " **** Analyze jsElement :"+jsElement.getElement().tag().getName()
+				+" -> isEmpty : "+ jsElement.getElement().tag().isEmpty()
+				+" -> isSelfClosing : "+ jsElement.getElement().tag().isSelfClosing() 
+				+" -> isKnown : "+ jsElement.getElement().tag().isKnownTag()
+				+ " -> hasChild : "+ jsElement.getElement().childrenSize()+ " **** ");
+		
+		if(jsElement.getElement().tag().isSelfClosing()) {
+			
+		}else {
+			
+			if (jsElement.getElement().children().size() > 0) {
+				
+				
+				for (Element child : jsElement.getElement().children()) {
+					
+					
+					generatedCode.append(jsElement.getElement().tagName()).append(".appendChild(").append(child.tagName())
+							.append(");\n");
+				}
 			}
-		}
 
+			
+		}
+		
+		
 		return generatedCode.toString();
 	}
 
