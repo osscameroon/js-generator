@@ -36,6 +36,3 @@ Build Tool: Maven
 # todo
 * ~~Fix to refactor Fix to recognise open-ended tags e.g ``<img src="" alt="">`` should be treated as ``<img src="" alt=""></img>`` - behaviour now is functions like sibling attribute is child~~
 * ~~Fix to refactor tag names so multiple tags don't end up with the same name when appending~~
-* Add Tests and Documentation to this legacy code. We apologize for not respecting TDD (Test Driven Development) from the beginning.
-* Create a Maven/Gradle library.
-* Create a web app translating from Html to Js, an app similar to Google Translate : https://translate.google.com/
