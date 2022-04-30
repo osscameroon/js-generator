@@ -1,5 +1,7 @@
 package com.osscameroon.jsgenerator;
 
+
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -122,60 +124,52 @@ public class JSGenerator {
 
 		System.out.println(convertService.convert(sampleHtml.toString()));
 
-		// Self closing tags
+		
+		logger.log(Level.INFO, " **** Self closing tags without slash   **** ");
 
-		/*
-		 * When input doesn't end with a slash /> at the end of the tag , it doesn't
-		 * work. img looks like a child of input but it's false.
-		 */
+		String selfClosingTagInputWithoutSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+	
+		
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithoutSlashHtml + "\n");
 
-		/* Jsoup consider self closing tag as the one with a slash /> at the end */
+		logger.log(Level.INFO, " **** generated js  **** ");
+		
 
-		/*
-		 * The program should throw an exception if a non self closing tag like div is
-		 * considered as self closing tag ?
-		 */
+		System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml));
+		
+		logger.log(Level.INFO, " **** ***********************  **** ");
 
-		logger.log(Level.INFO, " **** Self closing tags Not working  **** ");
+		String selfClosingTagInputWithoutSlashHtml2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
 
-		String selfClosingTagsNotWorking = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithoutSlashHtml2 + "\n");
 
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorking + "\n");
+		logger.log(Level.INFO, " **** generated js  **** ");
 
-		logger.log(Level.INFO, " **** generated js:  **** ");
+		System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
+		
+		
+		logger.log(Level.INFO, " **** Self closing tags with slash  **** ");
 
-		System.out.println(convertService.convert(selfClosingTagsNotWorking));
+		String selfClosingTagInputWithSlashHtml = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+		
+		
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithSlashHtml + "\n");
+
+		logger.log(Level.INFO, " **** generated js  **** ");
+
+		System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
+	
 
 		logger.log(Level.INFO, " **** ***********************  **** ");
 
-		String selfClosingTagsNotWorking2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
+		String selfClosingTagInputWithSlashHtml2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
 
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsNotWorking2 + "\n");
+		logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithSlashHtml2 + "\n");
 
-		logger.log(Level.INFO, " **** generated js:  **** ");
+		logger.log(Level.INFO, " **** generated js  **** ");
 
-		System.out.println(convertService.convert(selfClosingTagsNotWorking2));
-
-		/* When input ends with a slash /> at the end of the tag , it works */
-		logger.log(Level.INFO, " **** Self closing tags working  **** ");
-
-		String selfClosingTagsWorking = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
-
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorking + "\n");
-
-		logger.log(Level.INFO, " **** generated js:  **** ");
-
-		System.out.println(convertService.convert(selfClosingTagsWorking));
-
-		logger.log(Level.INFO, " **** ***********************  **** ");
-
-		String selfClosingTagsWorking2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
-
-		logger.log(Level.INFO, "\n\n" + selfClosingTagsWorking2 + "\n");
-
-		logger.log(Level.INFO, " **** generated js:  **** ");
-
-		System.out.println(convertService.convert(selfClosingTagsWorking2));
+		System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml2));
+	
 
 	}
 
