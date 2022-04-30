@@ -264,11 +264,9 @@ public class ConvertServiceImpl implements ConvertService {
 				+" -> isKnown : "+ jsElement.getElement().tag().isKnownTag()
 				+ " -> hasChild : "+ jsElement.getElement().childrenSize()+ " **** ");
 		
-		if(jsElement.getElement().tag().isSelfClosing()) {
+		
 			
-		}else {
-			
-			if (jsElement.getElement().children().size() > 0) {
+			if (!jsElement.getElement().tag().isSelfClosing() && jsElement.getElement().children().size() > 0) {
 				
 				
 				for (Element child : jsElement.getElement().children()) {
@@ -280,7 +278,7 @@ public class ConvertServiceImpl implements ConvertService {
 			}
 
 			
-		}
+		
 		
 		
 		return generatedCode.toString();
