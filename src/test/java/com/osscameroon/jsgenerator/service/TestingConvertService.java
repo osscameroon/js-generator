@@ -22,9 +22,9 @@ import com.osscameroon.jsgenerator.model.JsElement;
  * @author osscameroon
  *
  */
-public class ConvertServiceTest {
+public class TestingConvertService {
 
-	private static final Logger logger = Logger.getLogger(ConvertServiceTest.class.getName());
+	private static final Logger logger = Logger.getLogger(TestingConvertService.class.getName());
 
 	File destFile;
 	ConvertService convertService;
