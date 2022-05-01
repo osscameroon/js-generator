@@ -179,11 +179,8 @@ public class ConvertServiceImpl implements ConvertService {
 
 		// tag name
 		String tag = jsElement.getElement().tagName();
+		
 		usedTags.add(tag);
-
-		 
-
-
 		
 		StringBuilder generatedCode = new StringBuilder(
 				"var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
@@ -277,10 +274,6 @@ public class ConvertServiceImpl implements ConvertService {
 				}
 			}
 
-			
-		
-		
-		
 		return generatedCode.toString();
 	}
 
