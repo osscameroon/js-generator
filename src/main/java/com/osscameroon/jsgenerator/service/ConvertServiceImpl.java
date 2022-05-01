@@ -255,11 +255,13 @@ public class ConvertServiceImpl implements ConvertService {
 
 		 * */
 		
-		logger.log(Level.FINEST, " **** Analyze jsElement :"+jsElement.getElement().tag().getName()
+		boolean hasChld = jsElement.getElement().childrenSize() > 0 ;
+		
+		logger.log(Level.INFO, " **** Analyze jsElement :"+jsElement.getElement().tag().getName()
 				+" -> isEmpty : "+ jsElement.getElement().tag().isEmpty()
 				+" -> isSelfClosing : "+ jsElement.getElement().tag().isSelfClosing() 
 				+" -> isKnown : "+ jsElement.getElement().tag().isKnownTag()
-				+ " -> hasChild : "+ jsElement.getElement().childrenSize()+ " **** ");
+				+ " -> hasChild : "+ hasChld + " **** ");
 		
 		
 			
