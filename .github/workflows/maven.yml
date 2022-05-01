@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches: [ self-closing-tag-issue ]
   pull_request:
-    branches: [ main ]
+    branches: [ self-closing-tag-issue ]
 
 jobs:
   build:
