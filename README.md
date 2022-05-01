@@ -1,4 +1,4 @@
-![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
+![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg?branch=self-closing-tag-issue)
 
 # jsgenerator : Translating from Html to Js
 
