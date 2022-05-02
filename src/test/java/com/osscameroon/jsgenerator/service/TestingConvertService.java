@@ -247,12 +247,7 @@ public class TestingConvertService {
     }
 
     /**
-     * Some JS frameworks like Angular, React use components rendered as custom
-     * tags. Here, we'll test how the program deals with that. Let's looks at this
-     * "<fan></fan>", the result is "var fan = document.createElement("fan");". This
-     * is wrong because fan is not a known html tag. In such case, the program
-     * should throw an exception. There is something to do here String
-     * parse(List<String> usedTags, JsElement jsElement)
+     * This program throws an exception if the element is not a valid HTML tag
      *
      * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      *
