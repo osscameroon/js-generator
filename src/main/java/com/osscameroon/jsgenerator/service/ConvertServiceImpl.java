@@ -40,7 +40,7 @@ public class ConvertServiceImpl implements ConvertService {
     /**
      * {@inheritDoc}
      *
-     * @throws HTMLUnknownElementException
+     *
      */
 
     @Override
@@ -142,7 +142,7 @@ public class ConvertServiceImpl implements ConvertService {
      *
      * @param element Jsoup Element
      * @return the generated code in JS
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      */
 
     private String parseElement(Element element) throws HTMLUnknownElementException {
@@ -174,7 +174,7 @@ public class ConvertServiceImpl implements ConvertService {
      * @param usedTags  List of used tags in the document
      * @param jsElement
      * @return code to append the element to the parent
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      */
 
     private String parse(List<String> usedTags, JsElement jsElement) throws HTMLUnknownElementException {

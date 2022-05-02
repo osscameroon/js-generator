@@ -55,7 +55,7 @@ public class TestingConvertService {
      * Just look at it here
      * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convert(String)}
      *
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      */
     @Test
 
@@ -254,7 +254,7 @@ public class TestingConvertService {
      * should throw an exception. There is something to do here String
      * parse(List<String> usedTags, JsElement jsElement)
      *
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      *
      */
 

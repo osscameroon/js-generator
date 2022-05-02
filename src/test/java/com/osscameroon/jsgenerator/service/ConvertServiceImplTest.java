@@ -30,7 +30,7 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
      * of{@link com.osscameroon.jsgenerator.util.ConstantsTest}. These values
      * represent the input and output folders of production and test environments.
      *
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      *
      */
 

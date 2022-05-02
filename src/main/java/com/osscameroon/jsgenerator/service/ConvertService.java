@@ -15,7 +15,7 @@ public interface ConvertService {
      *
      * @param content the Html string
      * @return a String Object containing Js
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      */
 
     String convert(String content) throws HTMLUnknownElementException;
@@ -29,7 +29,7 @@ public interface ConvertService {
      * be created as soon as possible its classpath will contain jsgenerator.
      *
      * @param htmlFileName the Html file name
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
      */
 
     void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName) throws HTMLUnknownElementException;
