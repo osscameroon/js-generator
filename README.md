@@ -29,6 +29,6 @@ Build Tool: Maven
 
 2. Build -> `mvn clean package`
 
-3. Browse through source codes and find Main file
+3. Browse through source codes and find [Main](https://github.com/osscameroon/js-generator/blob/main/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java) file
 
 4. Paste HTML code and test... should output some JS for you...
