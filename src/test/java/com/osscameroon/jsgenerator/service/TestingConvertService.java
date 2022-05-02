@@ -254,6 +254,8 @@ public class TestingConvertService {
      * should throw an exception. There is something to do here String
      * parse(List<String> usedTags, JsElement jsElement)
      *
+     * @throws HTMLUnknownElementException
+     *
      */
 
     @Test(expected = HTMLUnknownElementException.class)
@@ -266,7 +268,7 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, "\n\n" + fanHtml + "\n");
 
-	System.out.println(convertService.convert(fanHtml));
+	convertService.convert(fanHtml);
 
     }
 
