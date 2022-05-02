@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.osscameroon.jsgenerator.model.JsElement;
@@ -242,6 +244,42 @@ public class TestingConvertService {
 
 	}
 
+	/**
+	 * Some JS frameworks like Angular, React use components rendered as custom tags.
+	 * Here, we'll test how the program deals with that.
+	 * Let's looks at this "<fan></fan>", the result is  "var fan = document.createElement("fan");".
+	 * This is wrong because fan is not a known html tag.
+	 * In such case, the program should throw an exception.
+	 * There is something to do here String parse(List<String> usedTags, JsElement jsElement)
+	 * 
+	 * */
+	
+	@Ignore
+	@Test
+	
+	public void testCustomTag()  {
+		
+		String fanHtml = "<fan></fan>"; 
+
+		String fanJs ="var fan = document.createElement(\"fan\");";
+			
+		logger.log(Level.INFO, " **** Custom Tags   **** ");
+
+		
+		logger.log(Level.INFO, "\n\n" + fanHtml + "\n");
+
+		logger.log(Level.INFO, " **** generated js custom tags:  **** ");
+		
+
+		System.out.println(convertService.convert(fanHtml));
+		
+		Assert.assertTrue(false);
+		
+		//assertEquals("error", selfClosingTagInputWithoutSlashJs, convertService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
+
+	}
+
+	
 	
 	/**
 	 * Free resources
