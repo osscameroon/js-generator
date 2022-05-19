@@ -3,7 +3,7 @@ package com.osscameroon.jsgenerator.model;
 import org.jsoup.nodes.Element;
 
 /**
- * Represents a JavasCript Element
+ * Represents a JavaScript Element
  *
  * @author Fanon Jupkwo
  *
