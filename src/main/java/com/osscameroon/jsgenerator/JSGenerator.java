@@ -13,7 +13,11 @@ import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
 /**
  * Main class responsible to launch the app.
  *
- * @author osscameroon
+ * @author Sherlock Wisdom
+ * @author Fanon Jupkwo
+ * @author Elroy Kanye
+ *
+ *
  */
 public class JSGenerator {
 
@@ -27,7 +31,9 @@ public class JSGenerator {
      * <p>
      * This method launches the app.
      * </p>
+     *
      * <p>
+     *
      * First, if there are no arguments, then the app will convert a built-in Html
      * file "src/main/resources/htmlFilesInput/sample.html" to a Js file. Else, the
      * app will convert all arguments representing Html files. <b>The program
@@ -37,12 +43,15 @@ public class JSGenerator {
      * project using our library jsgenerator then it will be created. The generated
      * Js files will be located in "src/main/resources/jsFilesOutput/" folder.
      * Concerning this library, by default, the input folder exists but the output
-     * folder don't. When a project will use jsgenerator as dependency or plugin, an
-     * input folder will be created as soon as possible its classpath will contain
-     * jsgenerator.</b> The method
+     * folder don't. When a project will use jsgenerator as dependency, an input
+     * folder will be created as soon as possible its classpath will contain
+     * jsgenerator.</b>
+     *
+     * The method
      * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFileFromCommandLineInterface(String)}
      * is responsible to convert the Html to Js file.
      * </p>
+     *
      * <p>
      * Then, the method
      * {@link com.osscameroon.jsgenerator.JSGenerator#convertAndPrintBuiltInCodeFromHtmlToJs()}
@@ -103,9 +112,9 @@ public class JSGenerator {
     }
 
     /**
-     * Converts a built-in code from Html to Js and prints the result.
+     * Converts built-in code from Html to Js and prints the result.
      *
-     * @throws HTMLUnknownElementException
+     * @throws HTMLUnknownElementException if an invalid HTML tag is used
      *
      */
     static void convertAndPrintBuiltInCodeFromHtmlToJs() throws HTMLUnknownElementException {

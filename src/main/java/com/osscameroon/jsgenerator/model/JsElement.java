@@ -3,21 +3,23 @@ package com.osscameroon.jsgenerator.model;
 import org.jsoup.nodes.Element;
 
 /**
- * @author osscameroon
- * @version 1.0 Represents a JS Element
+ * Represents a JavasCript Element
+ *
+ * @author Fanon Jupkwo
+ *
  */
 public class JsElement {
 
-	private Element element;
+    private Element element;
 
-	public JsElement(Element element) {
+    public JsElement(Element element) {
 
-		this.element = element;
-	}
+	this.element = element;
+    }
 
-	public Element getElement() {
+    public Element getElement() {
 
-		return element;
-	}
+	return element;
+    }
 
 }

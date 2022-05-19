@@ -5,7 +5,8 @@ import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
 /**
  * Provides the convertion logic from Html to Js.
  *
- * @author osscameroon
+ * @author Fanon Jupkwo
+ * @author Elroy Kanye
  *
  */
 public interface ConvertService {
