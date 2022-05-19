@@ -14,7 +14,7 @@ import com.osscameroon.jsgenerator.util.FileUtil;
  * Provides an implementation of {@link ConvertService} interface for test
  * environment. This class extends {@link ConvertServiceImpl}
  *
- * @author osscameroon
+ * @author Fanon Jupkwo
  *
  */
 

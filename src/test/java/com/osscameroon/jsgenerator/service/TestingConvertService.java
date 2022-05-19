@@ -1,5 +1,6 @@
 package com.osscameroon.jsgenerator.service;
 
+import static com.osscameroon.jsgenerator.util.ConstantsTest.HTML_SRC_DIR_TEST;
 import static com.osscameroon.jsgenerator.util.ConstantsTest.JS_DEST_DIR_TEST;
 import static org.junit.Assert.assertEquals;
 
@@ -19,14 +20,17 @@ import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
 /**
  * Provide methods to test {@link ConvertServiceImpl} methods.
  *
- * @author osscameroon
- *
+ * @author Fanon Jupkwo
+ * 
  */
 public class TestingConvertService {
 
     private static final Logger logger = Logger.getLogger(TestingConvertService.class.getName());
 
+    File inputFile;
+
     File destFile;
+
     ConvertService convertService;
 
     @Before
@@ -34,7 +38,11 @@ public class TestingConvertService {
 
 	String destFileName = "sample.js";
 
+	String inputFileName = "sample.html";
+
 	destFile = new File(JS_DEST_DIR_TEST.getFolder().concat(destFileName));
+
+	inputFile = new File(HTML_SRC_DIR_TEST.getFolder().concat(inputFileName));
 
 	convertService = new ConvertServiceImplTest();
 
@@ -133,6 +141,9 @@ public class TestingConvertService {
 
     @Test
     public void testConvertFileFromCommandLineInterface() throws Exception {
+
+	Assert.assertTrue(inputFile.exists());
+
 	String srcFileName = "sample.html";
 
 	convertService.convertHtmlFiletoJsFileFromCommandLineInterface(srcFileName);

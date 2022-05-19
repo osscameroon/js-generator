@@ -24,7 +24,8 @@ import com.osscameroon.jsgenerator.util.FileUtil;
 /**
  * Provides an implementation of {@link ConvertService} interface.
  *
- * @author osscameroon
+ * @author Fanon Jupkwo
+ * @author Elroy Kanye
  *
  */
 public class ConvertServiceImpl implements ConvertService {
@@ -174,7 +175,7 @@ public class ConvertServiceImpl implements ConvertService {
      * @param usedTags  List of used tags in the document
      * @param jsElement
      * @return code to append the element to the parent
-     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
+     * @throws HTMLUnknownElementException if an invalid HTML tag is used
      */
 
     private String parse(List<String> usedTags, JsElement jsElement) throws HTMLUnknownElementException {
