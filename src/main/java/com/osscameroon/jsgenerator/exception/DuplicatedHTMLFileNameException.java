@@ -1,34 +1,34 @@
 package com.osscameroon.jsgenerator.exception;
 
 /**
- * Unchecked Exception for Invalid Html Elements
+ * Unchecked Exception for Duplicated HTML file name
  *
  * @author Fanon Jupkwo
  *
  */
 
-public class HTMLUnknownElementException extends RuntimeException {
+public class DuplicatedHTMLFileNameException extends RuntimeException {
 
-    public HTMLUnknownElementException() {
+    public DuplicatedHTMLFileNameException() {
 	// TODO Auto-generated constructor stub
     }
 
-    public HTMLUnknownElementException(String message) {
+    public DuplicatedHTMLFileNameException(String message) {
 	super(message);
 	// TODO Auto-generated constructor stub
     }
 
-    public HTMLUnknownElementException(Throwable cause) {
+    public DuplicatedHTMLFileNameException(Throwable cause) {
 	super(cause);
 	// TODO Auto-generated constructor stub
     }
 
-    public HTMLUnknownElementException(String message, Throwable cause) {
+    public DuplicatedHTMLFileNameException(String message, Throwable cause) {
 	super(message, cause);
 	// TODO Auto-generated constructor stub
     }
 
-    public HTMLUnknownElementException(String message, Throwable cause, boolean enableSuppression,
+    public DuplicatedHTMLFileNameException(String message, Throwable cause, boolean enableSuppression,
 	    boolean writableStackTrace) {
 	super(message, cause, enableSuppression, writableStackTrace);
 	// TODO Auto-generated constructor stub

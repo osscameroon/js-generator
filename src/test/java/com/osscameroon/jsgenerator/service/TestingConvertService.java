@@ -21,7 +21,7 @@ import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
  * Provide methods to test {@link ConvertServiceImpl} methods.
  *
  * @author Fanon Jupkwo
- * 
+ *
  */
 public class TestingConvertService {
 
@@ -34,7 +34,7 @@ public class TestingConvertService {
     ConvertService convertService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
 
 	String destFileName = "sample.js";
 
@@ -63,11 +63,11 @@ public class TestingConvertService {
      * Just look at it here
      * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convert(String)}
      *
-     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
+     * 
      */
     @Test
 
-    public void testResultFromConvertMethodIsConstant() throws HTMLUnknownElementException {
+    public void testResultFromConvertMethodIsConstant() {
 
 	String divHtml = "<div></div>";
 
@@ -102,7 +102,7 @@ public class TestingConvertService {
     // Parameterize this test with other tags ?
 
     @Test
-    public void testConvertDivTagWithNoChild() throws HTMLUnknownElementException {
+    public void testConvertDivTagWithNoChild() {
 
 	String divHtml = "<div></div>";
 	String divJs = "var div = document.createElement(\"div\");";
@@ -115,7 +115,7 @@ public class TestingConvertService {
 
     @Test
 
-    public void testConvertDivTagWithChild() throws HTMLUnknownElementException {
+    public void testConvertDivTagWithChild() {
 
 	String divWithChildHtml = "<div><div></div></div>";
 
@@ -140,20 +140,26 @@ public class TestingConvertService {
     }
 
     @Test
-    public void testConvertFileFromCommandLineInterface() throws Exception {
+    public void testConvertFileFromCommandLineInterface() {
 
 	Assert.assertTrue(inputFile.exists());
+
+	// The generated Js file should not exist before the convertion but after
+
+	Assert.assertFalse(destFile.exists());
 
 	String srcFileName = "sample.html";
 
 	convertService.convertHtmlFiletoJsFileFromCommandLineInterface(srcFileName);
+
+	// The generated Js file exists after the convertion
 
 	Assert.assertTrue(destFile.exists());
 
     }
 
     @Test
-    public void testSelfClosingTagWithoutSlashIssue() throws HTMLUnknownElementException {
+    public void testSelfClosingTagWithoutSlashIssue() {
 
 	/*
 	 * Self closing tags Issue
@@ -266,7 +272,7 @@ public class TestingConvertService {
 
     @Test(expected = HTMLUnknownElementException.class)
 
-    public void testCustomTag() throws HTMLUnknownElementException {
+    public void testCustomTag() {
 
 	String fanHtml = "<fan></fan>";
 
