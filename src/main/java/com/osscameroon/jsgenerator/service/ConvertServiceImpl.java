@@ -5,6 +5,8 @@ import static com.osscameroon.jsgenerator.util.Constants.JS_DEST_DIR;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +19,13 @@ import org.jsoup.nodes.TextNode;
 import org.jsoup.parser.Parser;
 import org.jsoup.parser.Tag;
 
+import com.osscameroon.jsgenerator.exception.DuplicatedHTMLFileNameException;
+import com.osscameroon.jsgenerator.exception.EmptyHTMLFilesListException;
+import com.osscameroon.jsgenerator.exception.HTMLFileNotFoundException;
 import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
+import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
+import com.osscameroon.jsgenerator.exception.NoHTMLCodeException;
+import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
 import com.osscameroon.jsgenerator.model.JsElement;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
@@ -45,7 +53,19 @@ public class ConvertServiceImpl implements ConvertService {
      */
 
     @Override
-    public String convert(String content) throws HTMLUnknownElementException {
+    public String convert(String content) throws NoHTMLCodeException {
+
+	if (content == null) {
+
+	    throw new NoHTMLCodeException("There is no html content.");
+	}
+
+	if (content.isBlank()) {
+
+	    throw new NoHTMLCodeException("The content has nothing to translate.");
+
+	}
+
 	Element htmlDoc = Jsoup.parse(content, "", Parser.xmlParser());
 
 	/*
@@ -79,7 +99,28 @@ public class ConvertServiceImpl implements ConvertService {
 
     @Override
     public void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName)
-	    throws HTMLUnknownElementException {
+	    throws NoHTMLFileNameException, IncorrectHTMLFileNameException, HTMLFileNotFoundException {
+
+	if (htmlFileName == null) {
+
+	    throw new NoHTMLFileNameException("There is no Html file name.");
+	}
+
+	if (!isHTMLFileNameCorrect(htmlFileName)) {
+
+	    throw new IncorrectHTMLFileNameException("The HTML file's name \"" + htmlFileName + "\" is incorrect.");
+	}
+
+	// get the full supposed path to the html file
+
+	String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName);
+
+	File htmlFile = new File(pathToHtml);
+
+	if (!htmlFile.exists()) {
+
+	    throw new HTMLFileNotFoundException("Html file \"" + htmlFileName + "\" not found");
+	}
 
 	// Use log instead of system.out.println to show steps
 
@@ -90,10 +131,6 @@ public class ConvertServiceImpl implements ConvertService {
 	 */
 
 	logger.log(Level.INFO, " **** Converting " + htmlFileName + " to js file **** ");
-
-	// get the full supposed path to the html file
-
-	String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName);
 
 	/*
 	 * By default, the input folder exists but the output folder don't. So, if
@@ -131,6 +168,54 @@ public class ConvertServiceImpl implements ConvertService {
      *
      */
 
+    @Override
+    public void convertHtmlFiletoJsFileFromCommandLineInterface(String[] args)
+	    throws NoHTMLFileNameException, EmptyHTMLFilesListException, DuplicatedHTMLFileNameException {
+
+	if (args == null) {
+
+	    throw new NoHTMLFileNameException("There is no list of Html files.");
+
+	}
+
+	if (args.length == 0) {
+
+	    throw new EmptyHTMLFilesListException("The list of Html files to translate is empty");
+	}
+
+	List<String> argList = Arrays.asList(args);
+
+	// TODO: verify that all files are named correctly with .html, create a method
+	// in ConvertService
+
+	// throw exception because there are list 2 files with same name
+	// inform the user and work with unique file names
+
+	argList.stream().forEach(s -> {
+
+	    if (Collections.frequency(argList, s) == 1) {
+
+		convertHtmlFiletoJsFileFromCommandLineInterface(s);
+
+	    } else {
+
+		// TODO: throw exception because there are 2 files with same name
+
+		logger.log(Level.INFO, "There are at least 2 files with same name on CLI : " + s);
+
+		throw new DuplicatedHTMLFileNameException("There are at least 2 files with same name on CLI : " + s);
+
+	    }
+	});
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     *
+     */
+
     // Will be implemented soon
 
     @Override
@@ -143,10 +228,11 @@ public class ConvertServiceImpl implements ConvertService {
      *
      * @param element Jsoup Element
      * @return the generated code in JS
-     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
+     *
      */
 
-    private String parseElement(Element element) throws HTMLUnknownElementException {
+    private String parseElement(Element element) {
+
 	StringBuilder generatedCode = new StringBuilder();
 
 	for (Element child : element.children()) {
@@ -202,7 +288,7 @@ public class ConvertServiceImpl implements ConvertService {
 	usedTags.add(tag);
 
 	/*
-	 * It means that tag name should not contain _ TODO: Check that
+	 * Tag name should not contain _ TODO: Check that
 	 */
 
 	StringBuilder generatedCode = new StringBuilder(
@@ -214,10 +300,6 @@ public class ConvertServiceImpl implements ConvertService {
     /*
      * TODO: We have to add the update info (date, author,...) everywhere when it is
      * needed
-     */
-
-    /**
-     * Updated on April 30th, 2022 by Fanon Jupkwo
      */
 
     private String appendChild(JsElement jsElement) {
@@ -313,6 +395,23 @@ public class ConvertServiceImpl implements ConvertService {
 	}
 
 	return generatedCode.toString();
+    }
+
+    // Search Javadoc for methods returning boolean
+
+    // TO DO: regex validation
+
+    /**
+     * Given an element, it adds the attributes to the element
+     *
+     * @param htmlFileName HTML file's name
+     *
+     * @return true if the name is correct; false otherwise
+     */
+
+    private boolean isHTMLFileNameCorrect(String htmlFileName) {
+
+	return true;
     }
 
 }

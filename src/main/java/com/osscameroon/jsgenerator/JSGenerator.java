@@ -1,12 +1,9 @@
 package com.osscameroon.jsgenerator;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
+import com.osscameroon.jsgenerator.exception.EmptyHTMLFilesListException;
 import com.osscameroon.jsgenerator.service.ConvertService;
 import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
 
@@ -64,60 +61,27 @@ public class JSGenerator {
 
 	try {
 
-	    if (args.length == 0) {
+	    convertService.convertHtmlFiletoJsFileFromCommandLineInterface(args);
 
-		convertService.convertHtmlFiletoJsFileFromCommandLineInterface("sample.html");
+	} catch (EmptyHTMLFilesListException e) {
 
-	    } else {
+	    convertService.convertHtmlFiletoJsFileFromCommandLineInterface("sample.html");
 
-		List<String> argList = Arrays.asList(args);
-
-		// TODO: verify that all files are named correctly with .html, create a method
-		// in ConvertService
-
-		// throw exception because there are list 2 files with same name
-		// inform the user and work with unique file names
-
-		argList.stream().forEach(s -> {
-
-		    if (Collections.frequency(argList, s) == 1) {
-
-			try {
-			    convertService.convertHtmlFiletoJsFileFromCommandLineInterface(s);
-			} catch (HTMLUnknownElementException e) {
-			    // TODO Auto-generated catch block
-			    e.printStackTrace();
-			}
-
-		    } else {
-
-			// TODO: throw exception because there are 2 files with same name
-
-			logger.log(Level.INFO, "There are at least 2 files with same name on CLI : " + s);
-
-		    }
-		});
-
-	    }
-
-	    // The final release will not contain this line, TODO: create an example branch
-
-	    convertAndPrintBuiltInCodeFromHtmlToJs();
-
-	} catch (HTMLUnknownElementException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
 	}
+
+	// The final release will not contain this line, TODO: create an example branch
+
+	convertAndPrintBuiltInCodeFromHtmlToJs();
 
     }
 
     /**
      * Converts built-in code from Html to Js and prints the result.
      *
-     * @throws HTMLUnknownElementException if an invalid HTML tag is used
+     *
      *
      */
-    static void convertAndPrintBuiltInCodeFromHtmlToJs() throws HTMLUnknownElementException {
+    static void convertAndPrintBuiltInCodeFromHtmlToJs() {
 
 	// Use log instead of system.out.println to show steps
 	logger.log(Level.INFO, " **** Converting built-in code from html to js **** ");
@@ -185,6 +149,12 @@ public class JSGenerator {
 	logger.log(Level.INFO, " **** generated js  **** ");
 
 	System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml2));
+
+	logger.log(Level.INFO, " **** Input With No Tag  **** ");
+
+	String inputWithNoTag = "DELETE *";
+
+	System.out.println("Result of Input With No Tag -> " + convertService.convert(inputWithNoTag));
 
     }
 
