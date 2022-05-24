@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.osscameroon.jsgenerator.exception.EmptyHTMLFilesListException;
+import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
 import com.osscameroon.jsgenerator.service.ConvertService;
 import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
 
@@ -20,7 +21,7 @@ public class JSGenerator {
 
     private static final Logger logger = Logger.getLogger(JSGenerator.class.getName());
 
-    static ConvertService convertService = new ConvertServiceImpl();
+    static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.VAR);
 
     // Should I present the 3 key features here ?
 

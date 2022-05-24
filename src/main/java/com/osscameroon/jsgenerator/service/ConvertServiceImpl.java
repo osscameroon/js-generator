@@ -27,6 +27,7 @@ import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
 import com.osscameroon.jsgenerator.exception.NoHTMLCodeException;
 import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
 import com.osscameroon.jsgenerator.model.JsElement;
+import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
@@ -39,6 +40,14 @@ import com.osscameroon.jsgenerator.util.FileUtil;
 public class ConvertServiceImpl implements ConvertService {
 
     private static final Logger logger = Logger.getLogger(ConvertServiceImpl.class.getName());
+
+    private JsVariableDeclaration jsVariableDeclaration;
+
+    public ConvertServiceImpl(JsVariableDeclaration jsVariableDeclaration) {
+
+	this.jsVariableDeclaration = jsVariableDeclaration;
+
+    }
 
     /**
      * Tags present in the document to convert
@@ -238,7 +247,7 @@ public class ConvertServiceImpl implements ConvertService {
 	for (Element child : element.children()) {
 	    generatedCode.append(parseElement(child)).append("\n"); // recursive
 
-	    JsElement parent = new JsElement(child);
+	    JsElement parent = new JsElement(child, jsVariableDeclaration);
 
 	    generatedCode.append(parse(usedTags, parent));
 
@@ -291,8 +300,8 @@ public class ConvertServiceImpl implements ConvertService {
 	 * Tag name should not contain _ TODO: Check that
 	 */
 
-	StringBuilder generatedCode = new StringBuilder(
-		"var " + tag + " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
+	StringBuilder generatedCode = new StringBuilder(jsElement.getJsVariableDeclaration().getKeyword() + " " + tag
+		+ " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
 
 	return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
     }
@@ -402,14 +411,14 @@ public class ConvertServiceImpl implements ConvertService {
     // TO DO: regex validation
 
     /**
-     * Given an element, it adds the attributes to the element
+     * Given an html file's name, it verifies if the name is correct or not
      *
      * @param htmlFileName HTML file's name
      *
      * @return true if the name is correct; false otherwise
      */
 
-    private boolean isHTMLFileNameCorrect(String htmlFileName) {
+    protected boolean isHTMLFileNameCorrect(String htmlFileName) {
 
 	return true;
     }

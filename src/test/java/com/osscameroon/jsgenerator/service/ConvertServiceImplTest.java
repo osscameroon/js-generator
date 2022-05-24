@@ -7,7 +7,10 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
+import com.osscameroon.jsgenerator.exception.HTMLFileNotFoundException;
+import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
+import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
+import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
@@ -22,6 +25,11 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
 
     private static final Logger logger = Logger.getLogger(ConvertServiceImplTest.class.getName());
 
+    public ConvertServiceImplTest(JsVariableDeclaration jsVariableDeclaration) {
+	super(jsVariableDeclaration);
+
+    }
+
     /**
      * This method is similar to
      * {@link ConvertServiceImpl#convertHtmlFiletoJsFileFromCommandLineInterface(String)}
@@ -30,13 +38,28 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
      * of{@link com.osscameroon.jsgenerator.util.ConstantsTest}. These values
      * represent the input and output folders of production and test environments.
      *
-     * @throws HTMLUnknownElementException if the element is not a valid HTML tag
-     *
+     * @throws NoHTMLFileNameException        if htmlFileName is null
+     * @throws IncorrectHTMLFileNameException if htmlFileName is incorrect
+     * @throws HTMLFileNotFoundException      if the html file is not found
      */
 
     @Override
     public void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName)
-	    throws HTMLUnknownElementException {
+	    throws NoHTMLFileNameException, IncorrectHTMLFileNameException, HTMLFileNotFoundException {
+
+	if (htmlFileName == null) {
+
+	    throw new NoHTMLFileNameException("There is no Html file name.");
+	}
+
+	if (!isHTMLFileNameCorrect(htmlFileName)) {
+
+	    throw new IncorrectHTMLFileNameException("The HTML file's name \"" + htmlFileName + "\" is incorrect.");
+	}
+
+	// get the full supposed path to the html file
+
+	String pathToHtml = HTML_SRC_DIR_TEST.getFolder().concat(htmlFileName);
 
 	/*
 	 * If HTML_SRC_DIR folder doesn't exist then it will create them
@@ -45,10 +68,6 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
 	 */
 
 	logger.log(Level.INFO, " **** Converting " + htmlFileName + " to js file **** ");
-
-	// get the full supposed path to the html file
-
-	String pathToHtml = HTML_SRC_DIR_TEST.getFolder().concat(htmlFileName);
 
 	/*
 	 * By default, the input folder exists but the output folder don't. So, if

@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
+import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
 
 /**
  * Provide methods to test {@link ConvertServiceImpl} methods.
@@ -25,13 +26,17 @@ import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
  */
 public class TestingConvertService {
 
+    // Parameterized tests
+
     private static final Logger logger = Logger.getLogger(TestingConvertService.class.getName());
 
     File inputFile;
 
     File destFile;
 
-    ConvertService convertService;
+    ConvertService convertWithVARService;
+
+    ConvertService convertWithLETService;
 
     @Before
     public void setUp() {
@@ -44,7 +49,7 @@ public class TestingConvertService {
 
 	inputFile = new File(HTML_SRC_DIR_TEST.getFolder().concat(inputFileName));
 
-	convertService = new ConvertServiceImplTest();
+	convertWithVARService = new ConvertServiceImplTest(JsVariableDeclaration.VAR);
 
     }
 
@@ -63,7 +68,7 @@ public class TestingConvertService {
      * Just look at it here
      * {@link com.osscameroon.jsgenerator.service.ConvertServiceImpl#convert(String)}
      *
-     * 
+     *
      */
     @Test
 
@@ -90,12 +95,13 @@ public class TestingConvertService {
 		.append("        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n")
 		.append("      </div>\n").append("    </div>\n").append("  </div>\n").append("</div>");
 
-	Assert.assertTrue(convertService.convert(divHtml).equals(convertService.convert(divHtml)));
+	Assert.assertTrue(convertWithVARService.convert(divHtml).equals(convertWithVARService.convert(divHtml)));
 
-	Assert.assertTrue(convertService.convert(divWithChildHtml).equals(convertService.convert(divWithChildHtml)));
+	Assert.assertTrue(convertWithVARService.convert(divWithChildHtml)
+		.equals(convertWithVARService.convert(divWithChildHtml)));
 
-	Assert.assertTrue(
-		convertService.convert(longHtml.toString()).equals(convertService.convert(longHtml.toString())));
+	Assert.assertTrue(convertWithVARService.convert(longHtml.toString())
+		.equals(convertWithVARService.convert(longHtml.toString())));
 
     }
 
@@ -107,7 +113,7 @@ public class TestingConvertService {
 	String divHtml = "<div></div>";
 	String divJs = "var div = document.createElement(\"div\");";
 
-	Assert.assertTrue(convertService.convert(divHtml).equals(divJs));
+	Assert.assertTrue(convertWithVARService.convert(divHtml).equals(divJs));
 
     }
 
@@ -123,11 +129,11 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, "----------------testConvertDivTagWithChild with line breaks--------------------");
 
-	System.out.println(convertService.convert(divWithChildHtml));
+	System.out.println(convertWithVARService.convert(divWithChildHtml));
 
 	logger.log(Level.INFO, "----------------testConvertDivTagWithChild without line breaks--------------------");
 
-	System.out.println(convertService.convert(divWithChildHtml).replace("\n", ""));
+	System.out.println(convertWithVARService.convert(divWithChildHtml).replace("\n", ""));
 
 	/*
 	 * As we all know in Js, line break between 2 instructions ended by comma have
@@ -135,7 +141,7 @@ public class TestingConvertService {
 	 * delete line breaks
 	 */
 
-	Assert.assertTrue(convertService.convert(divWithChildHtml).replace("\n", "").equals(divWithChildJs));
+	Assert.assertTrue(convertWithVARService.convert(divWithChildHtml).replace("\n", "").equals(divWithChildJs));
 
     }
 
@@ -150,7 +156,7 @@ public class TestingConvertService {
 
 	String srcFileName = "sample.html";
 
-	convertService.convertHtmlFiletoJsFileFromCommandLineInterface(srcFileName);
+	convertWithVARService.convertHtmlFiletoJsFileFromCommandLineInterface(srcFileName);
 
 	// The generated Js file exists after the convertion
 
@@ -206,10 +212,10 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 
-	System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
+	System.out.println(convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
 
 	assertEquals("error", selfClosingTagInputWithoutSlashJs,
-		convertService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
+		convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
 
 	logger.log(Level.INFO, " **** ***********************  **** ");
 
@@ -219,10 +225,10 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 
-	System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
+	System.out.println(convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
 
 	assertEquals("error", selfClosingTagInputWithoutSlashJs,
-		convertService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
+		convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
 
 	/*
 	 * When input ends with a slash /> at the end of the tag , it works perfectly.
@@ -243,10 +249,10 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 
-	System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
+	System.out.println(convertWithVARService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
 
 	assertEquals("error", selfClosingTagInputWithSlashJs,
-		convertService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
+		convertWithVARService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
 
 	logger.log(Level.INFO, " **** ***********************  **** ");
 
@@ -256,10 +262,10 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, " **** generated js without line breaks:  **** ");
 
-	System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml2).replace("\n", ""));
+	System.out.println(convertWithVARService.convert(selfClosingTagInputWithSlashHtml2).replace("\n", ""));
 
 	assertEquals("error", selfClosingTagInputWithSlashJs,
-		convertService.convert(selfClosingTagInputWithSlashHtml2).replace("\n", ""));
+		convertWithVARService.convert(selfClosingTagInputWithSlashHtml2).replace("\n", ""));
 
     }
 
@@ -280,7 +286,7 @@ public class TestingConvertService {
 
 	logger.log(Level.INFO, "\n\n" + fanHtml + "\n");
 
-	convertService.convert(fanHtml);
+	convertWithVARService.convert(fanHtml);
 
     }
 
@@ -296,7 +302,7 @@ public class TestingConvertService {
     @After
     public void tearDown() {
 
-	convertService = null;
+	convertWithVARService = null;
 
 	try {
 	    FileUtils.deleteDirectory(new File(JS_DEST_DIR_TEST.getFolder()));
