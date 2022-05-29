@@ -406,10 +406,6 @@ public class ConvertServiceImpl implements ConvertService {
 	return generatedCode.toString();
     }
 
-    // Search Javadoc for methods returning boolean
-
-    // TO DO: regex validation
-
     /**
      * Given an html file's name, it verifies if the name is correct or not
      *
@@ -418,9 +414,22 @@ public class ConvertServiceImpl implements ConvertService {
      * @return true if the name is correct; false otherwise
      */
 
+    /*
+     * https://www.javacodeexamples.com/java-regex-validate-file-name-extension/3504
+     *
+     * - Start of the string [a-zA-Z0-9._-] - Any character between a to z or A to
+     * Z, any digit between 0 to 9, a dot, an underscore, a hyphen One or more times
+     * - Followed by a . (html) - "html" - End of the string
+     *
+     * .html FALSE / test FALSE
+     *
+     */
+
     protected boolean isHTMLFileNameCorrect(String htmlFileName) {
 
-	return true;
+	String regex = "^[a-zA-Z0-9._-]+\\.(html)$";
+
+	return htmlFileName.matches(regex);
     }
 
 }

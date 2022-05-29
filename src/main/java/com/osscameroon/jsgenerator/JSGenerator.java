@@ -21,7 +21,9 @@ public class JSGenerator {
 
     private static final Logger logger = Logger.getLogger(JSGenerator.class.getName());
 
-    static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.VAR);
+    // Just choose between VAR or LET for your variable declarations
+
+    static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.LET);
 
     // Should I present the 3 key features here ?
 
