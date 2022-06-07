@@ -10,12 +10,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # run this action to get the workflow conclusion
+      # You can get the conclusion via env (env.WORKFLOW_CONCLUSION)
+    - uses: technote-space/workflow-conclusion-action@v3
+    
+      # run other action with the workflow conclusion
     - uses: actions/checkout@master
     - uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        # status: ${{ env.WORKFLOW_CONCLUSION }} # neutral, success, skipped, cancelled, timed_out, action_required, failure
+        status: success
         #files: ./coverage1.xml,./coverage2.xml # optional
         #flags: unittests # optional
         #name: codecov-umbrella # optional
         #fail_ci_if_error: true # optional (default = false)
         #verbose: true # optional (default = false)
+      if: env.WORKFLOW_CONCLUSION == 'success' # notify only if failure
