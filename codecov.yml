@@ -1,0 +1,4 @@
+coverage:
+  ignore:
+    - "src/main/java/com/osscameron/jsgenerator/exception"
+    - "src/main/java/com/osscameron/jsgenerator/model"
