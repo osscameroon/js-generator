@@ -1,4 +1,5 @@
-ignore:
-    - "exception/**/*"
-    - "model/**/*"
-    - "JSGenerator.java"
+coverage:
+  ignore:
+    - "src/main/java/com/osscameroon/jsgenerator/JSGenerator.java"
+    - "src/main/java/com/osscameroon/jsgenerator/exception/"
+    - "src/main/java/com/osscameroon/jsgenerator/model/"
