@@ -28,3 +28,17 @@ jobs:
       run: mvn package site -B -e -X
       env:
         MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
+        
+    - name: Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        #files: ./coverage1.xml,./coverage2.xml # optional
+        #flags: unittests # optional
+        #name: codecov-umbrella # optional
+        #fail_ci_if_error: true # optional (default = false)
+        #verbose: true # optional (default = false)
+        
+    - name: Codecov Bash
+      run: bash <(curl -s https://codecov.io/bash)
+    
