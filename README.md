@@ -1,4 +1,5 @@
 ![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
+[![codecov](https://codecov.io/gh/osscameroon/js-generator/branch/main/graph/badge.svg?token=QJEBIRY8JJ)](https://codecov.io/gh/osscameroon/js-generator)
 
 # jsgenerator : Translating from Html to Js
 
