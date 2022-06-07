@@ -1,4 +1,4 @@
 ignore:
-    - "src/main/java/com/osscameron/jsgenerator/exception/*"
-    - "src/main/java/com/osscameron/jsgenerator/model/*"
+    - "src/main/java/com/osscameron/jsgenerator/exception/**/*"
+    - "src/main/java/com/osscameron/jsgenerator/model/**/*"
     - "src/main/java/com/osscameron/jsgenerator/JSGenerator.java"
