@@ -15,6 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.parser.Parser;
 import org.jsoup.parser.Tag;
@@ -237,23 +238,39 @@ public class ConvertServiceImpl implements ConvertService {
      *
      * @param element Jsoup Element
      * @return the generated code in JS
+     * @throws HTMLUnknownElementException if an invalid HTML tag is used
      *
      */
 
-    private String parseElement(Element element) {
+    private String parseElement(Element element) throws HTMLUnknownElementException {
+
+	logger.log(Level.INFO, " **** METHOD -- parseElement(Element element) -- Analyzing element : tagName = "
+		+ element.tagName() + " -> " + element + "\n" + "---------------" + "\n");
+
+	/*
+	 * If the element is not the root and is unknown then there is a problem.
+	 * Without the first condition "!element.root().equals(element)", there will be
+	 * an exception thrown if the element is the root
+	 */
+
+	if (!element.root().equals(element) && !element.tag().isKnownTag()) {
+
+	    throw new HTMLUnknownElementException(
+		    "\"" + element + " -> " + element.tagName() + "\"" + " is not a valid HTML Element.");
+	}
 
 	StringBuilder generatedCode = new StringBuilder();
 
 	for (Element child : element.children()) {
 	    generatedCode.append(parseElement(child)).append("\n"); // recursive
 
-	    JsElement parent = new JsElement(child, jsVariableDeclaration);
+	    JsElement childJsElement = new JsElement(child, jsVariableDeclaration);
 
-	    generatedCode.append(parse(usedTags, parent));
+	    generatedCode.append(parse(usedTags, childJsElement));
 
 	    // parse this current element
 
-	    String appends = appendChild(parent); // append this current element's children code to parent code
+	    String appends = appendChild(childJsElement); // append this current element's children code to parent code
 
 	    if (!appends.equals("")) {
 		generatedCode.append(appends);
@@ -281,12 +298,6 @@ public class ConvertServiceImpl implements ConvertService {
 		    "\"" + jsElement.getElement().tagName() + "\"" + " is not a valid HTML Element.");
 	}
 
-	// attributes: attributes of the element
-	Attributes attributes = jsElement.getElement().attributes();
-
-	// text nodes: text nodes of the element (content in between tags)
-	List<TextNode> innerHTML = jsElement.getElement().textNodes();
-
 	// search tag name among used tags
 	usedTags.stream().filter(s -> s.equals(jsElement.getElement().tagName()))
 		.forEach(s -> jsElement.getElement().tagName(jsElement.getElement().tagName() + "_"));
@@ -303,7 +314,17 @@ public class ConvertServiceImpl implements ConvertService {
 	StringBuilder generatedCode = new StringBuilder(jsElement.getJsVariableDeclaration().getKeyword() + " " + tag
 		+ " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
 
-	return addAttributeToElement(attributes, innerHTML, tag, generatedCode);
+	// attributes: attributes of the element
+	Attributes attributes = jsElement.getElement().attributes();
+
+	// Given an element, it adds the attributes to the element
+
+	for (Attribute attribute : attributes) {
+	    generatedCode.append(tag).append(".setAttribute(\"").append(attribute.getKey()).append("\", \"")
+		    .append(attribute.getValue()).append("\");\n");
+	}
+
+	return generatedCode.toString();
     }
 
     /*
@@ -361,46 +382,78 @@ public class ConvertServiceImpl implements ConvertService {
 
 	boolean hasChld = jsElement.getElement().childrenSize() > 0;
 
+	logger.log(Level.INFO, " **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement :"
+		+ jsElement.getElement().tag().getName() + " -> isEmpty : " + jsElement.getElement().tag().isEmpty()
+		+ " -> isSelfClosing : " + jsElement.getElement().tag().isSelfClosing() + " -> isKnown : "
+		+ Tag.isKnownTag(jsElement.getElement().tagName().replace("_", "")) + " -> hasChild : " + hasChld
+		+ " **** " + "\n" + "---------------" + "\n");
+
 	logger.log(Level.INFO,
-		" **** Analyze jsElement :" + jsElement.getElement().tag().getName() + " -> isEmpty : "
-			+ jsElement.getElement().tag().isEmpty() + " -> isSelfClosing : "
-			+ jsElement.getElement().tag().isSelfClosing() + " -> isKnown : "
-			+ Tag.isKnownTag(jsElement.getElement().tagName().replace("_", "")) + " -> hasChild : "
-			+ hasChld + " **** ");
+		" **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement childNodes : tagName = "
+			+ jsElement.getElement().tagName() + " -> " + jsElement.getElement()
+			+ " ->  List of child Nodes -> " + jsElement.getElement().childNodes() + "\n"
+			+ "---------------" + "\n");
 
-	if (!jsElement.getElement().tag().isSelfClosing() && jsElement.getElement().children().size() > 0) {
+	logger.log(Level.INFO,
+		" **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement children : tagName = "
+			+ jsElement.getElement().tagName() + " -> " + jsElement.getElement()
+			+ " ->  List of children -> " + jsElement.getElement().children() + "\n" + "---------------"
+			+ "\n");
 
-	    for (Element child : jsElement.getElement().children()) {
+	/*
+	 *
+	 * if (!jsElement.getElement().tag().isSelfClosing()) {
+	 *
+	 * if (jsElement.getElement().children().size() > 0) {
+	 *
+	 * for (Element child : jsElement.getElement().children()) {
+	 *
+	 * generatedCode.append(jsElement.getElement().tagName()).append(
+	 * ".appendChild(") .append(child.tagName()).append(");\n"); }
+	 *
+	 * }
+	 *
+	 * }
+	 *
+	 */
 
-		generatedCode.append(jsElement.getElement().tagName()).append(".appendChild(").append(child.tagName())
-			.append(");\n");
+	// tag name
+	String tag = jsElement.getElement().tagName();
+
+	// If the tag is not self closing
+
+	if (!jsElement.getElement().tag().isSelfClosing()) {
+
+	    if (jsElement.getElement().childNodes().size() > 0) {
+
+		for (Node childNode : jsElement.getElement().childNodes()) {
+
+		    if (childNode instanceof Element) {
+
+			Element childElement = (Element) childNode;
+
+			generatedCode.append(jsElement.getElement().tagName()).append(".appendChild(")
+				.append(childElement.tagName()).append(");\n");
+
+		    }
+
+		    // text nodes: text nodes of the element (content in between tags)
+
+		    if (childNode instanceof TextNode) {
+
+			TextNode textNode = (TextNode) childNode;
+
+			if (!textNode.isBlank()) {
+			    generatedCode.append(tag).append(".appendChild(document.createTextNode(\"")
+				    .append(textNode.toString().replace("\n", "").trim()).append("\"));\n");
+			}
+
+		    }
+
+		}
+
 	    }
-	}
 
-	return generatedCode.toString();
-    }
-
-    /**
-     * Given an element, it adds the attributes to the element
-     *
-     * @param attributes    Attributes of the element
-     * @param innerHTML     Text nodes of the element
-     * @param tag           Tag name of the element
-     * @param generatedCode Code generated in JS
-     * @return generated code for the element
-     */
-    private String addAttributeToElement(Attributes attributes, List<TextNode> innerHTML, String tag,
-	    StringBuilder generatedCode) {
-	for (Attribute attribute : attributes) {
-	    generatedCode.append(tag).append(".setAttribute(\"").append(attribute.getKey()).append("\", \"")
-		    .append(attribute.getValue()).append("\");\n");
-	}
-
-	for (TextNode textNode : innerHTML) {
-	    if (!textNode.isBlank()) {
-		generatedCode.append(tag).append(".appendChild(document.createTextNode(\"")
-			.append(textNode.toString().replace("\n", "").trim()).append("\"));\n");
-	    }
 	}
 
 	return generatedCode.toString();
