@@ -15,6 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.parser.Parser;
 import org.jsoup.parser.Tag;
@@ -39,21 +40,21 @@ import com.osscameroon.jsgenerator.util.FileUtil;
  */
 public class ConvertServiceImpl implements ConvertService {
 
-<span class="fc" id="L42">    private static final Logger logger = Logger.getLogger(ConvertServiceImpl.class.getName());</span>
+<span class="fc" id="L43">    private static final Logger logger = Logger.getLogger(ConvertServiceImpl.class.getName());</span>
 
     private JsVariableDeclaration jsVariableDeclaration;
 
-<span class="fc" id="L46">    public ConvertServiceImpl(JsVariableDeclaration jsVariableDeclaration) {</span>
+<span class="fc" id="L47">    public ConvertServiceImpl(JsVariableDeclaration jsVariableDeclaration) {</span>
 
-<span class="fc" id="L48">	this.jsVariableDeclaration = jsVariableDeclaration;</span>
+<span class="fc" id="L49">	this.jsVariableDeclaration = jsVariableDeclaration;</span>
 
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L51">    }</span>
 
     /**
      * Tags present in the document to convert
      */
 
-<span class="fc" id="L56">    private List&lt;String&gt; usedTags = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L57">    private List&lt;String&gt; usedTags = new ArrayList&lt;&gt;();</span>
 
     /**
      * {@inheritDoc}
@@ -64,18 +65,18 @@ public class ConvertServiceImpl implements ConvertService {
     @Override
     public String convert(String content) throws NoHTMLCodeException {
 
-<span class="pc bpc" id="L67" title="1 of 2 branches missed.">	if (content == null) {</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">	if (content == null) {</span>
 
-<span class="nc" id="L69">	    throw new NoHTMLCodeException(&quot;There is no html content.&quot;);</span>
+<span class="nc" id="L70">	    throw new NoHTMLCodeException(&quot;There is no html content.&quot;);</span>
 	}
 
-<span class="pc bpc" id="L72" title="1 of 2 branches missed.">	if (content.isBlank()) {</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">	if (content.isBlank()) {</span>
 
-<span class="nc" id="L74">	    throw new NoHTMLCodeException(&quot;The content has nothing to translate.&quot;);</span>
+<span class="nc" id="L75">	    throw new NoHTMLCodeException(&quot;The content has nothing to translate.&quot;);</span>
 
 	}
 
-<span class="fc" id="L78">	Element htmlDoc = Jsoup.parse(content, &quot;&quot;, Parser.xmlParser());</span>
+<span class="fc" id="L79">	Element htmlDoc = Jsoup.parse(content, &quot;&quot;, Parser.xmlParser());</span>
 
 	/*
 	 * trim() is added to delete leading and trailing space. Before adding that, the
@@ -83,7 +84,7 @@ public class ConvertServiceImpl implements ConvertService {
 	 * test this method.
 	 */
 
-<span class="fc" id="L86">	String result = parseElement(htmlDoc).trim();</span>
+<span class="fc" id="L87">	String result = parseElement(htmlDoc).trim();</span>
 
 	/*
 	 * Without this line, the result of convert method with same parameter changed
@@ -95,9 +96,9 @@ public class ConvertServiceImpl implements ConvertService {
 	 * Now, the program clears the list of used tags in order to always get an empty
 	 * list when we call this method.
 	 */
-<span class="fc" id="L98">	usedTags.clear();</span>
+<span class="fc" id="L99">	usedTags.clear();</span>
 
-<span class="fc" id="L100">	return result;</span>
+<span class="fc" id="L101">	return result;</span>
     }
 
     /**
@@ -110,25 +111,25 @@ public class ConvertServiceImpl implements ConvertService {
     public void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName)
 	    throws NoHTMLFileNameException, IncorrectHTMLFileNameException, HTMLFileNotFoundException {
 
-<span class="nc bnc" id="L113" title="All 2 branches missed.">	if (htmlFileName == null) {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">	if (htmlFileName == null) {</span>
 
-<span class="nc" id="L115">	    throw new NoHTMLFileNameException(&quot;There is no Html file name.&quot;);</span>
+<span class="nc" id="L116">	    throw new NoHTMLFileNameException(&quot;There is no Html file name.&quot;);</span>
 	}
 
-<span class="nc bnc" id="L118" title="All 2 branches missed.">	if (!isHTMLFileNameCorrect(htmlFileName)) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">	if (!isHTMLFileNameCorrect(htmlFileName)) {</span>
 
-<span class="nc" id="L120">	    throw new IncorrectHTMLFileNameException(&quot;The HTML file's name \&quot;&quot; + htmlFileName + &quot;\&quot; is incorrect.&quot;);</span>
+<span class="nc" id="L121">	    throw new IncorrectHTMLFileNameException(&quot;The HTML file's name \&quot;&quot; + htmlFileName + &quot;\&quot; is incorrect.&quot;);</span>
 	}
 
 	// get the full supposed path to the html file
 
-<span class="nc" id="L125">	String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName);</span>
+<span class="nc" id="L126">	String pathToHtml = HTML_SRC_DIR.getFolder().concat(htmlFileName);</span>
 
-<span class="nc" id="L127">	File htmlFile = new File(pathToHtml);</span>
+<span class="nc" id="L128">	File htmlFile = new File(pathToHtml);</span>
 
-<span class="nc bnc" id="L129" title="All 2 branches missed.">	if (!htmlFile.exists()) {</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">	if (!htmlFile.exists()) {</span>
 
-<span class="nc" id="L131">	    throw new HTMLFileNotFoundException(&quot;Html file \&quot;&quot; + htmlFileName + &quot;\&quot; not found&quot;);</span>
+<span class="nc" id="L132">	    throw new HTMLFileNotFoundException(&quot;Html file \&quot;&quot; + htmlFileName + &quot;\&quot; not found&quot;);</span>
 	}
 
 	// Use log instead of system.out.println to show steps
@@ -139,7 +140,7 @@ public class ConvertServiceImpl implements ConvertService {
 	 * new File(HTML_SRC_DIR.getFolder()).createNewFile();
 	 */
 
-<span class="nc" id="L142">	logger.log(Level.INFO, &quot; **** Converting &quot; + htmlFileName + &quot; to js file **** &quot;);</span>
+<span class="nc" id="L143">	logger.log(Level.INFO, &quot; **** Converting &quot; + htmlFileName + &quot; to js file **** &quot;);</span>
 
 	/*
 	 * By default, the input folder exists but the output folder don't. So, if
@@ -148,28 +149,28 @@ public class ConvertServiceImpl implements ConvertService {
 	 * called, an exception will be thrown.
 	 */
 
-<span class="nc" id="L151">	File outputFolder = new File(JS_DEST_DIR.getFolder());</span>
+<span class="nc" id="L152">	File outputFolder = new File(JS_DEST_DIR.getFolder());</span>
 
-<span class="nc bnc" id="L153" title="All 4 branches missed.">	if (outputFolder.exists() &amp;&amp; outputFolder.isDirectory()) {</span>
+<span class="nc bnc" id="L154" title="All 4 branches missed.">	if (outputFolder.exists() &amp;&amp; outputFolder.isDirectory()) {</span>
 
 	} else {
 
-<span class="nc" id="L157">	    outputFolder.mkdir();</span>
+<span class="nc" id="L158">	    outputFolder.mkdir();</span>
 	}
 
 	// get the full supposed path to the js file
 
-<span class="nc" id="L162">	String jsFilePath = JS_DEST_DIR.getFolder().concat(htmlFileName.split(&quot;.html&quot;)[0] + &quot;.js&quot;);</span>
+<span class="nc" id="L163">	String jsFilePath = JS_DEST_DIR.getFolder().concat(htmlFileName.split(&quot;.html&quot;)[0] + &quot;.js&quot;);</span>
 
-<span class="nc" id="L164">	String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();</span>
+<span class="nc" id="L165">	String htmlContent = FileUtil.readHtmlFile(pathToHtml).toString();</span>
 
-<span class="nc" id="L166">	String jsContent = convert(htmlContent);</span>
+<span class="nc" id="L167">	String jsContent = convert(htmlContent);</span>
 
-<span class="nc" id="L168">	FileUtil.writeJsFile(jsContent, jsFilePath);</span>
+<span class="nc" id="L169">	FileUtil.writeJsFile(jsContent, jsFilePath);</span>
 
-<span class="nc" id="L170">	logger.log(Level.INFO, &quot; **** Conversion complete **** &quot;);</span>
+<span class="nc" id="L171">	logger.log(Level.INFO, &quot; **** Conversion complete **** &quot;);</span>
 
-<span class="nc" id="L172">    }</span>
+<span class="nc" id="L173">    }</span>
 
     /**
      * {@inheritDoc}
@@ -181,18 +182,18 @@ public class ConvertServiceImpl implements ConvertService {
     public void convertHtmlFiletoJsFileFromCommandLineInterface(String[] args)
 	    throws NoHTMLFileNameException, EmptyHTMLFilesListException, DuplicatedHTMLFileNameException {
 
-<span class="nc bnc" id="L184" title="All 2 branches missed.">	if (args == null) {</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">	if (args == null) {</span>
 
-<span class="nc" id="L186">	    throw new NoHTMLFileNameException(&quot;There is no list of Html files.&quot;);</span>
+<span class="nc" id="L187">	    throw new NoHTMLFileNameException(&quot;There is no list of Html files.&quot;);</span>
 
 	}
 
-<span class="nc bnc" id="L190" title="All 2 branches missed.">	if (args.length == 0) {</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">	if (args.length == 0) {</span>
 
-<span class="nc" id="L192">	    throw new EmptyHTMLFilesListException(&quot;The list of Html files to translate is empty&quot;);</span>
+<span class="nc" id="L193">	    throw new EmptyHTMLFilesListException(&quot;The list of Html files to translate is empty&quot;);</span>
 	}
 
-<span class="nc" id="L195">	List&lt;String&gt; argList = Arrays.asList(args);</span>
+<span class="nc" id="L196">	List&lt;String&gt; argList = Arrays.asList(args);</span>
 
 	// TODO: verify that all files are named correctly with .html, create a method
 	// in ConvertService
@@ -200,24 +201,24 @@ public class ConvertServiceImpl implements ConvertService {
 	// throw exception because there are list 2 files with same name
 	// inform the user and work with unique file names
 
-<span class="nc" id="L203">	argList.stream().forEach(s -&gt; {</span>
+<span class="nc" id="L204">	argList.stream().forEach(s -&gt; {</span>
 
-<span class="nc bnc" id="L205" title="All 2 branches missed.">	    if (Collections.frequency(argList, s) == 1) {</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">	    if (Collections.frequency(argList, s) == 1) {</span>
 
-<span class="nc" id="L207">		convertHtmlFiletoJsFileFromCommandLineInterface(s);</span>
+<span class="nc" id="L208">		convertHtmlFiletoJsFileFromCommandLineInterface(s);</span>
 
 	    } else {
 
 		// TODO: throw exception because there are 2 files with same name
 
-<span class="nc" id="L213">		logger.log(Level.INFO, &quot;There are at least 2 files with same name on CLI : &quot; + s);</span>
+<span class="nc" id="L214">		logger.log(Level.INFO, &quot;There are at least 2 files with same name on CLI : &quot; + s);</span>
 
-<span class="nc" id="L215">		throw new DuplicatedHTMLFileNameException(&quot;There are at least 2 files with same name on CLI : &quot; + s);</span>
+<span class="nc" id="L216">		throw new DuplicatedHTMLFileNameException(&quot;There are at least 2 files with same name on CLI : &quot; + s);</span>
 
 	    }
-<span class="nc" id="L218">	});</span>
+<span class="nc" id="L219">	});</span>
 
-<span class="nc" id="L220">    }</span>
+<span class="nc" id="L221">    }</span>
 
     /**
      * {@inheritDoc}
@@ -229,7 +230,7 @@ public class ConvertServiceImpl implements ConvertService {
 
     @Override
     public void convertHtmlFiletoJsFileFromWeb(String htmlFileName, String outputFolder) {
-<span class="nc" id="L232">	throw new UnsupportedOperationException();</span>
+<span class="nc" id="L233">	throw new UnsupportedOperationException();</span>
     }
 
     /**
@@ -237,29 +238,45 @@ public class ConvertServiceImpl implements ConvertService {
      *
      * @param element Jsoup Element
      * @return the generated code in JS
+     * @throws HTMLUnknownElementException if an invalid HTML tag is used
      *
      */
 
-    private String parseElement(Element element) {
+    private String parseElement(Element element) throws HTMLUnknownElementException {
 
-<span class="fc" id="L245">	StringBuilder generatedCode = new StringBuilder();</span>
+<span class="fc" id="L247">	logger.log(Level.INFO, &quot; **** METHOD -- parseElement(Element element) -- Analyzing element : tagName = &quot;</span>
+<span class="fc" id="L248">		+ element.tagName() + &quot; -&gt; &quot; + element + &quot;\n&quot; + &quot;---------------&quot; + &quot;\n&quot;);</span>
 
-<span class="fc bfc" id="L247" title="All 2 branches covered.">	for (Element child : element.children()) {</span>
-<span class="fc" id="L248">	    generatedCode.append(parseElement(child)).append(&quot;\n&quot;); // recursive</span>
+	/*
+	 * If the element is not the root and is unknown then there is a problem.
+	 * Without the first condition &quot;!element.root().equals(element)&quot;, there will be
+	 * an exception thrown if the element is the root
+	 */
 
-<span class="fc" id="L250">	    JsElement parent = new JsElement(child, jsVariableDeclaration);</span>
+<span class="fc bfc" id="L256" title="All 4 branches covered.">	if (!element.root().equals(element) &amp;&amp; !element.tag().isKnownTag()) {</span>
 
-<span class="fc" id="L252">	    generatedCode.append(parse(usedTags, parent));</span>
+<span class="fc" id="L258">	    throw new HTMLUnknownElementException(</span>
+<span class="fc" id="L259">		    &quot;\&quot;&quot; + element + &quot; -&gt; &quot; + element.tagName() + &quot;\&quot;&quot; + &quot; is not a valid HTML Element.&quot;);</span>
+	}
+
+<span class="fc" id="L262">	StringBuilder generatedCode = new StringBuilder();</span>
+
+<span class="fc bfc" id="L264" title="All 2 branches covered.">	for (Element child : element.children()) {</span>
+<span class="fc" id="L265">	    generatedCode.append(parseElement(child)).append(&quot;\n&quot;); // recursive</span>
+
+<span class="fc" id="L267">	    JsElement childJsElement = new JsElement(child, jsVariableDeclaration);</span>
+
+<span class="fc" id="L269">	    generatedCode.append(parse(usedTags, childJsElement));</span>
 
 	    // parse this current element
 
-<span class="fc" id="L256">	    String appends = appendChild(parent); // append this current element's children code to parent code</span>
+<span class="fc" id="L273">	    String appends = appendChild(childJsElement); // append this current element's children code to parent code</span>
 
-<span class="fc bfc" id="L258" title="All 2 branches covered.">	    if (!appends.equals(&quot;&quot;)) {</span>
-<span class="fc" id="L259">		generatedCode.append(appends);</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">	    if (!appends.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L276">		generatedCode.append(appends);</span>
 	    }
-<span class="fc" id="L261">	}</span>
-<span class="fc" id="L262">	return generatedCode.toString();</span>
+<span class="fc" id="L278">	}</span>
+<span class="fc" id="L279">	return generatedCode.toString();</span>
     }
 
 //	WITH USED TAGS LIST
@@ -275,35 +292,39 @@ public class ConvertServiceImpl implements ConvertService {
 
     private String parse(List&lt;String&gt; usedTags, JsElement jsElement) throws HTMLUnknownElementException {
 
-<span class="fc bfc" id="L278" title="All 2 branches covered.">	if (!jsElement.getElement().tag().isKnownTag()) {</span>
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">	if (!jsElement.getElement().tag().isKnownTag()) {</span>
 
-<span class="fc" id="L280">	    throw new HTMLUnknownElementException(</span>
-<span class="fc" id="L281">		    &quot;\&quot;&quot; + jsElement.getElement().tagName() + &quot;\&quot;&quot; + &quot; is not a valid HTML Element.&quot;);</span>
+<span class="nc" id="L297">	    throw new HTMLUnknownElementException(</span>
+<span class="nc" id="L298">		    &quot;\&quot;&quot; + jsElement.getElement().tagName() + &quot;\&quot;&quot; + &quot; is not a valid HTML Element.&quot;);</span>
 	}
 
-	// attributes: attributes of the element
-<span class="fc" id="L285">	Attributes attributes = jsElement.getElement().attributes();</span>
-
-	// text nodes: text nodes of the element (content in between tags)
-<span class="fc" id="L288">	List&lt;TextNode&gt; innerHTML = jsElement.getElement().textNodes();</span>
-
 	// search tag name among used tags
-<span class="fc" id="L291">	usedTags.stream().filter(s -&gt; s.equals(jsElement.getElement().tagName()))</span>
-<span class="fc" id="L292">		.forEach(s -&gt; jsElement.getElement().tagName(jsElement.getElement().tagName() + &quot;_&quot;));</span>
+<span class="fc" id="L302">	usedTags.stream().filter(s -&gt; s.equals(jsElement.getElement().tagName()))</span>
+<span class="fc" id="L303">		.forEach(s -&gt; jsElement.getElement().tagName(jsElement.getElement().tagName() + &quot;_&quot;));</span>
 
 	// tag name
-<span class="fc" id="L295">	String tag = jsElement.getElement().tagName();</span>
+<span class="fc" id="L306">	String tag = jsElement.getElement().tagName();</span>
 
-<span class="fc" id="L297">	usedTags.add(tag);</span>
+<span class="fc" id="L308">	usedTags.add(tag);</span>
 
 	/*
 	 * Tag name should not contain _ TODO: Check that
 	 */
 
-<span class="fc" id="L303">	StringBuilder generatedCode = new StringBuilder(jsElement.getJsVariableDeclaration().getKeyword() + &quot; &quot; + tag</span>
-<span class="fc" id="L304">		+ &quot; = document.createElement(\&quot;&quot; + tag.replace(&quot;_&quot;, &quot;&quot;) + &quot;\&quot;);\n&quot;);</span>
+<span class="fc" id="L314">	StringBuilder generatedCode = new StringBuilder(jsElement.getJsVariableDeclaration().getKeyword() + &quot; &quot; + tag</span>
+<span class="fc" id="L315">		+ &quot; = document.createElement(\&quot;&quot; + tag.replace(&quot;_&quot;, &quot;&quot;) + &quot;\&quot;);\n&quot;);</span>
 
-<span class="fc" id="L306">	return addAttributeToElement(attributes, innerHTML, tag, generatedCode);</span>
+	// attributes: attributes of the element
+<span class="fc" id="L318">	Attributes attributes = jsElement.getElement().attributes();</span>
+
+	// Given an element, it adds the attributes to the element
+
+<span class="fc bfc" id="L322" title="All 2 branches covered.">	for (Attribute attribute : attributes) {</span>
+<span class="fc" id="L323">	    generatedCode.append(tag).append(&quot;.setAttribute(\&quot;&quot;).append(attribute.getKey()).append(&quot;\&quot;, \&quot;&quot;)</span>
+<span class="fc" id="L324">		    .append(attribute.getValue()).append(&quot;\&quot;);\n&quot;);</span>
+<span class="fc" id="L325">	}</span>
+
+<span class="fc" id="L327">	return generatedCode.toString();</span>
     }
 
     /*
@@ -313,7 +334,7 @@ public class ConvertServiceImpl implements ConvertService {
 
     private String appendChild(JsElement jsElement) {
 
-<span class="fc" id="L316">	StringBuilder generatedCode = new StringBuilder();</span>
+<span class="fc" id="L337">	StringBuilder generatedCode = new StringBuilder();</span>
 
 	/*
 	 * Please, think twice before deleting this log, it helps to understand what is
@@ -359,51 +380,83 @@ public class ConvertServiceImpl implements ConvertService {
 	 *
 	 */
 
-<span class="fc bfc" id="L362" title="All 2 branches covered.">	boolean hasChld = jsElement.getElement().childrenSize() &gt; 0;</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">	boolean hasChld = jsElement.getElement().childrenSize() &gt; 0;</span>
 
-<span class="fc" id="L364">	logger.log(Level.INFO,</span>
-<span class="fc" id="L365">		&quot; **** Analyze jsElement :&quot; + jsElement.getElement().tag().getName() + &quot; -&gt; isEmpty : &quot;</span>
-<span class="fc" id="L366">			+ jsElement.getElement().tag().isEmpty() + &quot; -&gt; isSelfClosing : &quot;</span>
-<span class="fc" id="L367">			+ jsElement.getElement().tag().isSelfClosing() + &quot; -&gt; isKnown : &quot;</span>
-<span class="fc" id="L368">			+ Tag.isKnownTag(jsElement.getElement().tagName().replace(&quot;_&quot;, &quot;&quot;)) + &quot; -&gt; hasChild : &quot;</span>
-			+ hasChld + &quot; **** &quot;);
+<span class="fc" id="L385">	logger.log(Level.INFO, &quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement :&quot;</span>
+<span class="fc" id="L386">		+ jsElement.getElement().tag().getName() + &quot; -&gt; isEmpty : &quot; + jsElement.getElement().tag().isEmpty()</span>
+<span class="fc" id="L387">		+ &quot; -&gt; isSelfClosing : &quot; + jsElement.getElement().tag().isSelfClosing() + &quot; -&gt; isKnown : &quot;</span>
+<span class="fc" id="L388">		+ Tag.isKnownTag(jsElement.getElement().tagName().replace(&quot;_&quot;, &quot;&quot;)) + &quot; -&gt; hasChild : &quot; + hasChld</span>
+		+ &quot; **** &quot; + &quot;\n&quot; + &quot;---------------&quot; + &quot;\n&quot;);
 
-<span class="fc bfc" id="L371" title="All 4 branches covered.">	if (!jsElement.getElement().tag().isSelfClosing() &amp;&amp; jsElement.getElement().children().size() &gt; 0) {</span>
+<span class="fc" id="L391">	logger.log(Level.INFO,</span>
+		&quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement childNodes : tagName = &quot;
+<span class="fc" id="L393">			+ jsElement.getElement().tagName() + &quot; -&gt; &quot; + jsElement.getElement()</span>
+<span class="fc" id="L394">			+ &quot; -&gt;  List of child Nodes -&gt; &quot; + jsElement.getElement().childNodes() + &quot;\n&quot;</span>
+			+ &quot;---------------&quot; + &quot;\n&quot;);
 
-<span class="fc bfc" id="L373" title="All 2 branches covered.">	    for (Element child : jsElement.getElement().children()) {</span>
+<span class="fc" id="L397">	logger.log(Level.INFO,</span>
+		&quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement children : tagName = &quot;
+<span class="fc" id="L399">			+ jsElement.getElement().tagName() + &quot; -&gt; &quot; + jsElement.getElement()</span>
+<span class="fc" id="L400">			+ &quot; -&gt;  List of children -&gt; &quot; + jsElement.getElement().children() + &quot;\n&quot; + &quot;---------------&quot;</span>
+			+ &quot;\n&quot;);
 
-<span class="fc" id="L375">		generatedCode.append(jsElement.getElement().tagName()).append(&quot;.appendChild(&quot;).append(child.tagName())</span>
-<span class="fc" id="L376">			.append(&quot;);\n&quot;);</span>
-<span class="fc" id="L377">	    }</span>
+	/*
+	 *
+	 * if (!jsElement.getElement().tag().isSelfClosing()) {
+	 *
+	 * if (jsElement.getElement().children().size() &gt; 0) {
+	 *
+	 * for (Element child : jsElement.getElement().children()) {
+	 *
+	 * generatedCode.append(jsElement.getElement().tagName()).append(
+	 * &quot;.appendChild(&quot;) .append(child.tagName()).append(&quot;);\n&quot;); }
+	 *
+	 * }
+	 *
+	 * }
+	 *
+	 */
+
+	// tag name
+<span class="fc" id="L421">	String tag = jsElement.getElement().tagName();</span>
+
+	// If the tag is not self closing
+
+<span class="fc bfc" id="L425" title="All 2 branches covered.">	if (!jsElement.getElement().tag().isSelfClosing()) {</span>
+
+<span class="fc bfc" id="L427" title="All 2 branches covered.">	    if (jsElement.getElement().childNodes().size() &gt; 0) {</span>
+
+<span class="fc bfc" id="L429" title="All 2 branches covered.">		for (Node childNode : jsElement.getElement().childNodes()) {</span>
+
+<span class="fc bfc" id="L431" title="All 2 branches covered.">		    if (childNode instanceof Element) {</span>
+
+<span class="fc" id="L433">			Element childElement = (Element) childNode;</span>
+
+<span class="fc" id="L435">			generatedCode.append(jsElement.getElement().tagName()).append(&quot;.appendChild(&quot;)</span>
+<span class="fc" id="L436">				.append(childElement.tagName()).append(&quot;);\n&quot;);</span>
+
+		    }
+
+		    // text nodes: text nodes of the element (content in between tags)
+
+<span class="fc bfc" id="L442" title="All 2 branches covered.">		    if (childNode instanceof TextNode) {</span>
+
+<span class="fc" id="L444">			TextNode textNode = (TextNode) childNode;</span>
+
+<span class="fc bfc" id="L446" title="All 2 branches covered.">			if (!textNode.isBlank()) {</span>
+<span class="fc" id="L447">			    generatedCode.append(tag).append(&quot;.appendChild(document.createTextNode(\&quot;&quot;)</span>
+<span class="fc" id="L448">				    .append(textNode.toString().replace(&quot;\n&quot;, &quot;&quot;).trim()).append(&quot;\&quot;));\n&quot;);</span>
+			}
+
+		    }
+
+<span class="fc" id="L453">		}</span>
+
+	    }
+
 	}
 
-<span class="fc" id="L380">	return generatedCode.toString();</span>
-    }
-
-    /**
-     * Given an element, it adds the attributes to the element
-     *
-     * @param attributes    Attributes of the element
-     * @param innerHTML     Text nodes of the element
-     * @param tag           Tag name of the element
-     * @param generatedCode Code generated in JS
-     * @return generated code for the element
-     */
-    private String addAttributeToElement(Attributes attributes, List&lt;TextNode&gt; innerHTML, String tag,
-	    StringBuilder generatedCode) {
-<span class="fc bfc" id="L394" title="All 2 branches covered.">	for (Attribute attribute : attributes) {</span>
-<span class="fc" id="L395">	    generatedCode.append(tag).append(&quot;.setAttribute(\&quot;&quot;).append(attribute.getKey()).append(&quot;\&quot;, \&quot;&quot;)</span>
-<span class="fc" id="L396">		    .append(attribute.getValue()).append(&quot;\&quot;);\n&quot;);</span>
-<span class="fc" id="L397">	}</span>
-
-<span class="fc bfc" id="L399" title="All 2 branches covered.">	for (TextNode textNode : innerHTML) {</span>
-<span class="fc bfc" id="L400" title="All 2 branches covered.">	    if (!textNode.isBlank()) {</span>
-<span class="fc" id="L401">		generatedCode.append(tag).append(&quot;.appendChild(document.createTextNode(\&quot;&quot;)</span>
-<span class="fc" id="L402">			.append(textNode.toString().replace(&quot;\n&quot;, &quot;&quot;).trim()).append(&quot;\&quot;));\n&quot;);</span>
-	    }
-<span class="fc" id="L404">	}</span>
-
-<span class="fc" id="L406">	return generatedCode.toString();</span>
+<span class="fc" id="L459">	return generatedCode.toString();</span>
     }
 
     /**
@@ -427,9 +480,9 @@ public class ConvertServiceImpl implements ConvertService {
 
     protected boolean isHTMLFileNameCorrect(String htmlFileName) {
 
-<span class="fc" id="L430">	String regex = &quot;^[a-zA-Z0-9._-]+\\.(html)$&quot;;</span>
+<span class="fc" id="L483">	String regex = &quot;^[a-zA-Z0-9._-]+\\.(html)$&quot;;</span>
 
-<span class="fc" id="L432">	return htmlFileName.matches(regex);</span>
+<span class="fc" id="L485">	return htmlFileName.matches(regex);</span>
     }
 
 }
