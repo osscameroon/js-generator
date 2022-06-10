@@ -123,14 +123,10 @@ let h2 = document.createElement("h2");
 h2.appendChild(document.createTextNode("About"));
 
 let p_ = document.createElement("p");
-p_.appendChild(document.createTextNode("
-      
-          The goal is to generate Javascript from HTML following the JavaScript DOM structure. 
+p_.appendChild(document.createTextNode("The goal is to generate Javascript from HTML following the JavaScript DOM structure. 
           Sometimes, we forget how to use javascript to build dynamic web apps. 
           Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. 
-          This project will be very useful for beginners learning html and javascript.
-
-    "));
+          This project will be very useful for beginners learning html and javascript."));
 
 let a = document.createElement("a");
 a.setAttribute("href", "https://jsoup.org/");
@@ -141,28 +137,20 @@ a_.setAttribute("href", "https://github.com/jhy/jsoup/");
 a_.appendChild(document.createTextNode("Jsoup GitHub Repository"));
 
 let p__ = document.createElement("p");
-p__.appendChild(document.createTextNode("
-      
-          The project is based on "));
+p__.appendChild(document.createTextNode("The project is based on"));
 p__.appendChild(a);
-p__.appendChild(document.createTextNode(" / "));
+p__.appendChild(document.createTextNode("/"));
 p__.appendChild(a_);
-p__.appendChild(document.createTextNode(" .It's all about using nodes to generate javascript.
-      
-    "));
+p__.appendChild(document.createTextNode(".It's all about using nodes to generate javascript."));
 
 let a__ = document.createElement("a");
 a__.setAttribute("href", "https://translate.google.com/");
 a__.appendChild(document.createTextNode("Google Translate"));
 
 let p___ = document.createElement("p");
-p___.appendChild(document.createTextNode("
-      
-          Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to  "));
+p___.appendChild(document.createTextNode("Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to"));
 p___.appendChild(a__);
-p___.appendChild(document.createTextNode(".
-
-    "));
+p___.appendChild(document.createTextNode("."));
 
 let div = document.createElement("div");
 div.appendChild(h1);
@@ -171,6 +159,7 @@ div.appendChild(h2);
 div.appendChild(p_);
 div.appendChild(p__);
 div.appendChild(p___);
+
 
 ```
 
@@ -258,14 +247,10 @@ let h2 = document.createElement("h2");
 h2.appendChild(document.createTextNode("About"));
 
 let p_ = document.createElement("p");
-p_.appendChild(document.createTextNode("
-      
-          The goal is to generate Javascript from HTML following the JavaScript DOM structure. 
+p_.appendChild(document.createTextNode("The goal is to generate Javascript from HTML following the JavaScript DOM structure. 
           Sometimes, we forget how to use javascript to build dynamic web apps. 
           Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. 
-          This project will be very useful for beginners learning html and javascript.
-
-    "));
+          This project will be very useful for beginners learning html and javascript."));
 
 let a = document.createElement("a");
 a.setAttribute("href", "https://jsoup.org/");
@@ -276,28 +261,20 @@ a_.setAttribute("href", "https://github.com/jhy/jsoup/");
 a_.appendChild(document.createTextNode("Jsoup GitHub Repository"));
 
 let p__ = document.createElement("p");
-p__.appendChild(document.createTextNode("
-      
-          The project is based on "));
+p__.appendChild(document.createTextNode("The project is based on"));
 p__.appendChild(a);
-p__.appendChild(document.createTextNode(" / "));
+p__.appendChild(document.createTextNode("/"));
 p__.appendChild(a_);
-p__.appendChild(document.createTextNode(" .It's all about using nodes to generate javascript.
-      
-    "));
+p__.appendChild(document.createTextNode(".It's all about using nodes to generate javascript."));
 
 let a__ = document.createElement("a");
 a__.setAttribute("href", "https://translate.google.com/");
 a__.appendChild(document.createTextNode("Google Translate"));
 
 let p___ = document.createElement("p");
-p___.appendChild(document.createTextNode("
-      
-          Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to  "));
+p___.appendChild(document.createTextNode("Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to"));
 p___.appendChild(a__);
-p___.appendChild(document.createTextNode(".
-
-    "));
+p___.appendChild(document.createTextNode("."));
 
 let div = document.createElement("div");
 div.appendChild(h1);
