@@ -74,6 +74,18 @@ This is the html code we'll add into divtest:
 ```
 Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/main/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java#L87), just copy the html code into the variable named **html** then run the program.
 
+It's possible to choose between **let** or **var** to declare your javascript variables as you can see here. We'll use **let** for this example.
+
+
+```java
+    // Just choose between VAR or LET for your variable declarations
+
+    // static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.VAR);
+    
+    static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.LET);
+```
+
+
 ```java
     /**
      * Converts built-in code from Html to Js and prints the result.
@@ -280,6 +292,7 @@ let divtest = document.getElementById("divtest");
 
 divtest.appendChild(div);
 ```
+We hope this example makes you better understand this project. If not enough, the [Wiki](https://github.com/osscameroon/js-generator/wiki) will provide more examples.
 
 # Code Info
 
