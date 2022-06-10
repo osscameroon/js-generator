@@ -17,7 +17,7 @@ Actually, it's just a console program but gradually we will build a Maven/Gradle
 
 https://osscameroon.github.io/js-generator/
 
-# Examples
+# Example
 
 This is one example to show you how things work, there are more examples in our [Wiki](https://github.com/osscameroon/js-generator/wiki).
 
