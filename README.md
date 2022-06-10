@@ -72,8 +72,33 @@ This is the html code we'll add into divtest:
 </div>
 
 ```
+Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/main/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java#L87), just copy the html code into the variable named **html** then run the program.
 
-This is Js ouput we get after translating :
+```java
+    /**
+     * Converts built-in code from Html to Js and prints the result.
+     */
+     
+    static void convertAndPrintBuiltInCodeFromHtmlToJs() {
+
+	// Use log instead of system.out.println to show steps
+	logger.log(Level.INFO, " **** Converting built-in code from html to js **** ");
+	logger.log(Level.INFO, " **** Html to convert:  **** ");
+  
+  
+  // Copy the html code into the variable named **html** then run the program.
+  
+  String html="";
+  
+	logger.log(Level.INFO, "\n\n" + html + "\n");
+
+	logger.log(Level.INFO, " **** generated js:  **** "+ "\n");
+
+	System.out.println(convertService.convert(html));
+    }
+```
+
+This is Js ouput we get after translating from the console :
 
 ```javascript
 let h1 = document.createElement("h1");
