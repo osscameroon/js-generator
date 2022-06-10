@@ -21,7 +21,7 @@ https://osscameroon.github.io/js-generator/
 
 This is one example to show you how things work, there are more examples in our [Wiki](https://github.com/osscameroon/js-generator/wiki).
 
-Let's suppose we are building an Html page and this is the initial code:
+Let's suppose we are building an Html page by starting with this initial code [JSFiddle](https://jsfiddle.net/a23j0nxf/).
 
 ```html
 <!DOCTYPE html>
