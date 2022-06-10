@@ -35,7 +35,7 @@ Let's suppose we are building an HTML page starting with this initial code [JSFi
   </body>
 </html>
 ```
-Then, we want to add more data inside the **`div tag with id "divtest"`**. It's possible to do it manually but we don't want that. Our goal is to make it dynamic with JavaScript. We want to create JavaScript variables that we'll use for whatever we want.
+Then, we want to add more data inside the **`div tag with id "divtest"`**. It's possible to do it manually but we don't want that. **Our goal is to make it dynamic with JavaScript. We want to create JavaScript variables that we'll use for whatever we want.**
 
 This is the HTML code we'll add to divtest [JSFiddle](https://jsfiddle.net/xyrqa05c/):
 ```html
