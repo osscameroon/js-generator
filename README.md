@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/osscameroon/js-generator/branch/main/graph/badge.svg?token=QJEBIRY8JJ)](https://codecov.io/gh/osscameroon/js-generator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# jsgenerator : Translating from Html to Js
+# jsgenerator : Translating from HTML to JS
 
 # About
 
