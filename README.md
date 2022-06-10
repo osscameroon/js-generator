@@ -183,7 +183,7 @@ divtest.appendChild(div);
 ```
 In order to test that it works, just compare the results on https://jsfiddle.net/
 
-## Result 1
+## Expected Result
 
 ```html
 <!DOCTYPE html>
@@ -229,9 +229,9 @@ In order to test that it works, just compare the results on https://jsfiddle.net
 </html>
 ```
 
-## Result 2
+## Equivalent Result with the initial html code and the Js generated code
 
-Html code
+### Initial Html Code
 
 ```html
 <!DOCTYPE html>
@@ -245,7 +245,7 @@ Html code
   </body>
 </html>
 ```
-Js code
+### Javascript Generated Code
 
 ```javascript
 let h1 = document.createElement("h1");
