@@ -48,11 +48,12 @@ This is the html code we'll add into divtest:
     
     <h2>About</h2>
     
-    
-    
     <p>
       
-          The goal is to generate Javascript from HTML following the JavaScript DOM structure. Sometimes, we forget how to use javascript to build dynamic web apps. Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. This project will be very useful for beginners learning html and javascript.
+          The goal is to generate Javascript from HTML following the JavaScript DOM structure. 
+          Sometimes, we forget how to use javascript to build dynamic web apps. 
+          Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. 
+          This project will be very useful for beginners learning html and javascript.
 
     </p>
       
