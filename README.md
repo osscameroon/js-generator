@@ -37,7 +37,7 @@ Let's suppose we are building an Html page by starting with this initial code [J
 ```
 Then, we want to add more data inside the **`div tag with id "divtest"`**. It's possible to do it manually but we don't want. Our goal is to make it dynamic with Javascript. We want to create Javascript variables that we'll use for whatever we want.
 
-This is the html code we'll add into divtest:
+This is the html code we'll add into divtest [JSFiddle](https://jsfiddle.net/xyrqa05c/) :
 ```html
 
  <div>
@@ -175,6 +175,8 @@ In order to test that it works, just compare the results on https://jsfiddle.net
 
 ## Expected Result
 
+[JSFiddle](https://jsfiddle.net/pyahn1fc/)
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -220,6 +222,8 @@ In order to test that it works, just compare the results on https://jsfiddle.net
 ```
 
 ## Equivalent Result with the initial html code and the Js generated code
+
+[JSFiddle](https://jsfiddle.net/yaoqt24x/)
 
 ### Initial Html Code
 
