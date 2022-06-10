@@ -86,7 +86,7 @@ Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-gener
 	logger.log(Level.INFO, " **** Html to convert:  **** ");
   
   
-  // Copy the html code into the variable named **html** then run the program.
+  // Copy the html code into the variable named html then run the program.
   
   String html="";
   
