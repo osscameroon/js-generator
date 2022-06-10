@@ -6,12 +6,12 @@
 
 # About
 
-The goal is to generate Javascript  from HTML  following the JavaScript DOM structure.
-Sometimes, we forget how to use javascript to build dynamic web apps. Thus, the goal of this project is helping developers gaining time by producing javascript code as output based on html as input. This project will be very useful for beginners learning html and javascript.
+The goal is to generate JavaScript  from HTML  following the JavaScript DOM structure.
+Sometimes, we forget how to write JavaScript code to build dynamic web apps. Thus, the goal of this project is helping developers gaining time by producing JS code as output based on html as input. This project will be very useful for beginners learning html and javascript. Also, it will help more experienced developers whenever they want to use JS.
 
-The project is based on [jsoup  library, a java html parser](https://jsoup.org/) / [Jsoup GitHub Repository](https://github.com/jhy/jsoup/) . It's all about using nodes to generate javascript. 
+The project is based on [jsoup  library, a java html parser](https://jsoup.org/) / [Jsoup GitHub Repository](https://github.com/jhy/jsoup/). It's all about using nodes to generate JavaScript. 
 
-Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to Js, an app similar to Google Translate : https://translate.google.com/.
+Actually, it's just a console program but gradually we will build a Maven/Gradle library then a web app translating from Html to JS, an app similar to Google Translate : https://translate.google.com/.
 
 # Project Documentation
 
@@ -19,9 +19,9 @@ https://osscameroon.github.io/js-generator/
 
 # Example
 
-This is one example to show you how things work, there are more examples in our [Wiki](https://github.com/osscameroon/js-generator/wiki).
+This is one example to give you a big picture, our [Wiki](https://github.com/osscameroon/js-generator/wiki) will provide more explanation on how things work under the hood.
 
-Let's suppose we are building an Html page by starting with this initial code [JSFiddle](https://jsfiddle.net/a23j0nxf/).
+Let's suppose we are building an Html page by starting with this initial code [JSFiddle](https://jsfiddle.net/a23j0nxf/):
 
 ```html
 <!DOCTYPE html>
@@ -35,9 +35,9 @@ Let's suppose we are building an Html page by starting with this initial code [J
   </body>
 </html>
 ```
-Then, we want to add more data inside the **`div tag with id "divtest"`**. It's possible to do it manually but we don't want. Our goal is to make it dynamic with Javascript. We want to create Javascript variables that we'll use for whatever we want.
+Then, we want to add more data inside the **`div tag with id "divtest"`**. It's possible to do it manually but we don't want that. Our goal is to make it dynamic with JavaScript. We want to create JavaScript variables that we'll use for whatever we want.
 
-This is the html code we'll add into divtest [JSFiddle](https://jsfiddle.net/xyrqa05c/) :
+This is the html code we'll add into divtest [JSFiddle](https://jsfiddle.net/xyrqa05c/):
 ```html
 
  <div>
@@ -110,7 +110,7 @@ It's possible to choose between **let** or **var** to declare your javascript va
     }
 ```
 
-Js ouput we get after translating from the console :
+JS ouput we get after translating from the console:
 
 ```javascript
 
@@ -164,7 +164,7 @@ div.appendChild(p___);
 
 ```
 
-It's time to link our output to our initial html code
+It's time to link our output to our initial html code:
 
 ```javascript
 let divtest = document.getElementById("divtest");
@@ -221,7 +221,7 @@ In order to test that it works, just compare the results on https://jsfiddle.net
 </html>
 ```
 
-## Equivalent Result with the initial html code and the Js generated code
+## Equivalent Result with the initial Html code and the JS generated code
 
 [JSFiddle](https://jsfiddle.net/yaoqt24x/)
 
@@ -239,7 +239,7 @@ In order to test that it works, just compare the results on https://jsfiddle.net
   </body>
 </html>
 ```
-### Javascript Generated Code
+### JavaScript Generated Code
 
 ```javascript
 
@@ -298,7 +298,7 @@ let divtest = document.getElementById("divtest");
 
 divtest.appendChild(div);
 ```
-We hope this example makes you better understand this project. If not enough, the [Wiki](https://github.com/osscameroon/js-generator/wiki) will provide more examples.
+We hope this example makes you better understand this project. In a real project, you might want to use the generated Js code for whatever you want, it's up to you. If not enough, the [Wiki](https://github.com/osscameroon/js-generator/wiki) will provide more explanation on how things work under the hood.
 
 # Code Info
 
