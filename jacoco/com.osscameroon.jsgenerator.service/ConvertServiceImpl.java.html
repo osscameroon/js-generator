@@ -443,20 +443,26 @@ public class ConvertServiceImpl implements ConvertService {
 
 <span class="fc" id="L444">			TextNode textNode = (TextNode) childNode;</span>
 
-<span class="fc bfc" id="L446" title="All 2 branches covered.">			if (!textNode.isBlank()) {</span>
-<span class="fc" id="L447">			    generatedCode.append(tag).append(&quot;.appendChild(document.createTextNode(\&quot;&quot;)</span>
-<span class="fc" id="L448">				    .append(textNode.toString().replace(&quot;\n&quot;, &quot;&quot;).trim()).append(&quot;\&quot;));\n&quot;);</span>
+			/*
+			 * We concat trailing space because trim() removes all leading and trailing
+			 * spaces even the ones that are mandatory.
+			 *
+			 */
+
+<span class="fc bfc" id="L452" title="All 2 branches covered.">			if (!textNode.isBlank()) {</span>
+<span class="fc" id="L453">			    generatedCode.append(tag).append(&quot;.appendChild(document.createTextNode(\&quot;&quot;)</span>
+<span class="fc" id="L454">				    .append(textNode.toString().replace(&quot;\n&quot;, &quot;&quot;).trim().concat(&quot; &quot;)).append(&quot;\&quot;));\n&quot;);</span>
 			}
 
 		    }
 
-<span class="fc" id="L453">		}</span>
+<span class="fc" id="L459">		}</span>
 
 	    }
 
 	}
 
-<span class="fc" id="L459">	return generatedCode.toString();</span>
+<span class="fc" id="L465">	return generatedCode.toString();</span>
     }
 
     /**
@@ -480,9 +486,9 @@ public class ConvertServiceImpl implements ConvertService {
 
     protected boolean isHTMLFileNameCorrect(String htmlFileName) {
 
-<span class="fc" id="L483">	String regex = &quot;^[a-zA-Z0-9._-]+\\.(html)$&quot;;</span>
+<span class="fc" id="L489">	String regex = &quot;^[a-zA-Z0-9._-]+\\.(html)$&quot;;</span>
 
-<span class="fc" id="L485">	return htmlFileName.matches(regex);</span>
+<span class="fc" id="L491">	return htmlFileName.matches(regex);</span>
     }
 
 }
