@@ -21,10 +21,12 @@ public class JSGenerator {
 
     private static final Logger logger = Logger.getLogger(JSGenerator.class.getName());
 
-    // Just choose between VAR or LET for your variable declarations
-
-    // static ConvertService convertService = new
-    // ConvertServiceImpl(JsVariableDeclaration.VAR);
+    /*
+     * Just choose between VAR or LET for your variable declarations
+     *
+     * static ConvertService convertService = new
+     * ConvertServiceImpl(JsVariableDeclaration.VAR);
+     */
 
     static ConvertService convertService = new ConvertServiceImpl(JSVariableDeclaration.LET);
 
