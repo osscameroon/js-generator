@@ -23,9 +23,10 @@ public class JSGenerator {
 
     // Just choose between VAR or LET for your variable declarations
 
-    static ConvertService convertService = new ConvertServiceImpl(JSVariableDeclaration.LET);
+    // static ConvertService convertService = new
+    // ConvertServiceImpl(JsVariableDeclaration.VAR);
 
-    // Should I present the 3 key features here ?
+    static ConvertService convertService = new ConvertServiceImpl(JSVariableDeclaration.LET);
 
     /**
      * <p>
@@ -80,9 +81,6 @@ public class JSGenerator {
 
     /**
      * Converts built-in code from Html to Js and prints the result.
-     *
-     *
-     *
      */
     static void convertAndPrintBuiltInCodeFromHtmlToJs() {
 
@@ -90,74 +88,15 @@ public class JSGenerator {
 	logger.log(Level.INFO, " **** Converting built-in code from html to js **** ");
 	logger.log(Level.INFO, " **** Html to convert:  **** ");
 
-	StringBuilder sampleHtml = new StringBuilder();
+	// Copy the html code into the variable named html then run the program.
 
-	sampleHtml.append("<!-- Button trigger modal -->\n").append(
-		"<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\">\n")
-		.append("  Launch demo modal\n").append("</button>\n").append("\n").append("<!-- Modal -->\n")
-		.append("<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n")
-		.append("  <div class=\"modal-dialog\" role=\"document\">\n")
-		.append("    <div class=\"modal-content\">\n").append("      <div class=\"modal-header\">\n")
-		.append("        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\n")
-		.append("        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n")
-		.append("          <span aria-hidden=\"true\">&times;</span>\n").append("        </button>\n")
-		.append("      </div>\n").append("      <div class=\"modal-body\">\n").append("        ...\n")
-		.append("      </div>\n").append("      <div class=\"modal-footer\">\n")
-		.append("        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n")
-		.append("        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n")
-		.append("      </div>\n").append("    </div>\n").append("  </div>\n").append("</div>");
+	String html = "";
 
-	logger.log(Level.INFO, "\n\n" + sampleHtml + "\n");
+	logger.log(Level.INFO, "\n\n" + html + "\n");
 
-	logger.log(Level.INFO, " **** generated js:  **** ");
+	logger.log(Level.INFO, " **** generated js:  **** " + "\n");
 
-	System.out.println(convertService.convert(sampleHtml.toString()));
-
-	logger.log(Level.INFO, " **** Self closing tags without slash   **** ");
-
-	String selfClosingTagInputWithoutSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
-
-	logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithoutSlashHtml + "\n");
-
-	logger.log(Level.INFO, " **** generated js  **** ");
-
-	System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml));
-
-	logger.log(Level.INFO, " **** ***********************  **** ");
-
-	String selfClosingTagInputWithoutSlashHtml2 = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
-
-	logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithoutSlashHtml2 + "\n");
-
-	logger.log(Level.INFO, " **** generated js  **** ");
-
-	System.out.println(convertService.convert(selfClosingTagInputWithoutSlashHtml2).replace("\n", ""));
-
-	logger.log(Level.INFO, " **** Self closing tags with slash  **** ");
-
-	String selfClosingTagInputWithSlashHtml = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\"/>";
-
-	logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithSlashHtml + "\n");
-
-	logger.log(Level.INFO, " **** generated js  **** ");
-
-	System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml).replace("\n", ""));
-
-	logger.log(Level.INFO, " **** ***********************  **** ");
-
-	String selfClosingTagInputWithSlashHtml2 = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
-
-	logger.log(Level.INFO, "\n\n" + selfClosingTagInputWithSlashHtml2 + "\n");
-
-	logger.log(Level.INFO, " **** generated js  **** ");
-
-	System.out.println(convertService.convert(selfClosingTagInputWithSlashHtml2));
-
-	logger.log(Level.INFO, " **** Input With No Tag  **** ");
-
-	String inputWithNoTag = "DELETE *";
-
-	System.out.println("Result of Input With No Tag -> " + convertService.convert(inputWithNoTag));
+	System.out.println(convertService.convert(html));
 
     }
 
