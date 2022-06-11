@@ -72,17 +72,21 @@ This is the HTML code we'll add to divtest [JSFiddle](https://jsfiddle.net/xyrqa
 </div>
 
 ```
-Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/main/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java#L87), just copy the HTML code into the variable named **html** then run the program.
+Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/example/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java), just copy the HTML code into the variable named **html** then run the program.
 
 It's possible to choose between **let** or **var** to declare your JavaScript variables as you can see here. We'll use **let** for this example:
 
 
 ```java
-    // Just choose between VAR or LET for your variable declarations
+    /*
+     * Just choose between VAR or LET for your variable declarations
+     *
+     * static ConvertService convertService = new
+     * ConvertServiceImpl(JsVariableDeclaration.VAR);
+     */
 
-    // static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.VAR);
-    
-    static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.LET);
+    static ConvertService convertService = new ConvertServiceImpl(JSVariableDeclaration.LET);
+
 ```
 
 
@@ -90,24 +94,24 @@ It's possible to choose between **let** or **var** to declare your JavaScript va
     /**
      * Converts built-in code from Html to Js and prints the result.
      */
-     
     static void convertAndPrintBuiltInCodeFromHtmlToJs() {
 
 	// Use log instead of system.out.println to show steps
 	logger.log(Level.INFO, " **** Converting built-in code from html to js **** ");
 	logger.log(Level.INFO, " **** Html to convert:  **** ");
-  
-  
-  // Copy the html code into the variable named html then run the program.
-  
-  String html="";
-  
+
+	// Copy the html code into the variable named html then run the program.
+
+	String html = "";
+
 	logger.log(Level.INFO, "\n\n" + html + "\n");
 
-	logger.log(Level.INFO, " **** generated js:  **** "+ "\n");
+	logger.log(Level.INFO, " **** generated js:  **** " + "\n");
 
 	System.out.println(convertService.convert(html));
+
     }
+
 ```
 
 JS ouput we get after translating from the console:
@@ -314,7 +318,7 @@ Build Tool: Maven
 
 2. Build -> `mvn clean package`
 
-3. Browse through source codes and find [Main](https://github.com/osscameroon/js-generator/blob/main/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java) file
+3. Browse through source codes and find [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/example/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java)
 
 4. Paste HTML code and test... should output some JS for you...
 
