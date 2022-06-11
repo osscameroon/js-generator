@@ -27,8 +27,8 @@ import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
 import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
 import com.osscameroon.jsgenerator.exception.NoHTMLCodeException;
 import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
-import com.osscameroon.jsgenerator.model.JsElement;
-import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
+import com.osscameroon.jsgenerator.model.JSElement;
+import com.osscameroon.jsgenerator.model.JSVariableDeclaration;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
@@ -42,9 +42,9 @@ public class ConvertServiceImpl implements ConvertService {
 
     private static final Logger logger = Logger.getLogger(ConvertServiceImpl.class.getName());
 
-    private JsVariableDeclaration jsVariableDeclaration;
+    private JSVariableDeclaration jsVariableDeclaration;
 
-    public ConvertServiceImpl(JsVariableDeclaration jsVariableDeclaration) {
+    public ConvertServiceImpl(JSVariableDeclaration jsVariableDeclaration) {
 
 	this.jsVariableDeclaration = jsVariableDeclaration;
 
@@ -264,7 +264,7 @@ public class ConvertServiceImpl implements ConvertService {
 	for (Element child : element.children()) {
 	    generatedCode.append(parseElement(child)).append("\n"); // recursive
 
-	    JsElement childJsElement = new JsElement(child, jsVariableDeclaration);
+	    JSElement childJsElement = new JSElement(child, jsVariableDeclaration);
 
 	    generatedCode.append(parse(usedTags, childJsElement));
 
@@ -290,7 +290,7 @@ public class ConvertServiceImpl implements ConvertService {
      * @throws HTMLUnknownElementException if an invalid HTML tag is used
      */
 
-    private String parse(List<String> usedTags, JsElement jsElement) throws HTMLUnknownElementException {
+    private String parse(List<String> usedTags, JSElement jsElement) throws HTMLUnknownElementException {
 
 	if (!jsElement.getElement().tag().isKnownTag()) {
 
@@ -332,7 +332,7 @@ public class ConvertServiceImpl implements ConvertService {
      * needed
      */
 
-    private String appendChild(JsElement jsElement) {
+    private String appendChild(JSElement jsElement) {
 
 	StringBuilder generatedCode = new StringBuilder();
 

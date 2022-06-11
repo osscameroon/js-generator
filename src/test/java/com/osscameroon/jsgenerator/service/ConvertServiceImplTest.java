@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import com.osscameroon.jsgenerator.exception.HTMLFileNotFoundException;
 import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
 import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
-import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
+import com.osscameroon.jsgenerator.model.JSVariableDeclaration;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
@@ -25,7 +25,7 @@ public class ConvertServiceImplTest extends ConvertServiceImpl {
 
     private static final Logger logger = Logger.getLogger(ConvertServiceImplTest.class.getName());
 
-    public ConvertServiceImplTest(JsVariableDeclaration jsVariableDeclaration) {
+    public ConvertServiceImplTest(JSVariableDeclaration jsVariableDeclaration) {
 	super(jsVariableDeclaration);
 
     }

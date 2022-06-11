@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
-import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
+import com.osscameroon.jsgenerator.model.JSVariableDeclaration;
 
 /**
  * Provide methods to test {@link ConvertServiceImpl} methods.
@@ -49,7 +49,7 @@ public class TestingConvertService {
 
 	inputFile = new File(HTML_SRC_DIR_TEST.getFolder().concat(inputFileName));
 
-	convertWithVARService = new ConvertServiceImplTest(JsVariableDeclaration.VAR);
+	convertWithVARService = new ConvertServiceImplTest(JSVariableDeclaration.VAR);
 
     }
 

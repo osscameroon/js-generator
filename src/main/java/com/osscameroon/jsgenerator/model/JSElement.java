@@ -8,13 +8,13 @@ import org.jsoup.nodes.Element;
  * @author Fanon Jupkwo
  *
  */
-public class JsElement {
+public class JSElement {
 
     private Element element;
 
-    private JsVariableDeclaration jsVariableDeclaration;
+    private JSVariableDeclaration jsVariableDeclaration;
 
-    public JsElement(Element element, JsVariableDeclaration jsVariableDeclaration) {
+    public JSElement(Element element, JSVariableDeclaration jsVariableDeclaration) {
 
 	this.element = element;
 
@@ -26,7 +26,7 @@ public class JsElement {
 	return element;
     }
 
-    public JsVariableDeclaration getJsVariableDeclaration() {
+    public JSVariableDeclaration getJsVariableDeclaration() {
 
 	return jsVariableDeclaration;
     }

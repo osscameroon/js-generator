@@ -4,7 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.osscameroon.jsgenerator.exception.EmptyHTMLFilesListException;
-import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
+import com.osscameroon.jsgenerator.model.JSVariableDeclaration;
 import com.osscameroon.jsgenerator.service.ConvertService;
 import com.osscameroon.jsgenerator.service.ConvertServiceImpl;
 
@@ -23,7 +23,7 @@ public class JSGenerator {
 
     // Just choose between VAR or LET for your variable declarations
 
-    static ConvertService convertService = new ConvertServiceImpl(JsVariableDeclaration.LET);
+    static ConvertService convertService = new ConvertServiceImpl(JSVariableDeclaration.LET);
 
     // Should I present the 3 key features here ?
 

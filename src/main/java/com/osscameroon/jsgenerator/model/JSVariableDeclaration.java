@@ -6,11 +6,11 @@ package com.osscameroon.jsgenerator.model;
  * @author Fanon Jupkwo
  *
  */
-public enum JsVariableDeclaration {
+public enum JSVariableDeclaration {
 
     VAR("var"), LET("let");
 
-    JsVariableDeclaration(String keyword) {
+    JSVariableDeclaration(String keyword) {
 
 	this.keyword = keyword;
 
