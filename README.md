@@ -72,7 +72,7 @@ This is the HTML code we'll add to divtest [JSFiddle](https://jsfiddle.net/xyrqa
 </div>
 
 ```
-Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/example/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java), just copy the HTML code into the variable named **html** then run the program.
+Let's go to the [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/example/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java), just copy and paste the HTML code into the variable named **html** then run the program.
 
 It's possible to choose between **let** or **var** to declare your JavaScript variables as you can see here. We'll use **let** for this example:
 
@@ -318,7 +318,7 @@ Build Tool: Maven
 
 2. Build -> `mvn clean package`
 
-3. Browse through source codes and find [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/example/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java)
+3. Browse through code and find [Main Class JSGenerator](https://github.com/osscameroon/js-generator/blob/example/src/main/java/com/osscameroon/jsgenerator/JSGenerator.java)
 
 4. Paste HTML code and test... should output some JS for you...
 
