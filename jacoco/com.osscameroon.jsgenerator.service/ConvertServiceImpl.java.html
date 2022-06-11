@@ -27,8 +27,8 @@ import com.osscameroon.jsgenerator.exception.HTMLUnknownElementException;
 import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
 import com.osscameroon.jsgenerator.exception.NoHTMLCodeException;
 import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
-import com.osscameroon.jsgenerator.model.JsElement;
-import com.osscameroon.jsgenerator.model.JsVariableDeclaration;
+import com.osscameroon.jsgenerator.model.JSElement;
+import com.osscameroon.jsgenerator.model.JSVariableDeclaration;
 import com.osscameroon.jsgenerator.util.FileUtil;
 
 /**
@@ -42,9 +42,9 @@ public class ConvertServiceImpl implements ConvertService {
 
 <span class="fc" id="L43">    private static final Logger logger = Logger.getLogger(ConvertServiceImpl.class.getName());</span>
 
-    private JsVariableDeclaration jsVariableDeclaration;
+    private JSVariableDeclaration jsVariableDeclaration;
 
-<span class="fc" id="L47">    public ConvertServiceImpl(JsVariableDeclaration jsVariableDeclaration) {</span>
+<span class="fc" id="L47">    public ConvertServiceImpl(JSVariableDeclaration jsVariableDeclaration) {</span>
 
 <span class="fc" id="L49">	this.jsVariableDeclaration = jsVariableDeclaration;</span>
 
@@ -264,7 +264,7 @@ public class ConvertServiceImpl implements ConvertService {
 <span class="fc bfc" id="L264" title="All 2 branches covered.">	for (Element child : element.children()) {</span>
 <span class="fc" id="L265">	    generatedCode.append(parseElement(child)).append(&quot;\n&quot;); // recursive</span>
 
-<span class="fc" id="L267">	    JsElement childJsElement = new JsElement(child, jsVariableDeclaration);</span>
+<span class="fc" id="L267">	    JSElement childJsElement = new JSElement(child, jsVariableDeclaration);</span>
 
 <span class="fc" id="L269">	    generatedCode.append(parse(usedTags, childJsElement));</span>
 
@@ -290,7 +290,7 @@ public class ConvertServiceImpl implements ConvertService {
      * @throws HTMLUnknownElementException if an invalid HTML tag is used
      */
 
-    private String parse(List&lt;String&gt; usedTags, JsElement jsElement) throws HTMLUnknownElementException {
+    private String parse(List&lt;String&gt; usedTags, JSElement jsElement) throws HTMLUnknownElementException {
 
 <span class="pc bpc" id="L295" title="1 of 2 branches missed.">	if (!jsElement.getElement().tag().isKnownTag()) {</span>
 
@@ -332,7 +332,7 @@ public class ConvertServiceImpl implements ConvertService {
      * needed
      */
 
-    private String appendChild(JsElement jsElement) {
+    private String appendChild(JSElement jsElement) {
 
 <span class="fc" id="L337">	StringBuilder generatedCode = new StringBuilder();</span>
 
