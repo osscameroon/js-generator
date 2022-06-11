@@ -443,9 +443,15 @@ public class ConvertServiceImpl implements ConvertService {
 
 			TextNode textNode = (TextNode) childNode;
 
+			/*
+			 * We concat trailing space because trim() removes all leading and trailing
+			 * spaces even the ones that are mandatory.
+			 *
+			 */
+
 			if (!textNode.isBlank()) {
 			    generatedCode.append(tag).append(".appendChild(document.createTextNode(\"")
-				    .append(textNode.toString().replace("\n", "").trim()).append("\"));\n");
+				    .append(textNode.toString().replace("\n", "").trim().concat(" ")).append("\"));\n");
 			}
 
 		    }
