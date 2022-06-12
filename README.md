@@ -19,7 +19,9 @@ https://osscameroon.github.io/js-generator/
 
 # Example
 
-This example gives you a big picture, our [Wiki](https://github.com/osscameroon/js-generator/wiki) will provide more explanation on how things work under the hood.
+We invite you to run the [example branch code](https://github.com/osscameroon/js-generator/tree/example) to follow this tutorial.
+
+This example gives you a big picture, our [Wiki](https://github.com/osscameroon/js-generator/wiki) provides more explanation on how things work under the hood.
 
 Let's suppose we are building an HTML page starting with this initial code [JSFiddle](https://jsfiddle.net/a23j0nxf/):
 
@@ -302,7 +304,7 @@ let divtest = document.getElementById("divtest");
 
 divtest.appendChild(div);
 ```
-We hope this example makes you better understand this project. In a real project, you might want to use the generated JS code for whatever you want, it's up to you. If not enough, the [Wiki](https://github.com/osscameroon/js-generator/wiki) will provide more explanation on how things work under the hood.
+We hope this example makes you better understand this project. In a real project, you might want to use the generated JS code for whatever you want, it's up to you. If not enough, the [Wiki](https://github.com/osscameroon/js-generator/wiki) provides more explanation on how things work under the hood.
 
 # Code Info
 
