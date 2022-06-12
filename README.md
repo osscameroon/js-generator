@@ -4,6 +4,10 @@
 
 # jsgenerator : Translating from HTML to JS
 
+# Disclaimer
+
+**This project is different from the [JavaScript Generator Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).**
+
 # About
 
 The goal is to generate JavaScript  from HTML  following the JavaScript DOM structure.
