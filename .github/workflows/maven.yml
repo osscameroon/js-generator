@@ -22,7 +22,7 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: 11
-        cache: 'maven'
+        #cache: 'maven'
     - name: Build with Maven
     #To see the full stack trace of the errors, re-run Maven with the -e switch.
     #Re-run Maven using the -X switch to enable full debug logging.
