@@ -17,6 +17,10 @@ The project is based on [jsoup  library, a Java HTML parser](https://jsoup.org/)
 
 **Actually, it's just a console program but gradually we will build a Maven/Gradle Library, a Web & Desktop App and a CLI (Command Line Interface) tool translating from HTML to JS.**
 
+# Wiki
+
+https://github.com/osscameroon/js-generator/wiki
+
 # Project Documentation
 
 https://osscameroon.github.io/js-generator/
