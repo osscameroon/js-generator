@@ -29,6 +29,8 @@ https://osscameroon.github.io/js-generator/
 
 We invite you to run the [example branch code](https://github.com/osscameroon/js-generator/tree/example) to follow this tutorial.
 
+You are free to copy and paste into [JSFiddle](https://jsfiddle.net/) or just click on the link provided to see the result.
+
 This example gives you a big picture, our [Wiki](https://github.com/osscameroon/js-generator/wiki) provides more explanation on how things work under the hood.
 
 Let's suppose we are building an HTML page starting with this initial code [JSFiddle](https://jsfiddle.net/a23j0nxf/):
