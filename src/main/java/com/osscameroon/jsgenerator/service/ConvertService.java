@@ -17,13 +17,13 @@ import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
 public interface ConvertService {
 
     /**
-     * Converts the Html string to Js string and prints it out.
+     * Converts the Html string to Js string.
      *
      * @param content the Html string
      * @return a String Object containing Js
      *
      * @throws NoHTMLCodeException if content is null
-     * 
+     *
      */
 
     String convert(String content) throws NoHTMLCodeException;
@@ -39,7 +39,7 @@ public interface ConvertService {
      * @param htmlFileName the Html file name
      *
      *
-     * @throws NoHTMLFileNameException            if htmlFileName is null
+     * @throws NoHTMLFileNameException        if htmlFileName is null
      * @throws IncorrectHTMLFileNameException if htmlFileName is incorrect
      * @throws HTMLFileNotFoundException      if the html file is not found
      *
@@ -57,7 +57,7 @@ public interface ConvertService {
      * be created as soon as possible its classpath will contain jsgenerator.
      *
      * @param args the array of Html files names
-     * @throws NoHTMLFileNameException             if args is null
+     * @throws NoHTMLFileNameException         if args is null
      * @throws EmptyHTMLFilesListException     if args is empty
      * @throws DuplicatedHTMLFileNameException if args contains duplicates
      *
