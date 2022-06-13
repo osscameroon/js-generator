@@ -234,7 +234,7 @@ public class ConvertServiceImpl implements ConvertService {
     }
 
     /**
-     * Goes through the Jsoup Elements and converts them to JsElement objects.
+     * Goes through the Jsoup Elements and converts them to JSElement objects.
      *
      * @param element Jsoup Element
      * @return the generated code in JS
@@ -266,20 +266,19 @@ public class ConvertServiceImpl implements ConvertService {
 
 <span class="fc" id="L267">	    JSElement childJsElement = new JSElement(child, jsVariableDeclaration);</span>
 
-<span class="fc" id="L269">	    generatedCode.append(parse(usedTags, childJsElement));</span>
-
 	    // parse this current element
 
-<span class="fc" id="L273">	    String appends = appendChild(childJsElement); // append this current element's children code to parent code</span>
+<span class="fc" id="L271">	    generatedCode.append(parse(usedTags, childJsElement));</span>
 
-<span class="fc bfc" id="L275" title="All 2 branches covered.">	    if (!appends.equals(&quot;&quot;)) {</span>
-<span class="fc" id="L276">		generatedCode.append(appends);</span>
+	    // append this current element's children code to parent code
+<span class="fc" id="L274">	    String appends = appendChild(childJsElement);</span>
+
+<span class="fc bfc" id="L276" title="All 2 branches covered.">	    if (!appends.equals(&quot;&quot;)) {</span>
+<span class="fc" id="L277">		generatedCode.append(appends);</span>
 	    }
-<span class="fc" id="L278">	}</span>
-<span class="fc" id="L279">	return generatedCode.toString();</span>
+<span class="fc" id="L279">	}</span>
+<span class="fc" id="L280">	return generatedCode.toString();</span>
     }
-
-//	WITH USED TAGS LIST
 
     /**
      * For this element, it returns the code to append the element to the parent
@@ -292,49 +291,52 @@ public class ConvertServiceImpl implements ConvertService {
 
     private String parse(List&lt;String&gt; usedTags, JSElement jsElement) throws HTMLUnknownElementException {
 
-<span class="pc bpc" id="L295" title="1 of 2 branches missed.">	if (!jsElement.getElement().tag().isKnownTag()) {</span>
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">	if (!jsElement.getElement().tag().isKnownTag()) {</span>
 
-<span class="nc" id="L297">	    throw new HTMLUnknownElementException(</span>
-<span class="nc" id="L298">		    &quot;\&quot;&quot; + jsElement.getElement().tagName() + &quot;\&quot;&quot; + &quot; is not a valid HTML Element.&quot;);</span>
+<span class="nc" id="L296">	    throw new HTMLUnknownElementException(</span>
+<span class="nc" id="L297">		    &quot;\&quot;&quot; + jsElement.getElement().tagName() + &quot;\&quot;&quot; + &quot; is not a valid HTML Element.&quot;);</span>
 	}
 
 	// search tag name among used tags
-<span class="fc" id="L302">	usedTags.stream().filter(s -&gt; s.equals(jsElement.getElement().tagName()))</span>
-<span class="fc" id="L303">		.forEach(s -&gt; jsElement.getElement().tagName(jsElement.getElement().tagName() + &quot;_&quot;));</span>
+<span class="fc" id="L301">	usedTags.stream().filter(s -&gt; s.equals(jsElement.getElement().tagName()))</span>
+<span class="fc" id="L302">		.forEach(s -&gt; jsElement.getElement().tagName(jsElement.getElement().tagName() + &quot;_&quot;));</span>
 
 	// tag name
-<span class="fc" id="L306">	String tag = jsElement.getElement().tagName();</span>
+<span class="fc" id="L305">	String tag = jsElement.getElement().tagName();</span>
 
-<span class="fc" id="L308">	usedTags.add(tag);</span>
+<span class="fc" id="L307">	usedTags.add(tag);</span>
 
 	/*
 	 * Tag name should not contain _ TODO: Check that
 	 */
 
-<span class="fc" id="L314">	StringBuilder generatedCode = new StringBuilder(jsElement.getJsVariableDeclaration().getKeyword() + &quot; &quot; + tag</span>
-<span class="fc" id="L315">		+ &quot; = document.createElement(\&quot;&quot; + tag.replace(&quot;_&quot;, &quot;&quot;) + &quot;\&quot;);\n&quot;);</span>
+<span class="fc" id="L313">	StringBuilder generatedCode = new StringBuilder(jsElement.getJSVariableDeclaration().getKeyword() + &quot; &quot; + tag</span>
+<span class="fc" id="L314">		+ &quot; = document.createElement(\&quot;&quot; + tag.replace(&quot;_&quot;, &quot;&quot;) + &quot;\&quot;);\n&quot;);</span>
 
 	// attributes: attributes of the element
-<span class="fc" id="L318">	Attributes attributes = jsElement.getElement().attributes();</span>
+<span class="fc" id="L317">	Attributes attributes = jsElement.getElement().attributes();</span>
 
 	// Given an element, it adds the attributes to the element
 
-<span class="fc bfc" id="L322" title="All 2 branches covered.">	for (Attribute attribute : attributes) {</span>
-<span class="fc" id="L323">	    generatedCode.append(tag).append(&quot;.setAttribute(\&quot;&quot;).append(attribute.getKey()).append(&quot;\&quot;, \&quot;&quot;)</span>
-<span class="fc" id="L324">		    .append(attribute.getValue()).append(&quot;\&quot;);\n&quot;);</span>
-<span class="fc" id="L325">	}</span>
+<span class="fc bfc" id="L321" title="All 2 branches covered.">	for (Attribute attribute : attributes) {</span>
+<span class="fc" id="L322">	    generatedCode.append(tag).append(&quot;.setAttribute(\&quot;&quot;).append(attribute.getKey()).append(&quot;\&quot;, \&quot;&quot;)</span>
+<span class="fc" id="L323">		    .append(attribute.getValue()).append(&quot;\&quot;);\n&quot;);</span>
+<span class="fc" id="L324">	}</span>
 
-<span class="fc" id="L327">	return generatedCode.toString();</span>
+<span class="fc" id="L326">	return generatedCode.toString();</span>
     }
 
-    /*
-     * TODO: We have to add the update info (date, author,...) everywhere when it is
-     * needed
+    /**
+     * For this element, it returns the code to append the child of type Element or
+     * TextNode
+     *
+     * @param jsElement
+     * @return code to append the child of type Element or TextNode
      */
 
     private String appendChild(JSElement jsElement) {
 
-<span class="fc" id="L337">	StringBuilder generatedCode = new StringBuilder();</span>
+<span class="fc" id="L339">	StringBuilder generatedCode = new StringBuilder();</span>
 
 	/*
 	 * Please, think twice before deleting this log, it helps to understand what is
@@ -380,68 +382,51 @@ public class ConvertServiceImpl implements ConvertService {
 	 *
 	 */
 
-<span class="fc bfc" id="L383" title="All 2 branches covered.">	boolean hasChld = jsElement.getElement().childrenSize() &gt; 0;</span>
+<span class="fc bfc" id="L385" title="All 2 branches covered.">	boolean hasChld = jsElement.getElement().childrenSize() &gt; 0;</span>
 
-<span class="fc" id="L385">	logger.log(Level.INFO, &quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement :&quot;</span>
-<span class="fc" id="L386">		+ jsElement.getElement().tag().getName() + &quot; -&gt; isEmpty : &quot; + jsElement.getElement().tag().isEmpty()</span>
-<span class="fc" id="L387">		+ &quot; -&gt; isSelfClosing : &quot; + jsElement.getElement().tag().isSelfClosing() + &quot; -&gt; isKnown : &quot;</span>
-<span class="fc" id="L388">		+ Tag.isKnownTag(jsElement.getElement().tagName().replace(&quot;_&quot;, &quot;&quot;)) + &quot; -&gt; hasChild : &quot; + hasChld</span>
+<span class="fc" id="L387">	logger.log(Level.INFO, &quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement :&quot;</span>
+<span class="fc" id="L388">		+ jsElement.getElement().tag().getName() + &quot; -&gt; isEmpty : &quot; + jsElement.getElement().tag().isEmpty()</span>
+<span class="fc" id="L389">		+ &quot; -&gt; isSelfClosing : &quot; + jsElement.getElement().tag().isSelfClosing() + &quot; -&gt; isKnown : &quot;</span>
+<span class="fc" id="L390">		+ Tag.isKnownTag(jsElement.getElement().tagName().replace(&quot;_&quot;, &quot;&quot;)) + &quot; -&gt; hasChild : &quot; + hasChld</span>
 		+ &quot; **** &quot; + &quot;\n&quot; + &quot;---------------&quot; + &quot;\n&quot;);
 
-<span class="fc" id="L391">	logger.log(Level.INFO,</span>
+<span class="fc" id="L393">	logger.log(Level.INFO,</span>
 		&quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement childNodes : tagName = &quot;
-<span class="fc" id="L393">			+ jsElement.getElement().tagName() + &quot; -&gt; &quot; + jsElement.getElement()</span>
-<span class="fc" id="L394">			+ &quot; -&gt;  List of child Nodes -&gt; &quot; + jsElement.getElement().childNodes() + &quot;\n&quot;</span>
+<span class="fc" id="L395">			+ jsElement.getElement().tagName() + &quot; -&gt; &quot; + jsElement.getElement()</span>
+<span class="fc" id="L396">			+ &quot; -&gt;  List of child Nodes -&gt; &quot; + jsElement.getElement().childNodes() + &quot;\n&quot;</span>
 			+ &quot;---------------&quot; + &quot;\n&quot;);
 
-<span class="fc" id="L397">	logger.log(Level.INFO,</span>
+<span class="fc" id="L399">	logger.log(Level.INFO,</span>
 		&quot; **** METHOD -- appendChild(JsElement jsElement) --  Analyzing jsElement children : tagName = &quot;
-<span class="fc" id="L399">			+ jsElement.getElement().tagName() + &quot; -&gt; &quot; + jsElement.getElement()</span>
-<span class="fc" id="L400">			+ &quot; -&gt;  List of children -&gt; &quot; + jsElement.getElement().children() + &quot;\n&quot; + &quot;---------------&quot;</span>
+<span class="fc" id="L401">			+ jsElement.getElement().tagName() + &quot; -&gt; &quot; + jsElement.getElement()</span>
+<span class="fc" id="L402">			+ &quot; -&gt;  List of children -&gt; &quot; + jsElement.getElement().children() + &quot;\n&quot; + &quot;---------------&quot;</span>
 			+ &quot;\n&quot;);
 
-	/*
-	 *
-	 * if (!jsElement.getElement().tag().isSelfClosing()) {
-	 *
-	 * if (jsElement.getElement().children().size() &gt; 0) {
-	 *
-	 * for (Element child : jsElement.getElement().children()) {
-	 *
-	 * generatedCode.append(jsElement.getElement().tagName()).append(
-	 * &quot;.appendChild(&quot;) .append(child.tagName()).append(&quot;);\n&quot;); }
-	 *
-	 * }
-	 *
-	 * }
-	 *
-	 */
-
 	// tag name
-<span class="fc" id="L421">	String tag = jsElement.getElement().tagName();</span>
+<span class="fc" id="L406">	String tag = jsElement.getElement().tagName();</span>
 
 	// If the tag is not self closing
 
-<span class="fc bfc" id="L425" title="All 2 branches covered.">	if (!jsElement.getElement().tag().isSelfClosing()) {</span>
+<span class="fc bfc" id="L410" title="All 2 branches covered.">	if (!jsElement.getElement().tag().isSelfClosing()) {</span>
 
-<span class="fc bfc" id="L427" title="All 2 branches covered.">	    if (jsElement.getElement().childNodes().size() &gt; 0) {</span>
+<span class="fc bfc" id="L412" title="All 2 branches covered.">	    if (jsElement.getElement().childNodes().size() &gt; 0) {</span>
 
-<span class="fc bfc" id="L429" title="All 2 branches covered.">		for (Node childNode : jsElement.getElement().childNodes()) {</span>
+<span class="fc bfc" id="L414" title="All 2 branches covered.">		for (Node childNode : jsElement.getElement().childNodes()) {</span>
 
-<span class="fc bfc" id="L431" title="All 2 branches covered.">		    if (childNode instanceof Element) {</span>
+<span class="fc bfc" id="L416" title="All 2 branches covered.">		    if (childNode instanceof Element) {</span>
 
-<span class="fc" id="L433">			Element childElement = (Element) childNode;</span>
+<span class="fc" id="L418">			Element childElement = (Element) childNode;</span>
 
-<span class="fc" id="L435">			generatedCode.append(jsElement.getElement().tagName()).append(&quot;.appendChild(&quot;)</span>
-<span class="fc" id="L436">				.append(childElement.tagName()).append(&quot;);\n&quot;);</span>
+<span class="fc" id="L420">			generatedCode.append(jsElement.getElement().tagName()).append(&quot;.appendChild(&quot;)</span>
+<span class="fc" id="L421">				.append(childElement.tagName()).append(&quot;);\n&quot;);</span>
 
 		    }
 
 		    // text nodes: text nodes of the element (content in between tags)
 
-<span class="fc bfc" id="L442" title="All 2 branches covered.">		    if (childNode instanceof TextNode) {</span>
+<span class="fc bfc" id="L427" title="All 2 branches covered.">		    if (childNode instanceof TextNode) {</span>
 
-<span class="fc" id="L444">			TextNode textNode = (TextNode) childNode;</span>
+<span class="fc" id="L429">			TextNode textNode = (TextNode) childNode;</span>
 
 			/*
 			 * We concat trailing space because trim() removes all leading and trailing
@@ -449,20 +434,20 @@ public class ConvertServiceImpl implements ConvertService {
 			 *
 			 */
 
-<span class="fc bfc" id="L452" title="All 2 branches covered.">			if (!textNode.isBlank()) {</span>
-<span class="fc" id="L453">			    generatedCode.append(tag).append(&quot;.appendChild(document.createTextNode(\&quot;&quot;)</span>
-<span class="fc" id="L454">				    .append(textNode.toString().replace(&quot;\n&quot;, &quot;&quot;).trim().concat(&quot; &quot;)).append(&quot;\&quot;));\n&quot;);</span>
+<span class="fc bfc" id="L437" title="All 2 branches covered.">			if (!textNode.isBlank()) {</span>
+<span class="fc" id="L438">			    generatedCode.append(tag).append(&quot;.appendChild(document.createTextNode(\&quot;&quot;)</span>
+<span class="fc" id="L439">				    .append(textNode.toString().replace(&quot;\n&quot;, &quot;&quot;).trim().concat(&quot; &quot;)).append(&quot;\&quot;));\n&quot;);</span>
 			}
 
 		    }
 
-<span class="fc" id="L459">		}</span>
+<span class="fc" id="L444">		}</span>
 
 	    }
 
 	}
 
-<span class="fc" id="L465">	return generatedCode.toString();</span>
+<span class="fc" id="L450">	return generatedCode.toString();</span>
     }
 
     /**
@@ -486,9 +471,9 @@ public class ConvertServiceImpl implements ConvertService {
 
     protected boolean isHTMLFileNameCorrect(String htmlFileName) {
 
-<span class="fc" id="L489">	String regex = &quot;^[a-zA-Z0-9._-]+\\.(html)$&quot;;</span>
+<span class="fc" id="L474">	String regex = &quot;^[a-zA-Z0-9._-]+\\.(html)$&quot;;</span>
 
-<span class="fc" id="L491">	return htmlFileName.matches(regex);</span>
+<span class="fc" id="L476">	return htmlFileName.matches(regex);</span>
     }
 
 }
