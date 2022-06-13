@@ -234,7 +234,7 @@ public class ConvertServiceImpl implements ConvertService {
     }
 
     /**
-     * Goes through the Jsoup Elements and converts them to JsElement objects.
+     * Goes through the Jsoup Elements and converts them to JSElement objects.
      *
      * @param element Jsoup Element
      * @return the generated code in JS
@@ -266,11 +266,12 @@ public class ConvertServiceImpl implements ConvertService {
 
 	    JSElement childJsElement = new JSElement(child, jsVariableDeclaration);
 
-	    generatedCode.append(parse(usedTags, childJsElement));
-
 	    // parse this current element
 
-	    String appends = appendChild(childJsElement); // append this current element's children code to parent code
+	    generatedCode.append(parse(usedTags, childJsElement));
+
+	    // append this current element's children code to parent code
+	    String appends = appendChild(childJsElement);
 
 	    if (!appends.equals("")) {
 		generatedCode.append(appends);
@@ -278,8 +279,6 @@ public class ConvertServiceImpl implements ConvertService {
 	}
 	return generatedCode.toString();
     }
-
-//	WITH USED TAGS LIST
 
     /**
      * For this element, it returns the code to append the element to the parent
@@ -311,7 +310,7 @@ public class ConvertServiceImpl implements ConvertService {
 	 * Tag name should not contain _ TODO: Check that
 	 */
 
-	StringBuilder generatedCode = new StringBuilder(jsElement.getJsVariableDeclaration().getKeyword() + " " + tag
+	StringBuilder generatedCode = new StringBuilder(jsElement.getJSVariableDeclaration().getKeyword() + " " + tag
 		+ " = document.createElement(\"" + tag.replace("_", "") + "\");\n");
 
 	// attributes: attributes of the element
@@ -327,9 +326,12 @@ public class ConvertServiceImpl implements ConvertService {
 	return generatedCode.toString();
     }
 
-    /*
-     * TODO: We have to add the update info (date, author,...) everywhere when it is
-     * needed
+    /**
+     * For this element, it returns the code to append the child of type Element or
+     * TextNode
+     *
+     * @param jsElement
+     * @return code to append the child of type Element or TextNode
      */
 
     private String appendChild(JSElement jsElement) {
@@ -399,23 +401,6 @@ public class ConvertServiceImpl implements ConvertService {
 			+ jsElement.getElement().tagName() + " -> " + jsElement.getElement()
 			+ " ->  List of children -> " + jsElement.getElement().children() + "\n" + "---------------"
 			+ "\n");
-
-	/*
-	 *
-	 * if (!jsElement.getElement().tag().isSelfClosing()) {
-	 *
-	 * if (jsElement.getElement().children().size() > 0) {
-	 *
-	 * for (Element child : jsElement.getElement().children()) {
-	 *
-	 * generatedCode.append(jsElement.getElement().tagName()).append(
-	 * ".appendChild(") .append(child.tagName()).append(");\n"); }
-	 *
-	 * }
-	 *
-	 * }
-	 *
-	 */
 
 	// tag name
 	String tag = jsElement.getElement().tagName();

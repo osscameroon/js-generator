@@ -26,7 +26,7 @@ public class JSElement {
 	return element;
     }
 
-    public JSVariableDeclaration getJsVariableDeclaration() {
+    public JSVariableDeclaration getJSVariableDeclaration() {
 
 	return jsVariableDeclaration;
     }
