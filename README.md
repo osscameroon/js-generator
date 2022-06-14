@@ -15,7 +15,7 @@ Sometimes, we forget how to write JavaScript to build dynamic web apps. Even if 
 
 The project is based on [jsoup  library, a Java HTML parser](https://jsoup.org/) / [jsoup GitHub Repository](https://github.com/jhy/jsoup/). It's all about using Nodes to generate JavaScript. 
 
-**Actually, it's just a console program but gradually we will build a Maven/Gradle Library, a Web & Desktop App and a CLI (Command Line Interface) tool translating from HTML to JS.**
+**Actually, there is no release yet, it's just a console program but gradually we will build a Maven/Gradle Library, a Web & Desktop App and a CLI (Command Line Interface) tool translating from HTML to JS.**
 
 # Wiki
 
