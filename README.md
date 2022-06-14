@@ -10,12 +10,12 @@
 
 # About
 
-The goal is to generate JavaScript  from HTML  following the JavaScript DOM structure.
+The goal is to generate JS  from HTML  following the JavaScript DOM structure.
 Sometimes, we forget how to write JavaScript to build dynamic web apps. Even if we know JS, it happens that we don't always have enough time to generate JS from a big HTML code. Thus, the goal of this project is helping developers gaining time by producing JS code as Output based on HTML as Input. This project will be very useful for beginners learning HTML and JavaScript. Also, it will help more experienced developers whenever they want to use JS.
 
 The project is based on [jsoup  library, a Java HTML parser](https://jsoup.org/) / [jsoup GitHub Repository](https://github.com/jhy/jsoup/). It's all about using Nodes to generate JavaScript. 
 
-**Actually, it's just a console program but gradually we will build a Maven/Gradle Library, a Web & Desktop App and a CLI (Command Line Interface) tool translating from HTML to JS.**
+**Actually, there is no release yet, it's just a console program but gradually we will build a Maven/Gradle Library, a Web & Desktop App and a CLI (Command Line Interface) tool translating from HTML to JS.**
 
 # Wiki
 
@@ -28,6 +28,8 @@ https://osscameroon.github.io/js-generator/
 # Example
 
 We invite you to run the [example branch code](https://github.com/osscameroon/js-generator/tree/example) to follow this tutorial.
+
+You are free to copy and paste into [JSFiddle](https://jsfiddle.net/) or just click on the link provided to see the result.
 
 This example gives you a big picture, our [Wiki](https://github.com/osscameroon/js-generator/wiki) provides more explanation on how things work under the hood.
 
