@@ -297,7 +297,7 @@ public class ConvertServiceImpl implements ConvertService {
 		    "\"" + jsElement.getElement().tagName() + "\"" + " is not a valid HTML Element.");
 	}
 
-	// search tag name among used tags
+	// search tag name among used tags in order to give a name that doesn't already exist to the new variable. If the name exists, we add "_" to make difference.
 	usedTags.stream().filter(s -> s.equals(jsElement.getElement().tagName()))
 		.forEach(s -> jsElement.getElement().tagName(jsElement.getElement().tagName() + "_"));
 
