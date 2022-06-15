@@ -13,7 +13,7 @@
 The goal is to generate JS  from HTML  following the JavaScript DOM structure.
 Sometimes, we forget how to write JavaScript to build dynamic web apps. Even if we know JS, it happens that we don't always have enough time to generate JS from a big HTML code. Thus, the goal of this project is helping developers gaining time by producing JS code as Output based on HTML as Input. This project will be very useful for beginners learning HTML and JavaScript. Also, it will help more experienced developers whenever they want to use JS instead of HTML.
 
-The project is based on [jsoup  library, a Java HTML parser](https://jsoup.org/) / [jsoup GitHub Repository](https://github.com/jhy/jsoup/). It's all about using Nodes to generate JavaScript. 
+The project is based on [jsoup  library, a Java HTML parser](https://jsoup.org/) / [jsoup GitHub Repository](https://github.com/jhy/jsoup/). It's all about using [Nodes](https://github.com/jhy/jsoup/blob/master/src/main/java/org/jsoup/nodes/Node.java) (not Node JS) to generate JavaScript. 
 
 **Actually, there is no release yet, it's just a console program but gradually we will build a Maven/Gradle Library, a Web & Desktop App and a CLI (Command Line Interface) tool translating from HTML to JS.**
 
