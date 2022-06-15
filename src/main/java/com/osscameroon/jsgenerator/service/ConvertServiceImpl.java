@@ -76,6 +76,8 @@ public class ConvertServiceImpl implements ConvertService {
 
 	}
 
+        /* Jsoup turns HTML elements into Java Objects */
+
 	Element htmlDoc = Jsoup.parse(content, "", Parser.xmlParser());
 
 	/*
