@@ -2,8 +2,8 @@ GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_
 jsgenerator,com.osscameroon.jsgenerator.exception,HTMLUnknownElementException,19,4,0,0,8,2,4,1,4,1
 jsgenerator,com.osscameroon.jsgenerator.exception,DuplicatedHTMLFileNameException,23,0,0,0,10,0,5,0,5,0
 jsgenerator,com.osscameroon.jsgenerator.exception,NoHTMLCodeException,23,0,0,0,10,0,5,0,5,0
-jsgenerator,com.osscameroon.jsgenerator.exception,HTMLFileNotFoundException,23,0,0,0,10,0,5,0,5,0
 jsgenerator,com.osscameroon.jsgenerator.exception,IncorrectHTMLFileNameException,23,0,0,0,10,0,5,0,5,0
+jsgenerator,com.osscameroon.jsgenerator.exception,HTMLFileNotFoundException,23,0,0,0,10,0,5,0,5,0
 jsgenerator,com.osscameroon.jsgenerator.exception,EmptyHTMLFilesListException,23,0,0,0,10,0,5,0,5,0
 jsgenerator,com.osscameroon.jsgenerator.exception,NoHTMLFileNameException,23,0,0,0,10,0,5,0,5,0
 jsgenerator,com.osscameroon.jsgenerator.util,Constants,37,0,0,0,6,0,3,0,3,0
