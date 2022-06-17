@@ -27,7 +27,7 @@ https://osscameroon.github.io/js-generator/
 
 # Example
 
-We invite you to run the [example branch code](https://github.com/osscameroon/js-generator/tree/example) to follow this tutorial.
+We invite you to work on the [example branch code](https://github.com/osscameroon/js-generator/tree/example) to follow this tutorial.
 
 You are free to copy and paste into [JSFiddle](https://jsfiddle.net/) or just click on the link provided to see the result.
 
