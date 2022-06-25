@@ -13,7 +13,7 @@ public enum ConstantsTest {
     HTML_SRC_DIR_TEST("src/test/resources/htmlFilesInput/"), JS_DEST_DIR_TEST("src/test/resources/jsFilesOutput/");
 
     /**
-     * @param string
+     * @param folder String
      */
     ConstantsTest(String folder) {
 	// TODO Auto-generated constructor stub
@@ -21,7 +21,7 @@ public enum ConstantsTest {
 	this.folder = folder;
     }
 
-    private String folder;
+    private final String folder;
 
     public String getFolder() {
 

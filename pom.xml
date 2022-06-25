@@ -5,7 +5,8 @@
     <artifactId>jsgenerator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jsgenerator</name>
-    <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS</description>
+    <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS
+    </description>
     <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
@@ -13,9 +14,10 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        
+
         <!-- GitHub OAuth token & server : Generating github  gh pages & maven project documents -->
         <github.global.server>github</github.global.server>
+        <!--suppress UnresolvedMavenProperty -->
         <github.global.oauth2Token>${env.MAVEN_SITE_GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
     </properties>
 
@@ -41,7 +43,7 @@
             <url>https://github.com/elroykanye</url>
             <id>elroykanye</id>
         </developer>
-	    
+
         <developer>
             <email>mofirojean@gmail.com</email>
             <name>Jean Mofiro</name>
@@ -50,12 +52,10 @@
         </developer>
 
 
-
     </developers>
 
 
     <dependencies>
-
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -77,12 +77,12 @@
             <version>3.22.0</version>
             <scope>test</scope>
         </dependency>
-	    
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>4.4.0</version>
-	    <scope>test</scope>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -91,137 +91,139 @@
             <version>2.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
-    
-    <build>
-    
-    	<plugins>
-    	
-    		<!-- Generating github  gh pages & maven project documents  -->
-    	
-    		<plugin>
-    			<groupId>org.apache.maven.plugins</groupId>
-    			<artifactId>maven-site-plugin</artifactId>
-    			<version>3.11.0</version>
-    		</plugin>
-    		
-    		<plugin>
-    			      <groupId>com.github.github</groupId>
-				      <artifactId>site-maven-plugin</artifactId>
-				      <version>0.12</version>
-				      <configuration>
-				        <message>Building site for ${project.name} ${project.version}</message>
-				        <server>github</server>
-				      </configuration>
-				      <executions>
-				        <execution>
-				          <goals>
-				            <goal>site</goal>
-				          </goals>
-				          <phase>site</phase>
-				        </execution>
-				      </executions>
-    		</plugin>
-		
-		<!-- Generating jacoco test report for codecov  -->
-		
-		<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-		</plugin>
 
-    	
-    	</plugins>
-    
-    </build>
-    
-    <!-- Useful for GitHub site  -->
-    
-    <reporting>
-    
-    	<plugins>
-    	
-    		  <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-project-info-reports-plugin</artifactId>
-	            <version>3.0.0</version>
-	            <reportSets>
-	                <reportSet>
-	                    <reports>
-	                        <report>index</report>
-	                        <report>licenses</report>
-	                        <report>dependency-info</report>
-	                        <report>ci-management</report>
-	                        <report>dependencies</report>
-	                        <report>dependency-convergence</report>
-	                        <report>dependency-management</report>
-	                        <report>distribution-management</report>
-	                        <report>help</report>
-	                        <report>issue-management</report>
-	                        <report>mailing-lists</report>
-	                        <report>modules</report>
-	                        <report>plugin-management</report>
-	                        <report>plugins</report>
-	                        <report>team</report>
-	                        <report>scm</report>
-	                        <report>summary</report>
-	                        
-	                        
-	                    </reports>
-	                </reportSet>
-	            </reportSets>
-	        </plugin>
-			
-	       <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-javadoc-plugin</artifactId>
-		        <version>3.3.2</version>
-		        
+    <build>
+
+        <plugins>
+
+            <!-- Generating github  gh pages & maven project documents  -->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.11.0</version>
             </plugin>
-    		
-    	
-    	</plugins>
-    	
+
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Building site for ${project.name} ${project.version}</message>
+                    <server>github</server>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generating jacoco test report for codecov  -->
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+
+    </build>
+
+    <!-- Useful for GitHub site  -->
+
+    <reporting>
+
+        <plugins>
+
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>3.3.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>licenses</report>
+                            <report>dependency-info</report>
+                            <report>ci-management</report>
+                            <report>dependencies</report>
+                            <report>dependency-convergence</report>
+                            <report>dependency-management</report>
+                            <report>distribution-management</report>
+                            <report>help</report>
+                            <report>issue-management</report>
+                            <report>mailing-lists</report>
+                            <report>modules</report>
+                            <report>plugin-management</report>
+                            <report>plugins</report>
+                            <report>team</report>
+                            <report>scm</report>
+                            <report>summary</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.4.0</version>
+            </plugin>
+
+
+        </plugins>
+
     </reporting>
-    
+
     <licenses>
-		<license>
-			<name>MIT License</name>
-			<url>http://www.opensource.org/licenses/mit-license.php</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-    
-  <organization>
-		<name>Open Source Society Cameroon</name>
-		<url>https://osscameroon.com/</url>
-	</organization>
-  
-  <issueManagement>
-		<system>GitHub Issues</system>
-		<url>https://github.com/osscameroon/js-generator/issues</url>
-  </issueManagement>
-  
-  <scm>
-		<url>https://github.com/osscameroon/js-generator</url>
-		<connection>scm:git:git@github.com:osscameroon/js-generator.git</connection>
-		<developerConnection>scm:git:git@github.com:osscameroon/js-generator.git</developerConnection>
-  </scm>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Open Source Society Cameroon</name>
+        <url>https://osscameroon.com/</url>
+    </organization>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/osscameroon/js-generator/issues</url>
+    </issueManagement>
+    <scm>
+        <url>https://github.com/osscameroon/js-generator</url>
+        <connection>scm:git:git@github.com:osscameroon/js-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:osscameroon/js-generator.git</developerConnection>
+    </scm>
 
 </project>
