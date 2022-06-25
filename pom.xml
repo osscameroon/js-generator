@@ -225,5 +225,12 @@
         <connection>scm:git:git@github.com:osscameroon/js-generator.git</connection>
         <developerConnection>scm:git:git@github.com:osscameroon/js-generator.git</developerConnection>
     </scm>
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/osscameroon/js-generator</url>
+        </repository>
+    </distributionManagement>
 
 </project>
