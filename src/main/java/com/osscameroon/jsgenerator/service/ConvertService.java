@@ -1,18 +1,12 @@
 package com.osscameroon.jsgenerator.service;
 
-import com.osscameroon.jsgenerator.exception.DuplicatedHTMLFileNameException;
-import com.osscameroon.jsgenerator.exception.EmptyHTMLFilesListException;
-import com.osscameroon.jsgenerator.exception.HTMLFileNotFoundException;
-import com.osscameroon.jsgenerator.exception.IncorrectHTMLFileNameException;
-import com.osscameroon.jsgenerator.exception.NoHTMLCodeException;
-import com.osscameroon.jsgenerator.exception.NoHTMLFileNameException;
+import com.osscameroon.jsgenerator.exception.*;
 
 /**
  * Provides the convertion logic from Html to Js.
  *
  * @author Fanon Jupkwo
  * @author Elroy Kanye
- *
  */
 public interface ConvertService {
 
@@ -21,9 +15,7 @@ public interface ConvertService {
      *
      * @param content the Html string
      * @return a String Object containing Js
-     *
      * @throws NoHTMLCodeException if content is null
-     *
      */
 
     String convert(String content) throws NoHTMLCodeException;
@@ -37,16 +29,13 @@ public interface ConvertService {
      * be created as soon as possible its classpath will contain jsgenerator.
      *
      * @param htmlFileName the Html file name
-     *
-     *
      * @throws NoHTMLFileNameException        if htmlFileName is null
      * @throws IncorrectHTMLFileNameException if htmlFileName is incorrect
      * @throws HTMLFileNotFoundException      if the html file is not found
-     *
      */
 
     void convertHtmlFiletoJsFileFromCommandLineInterface(String htmlFileName)
-	    throws NoHTMLFileNameException, IncorrectHTMLFileNameException, HTMLFileNotFoundException;
+        throws NoHTMLFileNameException, IncorrectHTMLFileNameException, HTMLFileNotFoundException;
 
     /**
      * Converts each Html file already located in
@@ -60,15 +49,14 @@ public interface ConvertService {
      * @throws NoHTMLFileNameException         if args is null
      * @throws EmptyHTMLFilesListException     if args is empty
      * @throws DuplicatedHTMLFileNameException if args contains duplicates
-     *
      */
 
     void convertHtmlFiletoJsFileFromCommandLineInterface(String[] args)
-	    throws NoHTMLFileNameException, EmptyHTMLFilesListException, DuplicatedHTMLFileNameException;
+        throws NoHTMLFileNameException, EmptyHTMLFilesListException, DuplicatedHTMLFileNameException;
 
     /**
      * Converts the Html file to Js file generated in output folder.
-     *
+     * <p>
      * It is similar to
      * {@link com.osscameroon.jsgenerator.service.ConvertService#convertHtmlFiletoJsFileFromCommandLineInterface(String)}
      * but it will be useful for the web API.

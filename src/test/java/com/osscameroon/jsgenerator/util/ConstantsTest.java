@@ -1,12 +1,10 @@
 package com.osscameroon.jsgenerator.util;
 
 /**
- *
  * Provides 2 constants representing the Html input and Js output folders for
  * test environment
  *
  * @author Fanon Jupkwo
- * 
  */
 public enum ConstantsTest {
 
@@ -16,16 +14,16 @@ public enum ConstantsTest {
      * @param string
      */
     ConstantsTest(String folder) {
-	// TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
 
-	this.folder = folder;
+        this.folder = folder;
     }
 
     private String folder;
 
     public String getFolder() {
 
-	return folder;
+        return folder;
     }
 
 }

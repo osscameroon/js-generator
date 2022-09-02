@@ -4,7 +4,6 @@ package com.osscameroon.jsgenerator.util;
  * Provides 2 constants representing the Html input and Js output folders
  *
  * @author Fanon Jupkwo
- *
  */
 public enum Constants {
 
@@ -14,16 +13,16 @@ public enum Constants {
      * @param string
      */
     Constants(String folder) {
-	// TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
 
-	this.folder = folder;
+        this.folder = folder;
     }
 
     private String folder;
 
     public String getFolder() {
 
-	return folder;
+        return folder;
     }
 
 }

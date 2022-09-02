@@ -4,7 +4,6 @@ package com.osscameroon.jsgenerator.model;
  * Provides 2 ways to declare variables in JavaScript: "var" and "let"
  *
  * @author Fanon Jupkwo
- *
  */
 public enum JSVariableDeclaration {
 
@@ -12,7 +11,7 @@ public enum JSVariableDeclaration {
 
     JSVariableDeclaration(String keyword) {
 
-	this.keyword = keyword;
+        this.keyword = keyword;
 
     }
 
@@ -20,7 +19,7 @@ public enum JSVariableDeclaration {
 
     public String getKeyword() {
 
-	return keyword;
+        return keyword;
     }
 
 }

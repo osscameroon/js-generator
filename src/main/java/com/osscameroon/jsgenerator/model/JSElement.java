@@ -6,7 +6,6 @@ import org.jsoup.nodes.Element;
  * Represents a JavaScript Element
  *
  * @author Fanon Jupkwo
- *
  */
 public class JSElement {
 
@@ -16,19 +15,19 @@ public class JSElement {
 
     public JSElement(Element element, JSVariableDeclaration jsVariableDeclaration) {
 
-	this.element = element;
+        this.element = element;
 
-	this.jsVariableDeclaration = jsVariableDeclaration;
+        this.jsVariableDeclaration = jsVariableDeclaration;
     }
 
     public Element getElement() {
 
-	return element;
+        return element;
     }
 
     public JSVariableDeclaration getJSVariableDeclaration() {
 
-	return jsVariableDeclaration;
+        return jsVariableDeclaration;
     }
 
 }
