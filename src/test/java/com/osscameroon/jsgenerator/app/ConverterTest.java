@@ -5,14 +5,21 @@ import com.osscameroon.jsgenerator.app.internal.TypeBasedNameGenerationStrategy;
 import lombok.NonNull;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.reset;
 
 /**
  * ConverterTest
@@ -20,12 +27,16 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Salathiel @t salathiel@genese.name
  * @since Sep 02, 2022 @t 23:50:25
  */
+@RunWith(MockitoJUnitRunner.class)
 public class ConverterTest {
     private Converter converter;
+    @Mock
+    private Document document;
 
     @Before
     public void before() {
         converter = new ConverterDefault(new TypeBasedNameGenerationStrategy());
+        reset(document);
     }
 
     @Test
@@ -135,6 +146,112 @@ public class ConverterTest {
             "document.appendChild(div_001);");
     }
 
+    @Test
+    public void produceValidCodeWhenGivenPathToAFile() throws IOException {
+        final var outputStream = new ByteArrayOutputStream();
+        doReturn(outputStream).when(document).getOutputStream();
+        doReturn(getClass().getClassLoader().getResourceAsStream(
+            "htmlFilesInput/sample.html")).when(document).getInputStream();
+        new ConverterDefault(new TypeBasedNameGenerationStrategy()).convert(document);
+
+        assertThat(outputAsStrippedLines(outputStream)).containsExactly(
+            "let html_000 = document.createElement('html');",
+            "let text_000 = document.createTextNode(`    `);",
+            "html_000.appendChild(text_000);",
+            "let head_000 = document.createElement('head');",
+            "let text_001 = document.createTextNode(`        `);",
+            "head_000.appendChild(text_001);",
+            "let meta_000 = document.createElement('meta');",
+            "meta_000.setAttribute(`charset`, `utf-8`);",
+            "let text_002 = document.createTextNode(`        `);",
+            "meta_000.appendChild(text_002);",
+            "let title_000 = document.createElement('title');",
+            "let text_003 = document.createTextNode(`Sample`);",
+            "title_000.appendChild(text_003);",
+            "meta_000.appendChild(title_000);",
+            "let text_004 = document.createTextNode(`        `);",
+            "meta_000.appendChild(text_004);",
+            "let link_000 = document.createElement('link');",
+            "link_000.setAttribute(`rel`, `stylesheet`);",
+            "link_000.setAttribute(`href`, ``);",
+            "let text_005 = document.createTextNode(`    `);",
+            "link_000.appendChild(text_005);",
+            "meta_000.appendChild(link_000);",
+            "head_000.appendChild(meta_000);",
+            "html_000.appendChild(head_000);",
+            "let text_006 = document.createTextNode(`    `);",
+            "html_000.appendChild(text_006);",
+            "let body_000 = document.createElement('body');",
+            "let text_007 = document.createTextNode(`        `);",
+            "body_000.appendChild(text_007);",
+            "let div_000 = document.createElement('div');",
+            "div_000.setAttribute(`id`, `container`);",
+            "let text_008 = document.createTextNode(`            `);",
+            "div_000.appendChild(text_008);",
+            "let div_001 = document.createElement('div');",
+            "div_001.setAttribute(`id`, `header`);",
+            "let text_009 = document.createTextNode(`                `);",
+            "div_001.appendChild(text_009);",
+            "let h1_000 = document.createElement('h1');",
+            "let text_010 = document.createTextNode(`Sample`);",
+            "h1_000.appendChild(text_010);",
+            "div_001.appendChild(h1_000);",
+            "let text_011 = document.createTextNode(`                `);",
+            "div_001.appendChild(text_011);",
+            "let img_000 = document.createElement('img');",
+            "img_000.setAttribute(`src`, `kanye.jpg`);",
+            "img_000.setAttribute(`alt`, `kanye`);",
+            "let text_012 = document.createTextNode(`            `);",
+            "img_000.appendChild(text_012);",
+            "div_001.appendChild(img_000);",
+            "div_000.appendChild(div_001);",
+            "let text_013 = document.createTextNode(`            `);",
+            "div_000.appendChild(text_013);",
+            "let div_002 = document.createElement('div');",
+            "div_002.setAttribute(`id`, `main`);",
+            "let text_014 = document.createTextNode(`                `);",
+            "div_002.appendChild(text_014);",
+            "let h2_000 = document.createElement('h2');",
+            "let text_015 = document.createTextNode(`Main`);",
+            "h2_000.appendChild(text_015);",
+            "div_002.appendChild(h2_000);",
+            "let text_016 = document.createTextNode(`                `);",
+            "div_002.appendChild(text_016);",
+            "let p_000 = document.createElement('p');",
+            "let text_017 = document.createTextNode(`This is the main content.`);",
+            "p_000.appendChild(text_017);",
+            "div_002.appendChild(p_000);",
+            "let text_018 = document.createTextNode(`                `);",
+            "div_002.appendChild(text_018);",
+            "let img_001 = document.createElement('img');",
+            "img_001.setAttribute(`src`, ``);",
+            "img_001.setAttribute(`alt`, ``);",
+            "let text_019 = document.createTextNode(`            `);",
+            "img_001.appendChild(text_019);",
+            "div_002.appendChild(img_001);",
+            "div_000.appendChild(div_002);",
+            "let text_020 = document.createTextNode(`            `);",
+            "div_000.appendChild(text_020);",
+            "let div_003 = document.createElement('div');",
+            "div_003.setAttribute(`id`, `footer`);",
+            "let text_021 = document.createTextNode(`                `);",
+            "div_003.appendChild(text_021);",
+            "let p_001 = document.createElement('p');",
+            "let text_022 = document.createTextNode(`Copyright © 2019`);",
+            "p_001.appendChild(text_022);",
+            "div_003.appendChild(p_001);",
+            "let text_023 = document.createTextNode(`            `);",
+            "div_003.appendChild(text_023);",
+            "div_000.appendChild(div_003);",
+            "let text_024 = document.createTextNode(`        `);",
+            "div_000.appendChild(text_024);",
+            "body_000.appendChild(div_000);",
+            "let text_025 = document.createTextNode(`    `);",
+            "body_000.appendChild(text_025);",
+            "html_000.appendChild(body_000);",
+            "document.appendChild(html_000);");
+    }
+
     /**
      * A helper method to work with language-native String and array of data structures.
      *
@@ -148,8 +265,12 @@ public class ConverterTest {
 
         converter.convert(inputStream, outputStream);
 
+        return outputAsStrippedLines(outputStream);
+    }
+
+    private String[] outputAsStrippedLines(OutputStream outputStream) {
         return outputStream
-            .toString(UTF_8)
+            .toString()
             .lines()
             .map(String::strip)
             .filter(line -> !line.isEmpty())
