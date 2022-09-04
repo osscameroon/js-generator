@@ -8,6 +8,7 @@
     <modules>
         <module>jsgenerator-core</module>
         <module>jsgenerator-ante</module>
+        <module>jsgenerator-test</module>
     </modules>
 
     <parent>
@@ -43,12 +44,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -79,6 +74,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M3</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.osscameroon</groupId>
+                <artifactId>jsgenerator-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.osscameroon</groupId>
+                <artifactId>jsgenerator-ante</artifactId>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,5 +1,7 @@
-package com.osscameroon.jsgenerator.core;
+package com.osscameroon.jsgenerator.test.core;
 
+import com.osscameroon.jsgenerator.core.Converter;
+import com.osscameroon.jsgenerator.core.Flow;
 import com.osscameroon.jsgenerator.core.internal.ConverterDefault;
 import com.osscameroon.jsgenerator.core.internal.TypeBasedNameGenerationStrategy;
 import lombok.NonNull;

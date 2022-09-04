@@ -1,7 +1,8 @@
-package com.osscameroon.jsgenerator.ante.service;
+package com.osscameroon.jsgenerator.test.ante.service;
 
 import com.osscameroon.jsgenerator.ante.exception.HTMLUnknownElementException;
 import com.osscameroon.jsgenerator.ante.model.JSVariableDeclaration;
+import com.osscameroon.jsgenerator.ante.service.ConvertService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +15,8 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.osscameroon.jsgenerator.ante.util.ConstantsTest.HTML_SRC_DIR_TEST;
-import static com.osscameroon.jsgenerator.ante.util.ConstantsTest.JS_DEST_DIR_TEST;
+import static com.osscameroon.jsgenerator.test.ante.util.ConstantsTest.HTML_SRC_DIR_TEST;
+import static com.osscameroon.jsgenerator.test.ante.util.ConstantsTest.JS_DEST_DIR_TEST;
 import static java.nio.file.Files.walk;
 import static java.util.Comparator.reverseOrder;
 import static java.util.stream.Collectors.toUnmodifiableList;
@@ -23,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Provide methods to test {@link ConvertServiceImpl} methods.
+ * Provide methods to test {@link com.osscameroon.jsgenerator.ante.service.ConvertServiceImpl} methods.
  *
  * @author Fanon Jupkwo
  */
@@ -215,7 +216,7 @@ public class ConvertServiceTest {
 
         System.out.println(convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""));
 
-        Assertions.assertThat(convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml)  .replace("\n", ""))
+        Assertions.assertThat(convertWithVARService.convert(selfClosingTagInputWithoutSlashHtml).replace("\n", ""))
             .isEqualTo(selfClosingTagInputWithoutSlashJs);
 
         logger.log(Level.INFO, " **** ***********************  **** ");

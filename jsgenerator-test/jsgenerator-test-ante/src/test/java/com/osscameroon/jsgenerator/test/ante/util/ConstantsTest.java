@@ -1,4 +1,4 @@
-package com.osscameroon.jsgenerator.ante.util;
+package com.osscameroon.jsgenerator.test.ante.util;
 
 /**
  * Provides 2 constants representing the Html input and Js output folders for

@@ -1,6 +1,7 @@
-package com.osscameroon.jsgenerator.ante.service;
+package com.osscameroon.jsgenerator.test.ante.service;
 
-import com.osscameroon.jsgenerator.ante.util.ConstantsTest;
+import com.osscameroon.jsgenerator.ante.service.ConvertServiceImpl;
+import com.osscameroon.jsgenerator.test.ante.util.ConstantsTest;
 import com.osscameroon.jsgenerator.ante.exception.HTMLFileNotFoundException;
 import com.osscameroon.jsgenerator.ante.exception.IncorrectHTMLFileNameException;
 import com.osscameroon.jsgenerator.ante.exception.NoHTMLFileNameException;
@@ -11,11 +12,11 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.osscameroon.jsgenerator.ante.util.ConstantsTest.HTML_SRC_DIR_TEST;
-import static com.osscameroon.jsgenerator.ante.util.ConstantsTest.JS_DEST_DIR_TEST;
+import static com.osscameroon.jsgenerator.test.ante.util.ConstantsTest.HTML_SRC_DIR_TEST;
+import static com.osscameroon.jsgenerator.test.ante.util.ConstantsTest.JS_DEST_DIR_TEST;
 
 /**
- * Provides an implementation of {@link ConvertService} interface for test
+ * Provides an implementation of {@link com.osscameroon.jsgenerator.ante.service.ConvertService} interface for test
  * environment. This class extends {@link ConvertServiceImpl}
  *
  * @author Fanon Jupkwo
