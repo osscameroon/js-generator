@@ -26,11 +26,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  *
  * @author Fanon Jupkwo
  */
-public class TestingConvertService {
+public class ConvertServiceTest {
 
     // Parameterized tests
 
-    private static final Logger logger = Logger.getLogger(TestingConvertService.class.getName());
+    private static final Logger logger = Logger.getLogger(ConvertServiceTest.class.getName());
 
     File inputFile;
 
