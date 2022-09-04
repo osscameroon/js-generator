@@ -3,13 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.osscameroon</groupId>
     <artifactId>jsgenerator</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+    <modules>
+        <module>jsgenerator-core</module>
+        <module>jsgenerator-ante</module>
+    </modules>
     <name>jsgenerator</name>
     <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS
     </description>
     <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11</maven.compiler.source>
