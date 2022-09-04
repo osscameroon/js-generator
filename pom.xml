@@ -20,32 +20,6 @@
         <github.global.oauth2Token>${env.MAVEN_SITE_GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
     </properties>
 
-    <developers>
-        <developer>
-            <email>wisdomnji@gmail.com</email>
-            <name>Sherlock Wisdom</name>
-            <url>https://github.com/sherlockwisdom</url>
-            <id>sherlockwisdom</id>
-        </developer>
-        <developer>
-            <email>jupsfan@gmail.com</email>
-            <name>Fanon Jupkwo</name>
-            <url>https://github.com/FanJups</url>
-            <id>FanJups</id>
-        </developer>
-        <developer>
-            <email>elroykanye@gmail.com</email>
-            <name>Elroy Kanye</name>
-            <url>https://github.com/elroykanye</url>
-            <id>elroykanye</id>
-        </developer>
-        <developer>
-            <email>mofirojean@gmail.com</email>
-            <name>Jean Mofiro</name>
-            <url>https://github.com/mofirojean</url>
-            <id>mofirojean</id>
-        </developer>
-    </developers>
     <dependencies>
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -89,6 +63,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <!-- Generating github  gh pages & maven project documents  -->
@@ -134,7 +109,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -156,6 +130,7 @@
             </plugin>
         </plugins>
     </build>
+
     <!-- Useful for GitHub site  -->
     <reporting>
         <plugins>
@@ -183,8 +158,6 @@
                             <report>team</report>
                             <report>scm</report>
                             <report>summary</report>
-
-
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -196,6 +169,7 @@
             </plugin>
         </plugins>
     </reporting>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -203,14 +177,50 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <organization>
         <name>Open Source Society Cameroon</name>
         <url>https://osscameroon.com/</url>
     </organization>
+
+    <developers>
+        <developer>
+            <email>wisdomnji@gmail.com</email>
+            <name>Sherlock Wisdom</name>
+            <url>https://github.com/sherlockwisdom</url>
+            <id>sherlockwisdom</id>
+        </developer>
+        <developer>
+            <email>jupsfan@gmail.com</email>
+            <name>Fanon Jupkwo</name>
+            <url>https://github.com/FanJups</url>
+            <id>FanJups</id>
+        </developer>
+        <developer>
+            <email>elroykanye@gmail.com</email>
+            <name>Elroy Kanye</name>
+            <url>https://github.com/elroykanye</url>
+            <id>elroykanye</id>
+        </developer>
+        <developer>
+            <email>mofirojean@gmail.com</email>
+            <name>Jean Mofiro</name>
+            <url>https://github.com/mofirojean</url>
+            <id>mofirojean</id>
+        </developer>
+        <developer>
+            <email>salathielgenese@gmail.com</email>
+            <name>Salathiel Genese YIMGA YIMGA</name>
+            <url>https://github.com/SalathielGenese</url>
+            <id>Salathiel Genese</id>
+        </developer>
+    </developers>
+
     <issueManagement>
         <system>GitHub Issues</system>
         <url>https://github.com/osscameroon/js-generator/issues</url>
     </issueManagement>
+
     <scm>
         <url>https://github.com/osscameroon/js-generator</url>
         <connection>scm:git:git@github.com:osscameroon/js-generator.git</connection>
