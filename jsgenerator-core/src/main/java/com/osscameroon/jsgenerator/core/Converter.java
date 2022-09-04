@@ -1,5 +1,6 @@
 package com.osscameroon.jsgenerator.core;
 
+import com.osscameroon.jsgenerator.core.internal.ConverterDefault;
 import lombok.NonNull;
 
 import java.io.InputStream;
@@ -17,5 +18,9 @@ public interface Converter {
 
     default void convert(@NonNull final Flow flow) {
         convert(flow.getInputStream(), flow.getOutputStream());
+    }
+
+    static Converter of(@NonNull final NameGenerationStrategy nameGenerationStrategy) {
+        return new ConverterDefault(nameGenerationStrategy);
     }
 }

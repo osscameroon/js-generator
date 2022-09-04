@@ -2,8 +2,7 @@ package com.osscameroon.jsgenerator.test.core;
 
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.Flow;
-import com.osscameroon.jsgenerator.core.internal.ConverterDefault;
-import com.osscameroon.jsgenerator.core.internal.TypeBasedNameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.NameGenerationStrategy;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.reset;
 
 /**
  * ConverterTest
@@ -32,13 +30,10 @@ import static org.mockito.Mockito.reset;
 @ExtendWith(MockitoExtension.class)
 public class ConverterTest {
     private Converter converter;
-    @Mock
-    private Flow flow;
 
     @BeforeEach
     public void before() {
-        converter = new ConverterDefault(new TypeBasedNameGenerationStrategy());
-        reset(flow);
+        converter = Converter.of(NameGenerationStrategy.ofTypeBased());
     }
 
     @Test
@@ -149,12 +144,12 @@ public class ConverterTest {
     }
 
     @Test
-    public void produceValidCodeWhenGivenPathToAFile() throws IOException {
+    public void produceValidCodeWhenGivenPathToAFile(@Mock final Flow flow) throws IOException {
         final var outputStream = new ByteArrayOutputStream();
         doReturn(outputStream).when(flow).getOutputStream();
         doReturn(getClass().getClassLoader().getResourceAsStream(
             "htmlFilesInput/sample.html")).when(flow).getInputStream();
-        new ConverterDefault(new TypeBasedNameGenerationStrategy()).convert(flow);
+        Converter.of(NameGenerationStrategy.ofTypeBased()).convert(flow);
 
         assertThat(outputAsStrippedLines(outputStream)).containsExactly(
             "let html_000 = document.createElement('html');",

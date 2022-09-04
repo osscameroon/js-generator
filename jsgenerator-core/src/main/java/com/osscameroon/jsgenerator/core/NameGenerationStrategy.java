@@ -1,5 +1,7 @@
 package com.osscameroon.jsgenerator.core;
 
+import com.osscameroon.jsgenerator.core.internal.RandomNameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.internal.TypeBasedNameGenerationStrategy;
 import lombok.NonNull;
 
 /**
@@ -11,4 +13,12 @@ import lombok.NonNull;
 @FunctionalInterface
 public interface NameGenerationStrategy {
     String nextName(@NonNull String type);
+
+    static NameGenerationStrategy ofRandom() {
+        return new RandomNameGenerationStrategy();
+    }
+
+    static NameGenerationStrategy ofTypeBased() {
+        return new TypeBasedNameGenerationStrategy();
+    }
 }
