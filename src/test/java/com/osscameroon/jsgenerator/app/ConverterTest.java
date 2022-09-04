@@ -3,11 +3,11 @@ package com.osscameroon.jsgenerator.app;
 import com.osscameroon.jsgenerator.app.internal.ConverterDefault;
 import com.osscameroon.jsgenerator.app.internal.TypeBasedNameGenerationStrategy;
 import lombok.NonNull;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,13 +27,13 @@ import static org.mockito.Mockito.reset;
  * @author Salathiel @t salathiel@genese.name
  * @since Sep 02, 2022 @t 23:50:25
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ConverterTest {
     private Converter converter;
     @Mock
     private Flow flow;
 
-    @Before
+    @BeforeEach
     public void before() {
         converter = new ConverterDefault(new TypeBasedNameGenerationStrategy());
         reset(flow);
