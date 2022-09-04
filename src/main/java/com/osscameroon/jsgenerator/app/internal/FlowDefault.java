@@ -1,6 +1,6 @@
 package com.osscameroon.jsgenerator.app.internal;
 
-import com.osscameroon.jsgenerator.app.Document;
+import com.osscameroon.jsgenerator.app.Flow;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ import java.io.OutputStream;
  */
 @Getter
 @AllArgsConstructor
-public class DocumentDefault implements Document {
+public class FlowDefault implements Flow {
     @NonNull
     private OutputStream outputStream;
     @NonNull

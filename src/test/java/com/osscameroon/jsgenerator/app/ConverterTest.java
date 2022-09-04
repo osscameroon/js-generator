@@ -31,12 +31,12 @@ import static org.mockito.Mockito.reset;
 public class ConverterTest {
     private Converter converter;
     @Mock
-    private Document document;
+    private Flow flow;
 
     @Before
     public void before() {
         converter = new ConverterDefault(new TypeBasedNameGenerationStrategy());
-        reset(document);
+        reset(flow);
     }
 
     @Test
@@ -149,10 +149,10 @@ public class ConverterTest {
     @Test
     public void produceValidCodeWhenGivenPathToAFile() throws IOException {
         final var outputStream = new ByteArrayOutputStream();
-        doReturn(outputStream).when(document).getOutputStream();
+        doReturn(outputStream).when(flow).getOutputStream();
         doReturn(getClass().getClassLoader().getResourceAsStream(
-            "htmlFilesInput/sample.html")).when(document).getInputStream();
-        new ConverterDefault(new TypeBasedNameGenerationStrategy()).convert(document);
+            "htmlFilesInput/sample.html")).when(flow).getInputStream();
+        new ConverterDefault(new TypeBasedNameGenerationStrategy()).convert(flow);
 
         assertThat(outputAsStrippedLines(outputStream)).containsExactly(
             "let html_000 = document.createElement('html');",

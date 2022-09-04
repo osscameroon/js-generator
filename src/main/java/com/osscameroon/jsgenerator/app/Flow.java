@@ -1,6 +1,6 @@
 package com.osscameroon.jsgenerator.app;
 
-import com.osscameroon.jsgenerator.app.internal.DocumentDefault;
+import com.osscameroon.jsgenerator.app.internal.FlowDefault;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 
@@ -18,12 +18,12 @@ import static java.nio.file.Paths.get;
 import static java.util.Collections.unmodifiableList;
 
 /**
- * Document
+ * Flow
  *
  * @author Salathiel @t salathiel@genese.name
  * @since Sep 02, 2022 @t 22:23:02
  */
-public interface Document {
+public interface Flow {
     @NonNull
     OutputStream getOutputStream();
 
@@ -31,23 +31,23 @@ public interface Document {
     InputStream getInputStream();
 
     @NonNull
-    static List<Document> from(@NonNull final Configuration configuration) {
+    static List<Flow> from(@NonNull final Configuration configuration) {
         return from(configuration, new String[0]);
     }
 
     @NonNull
-    static List<Document> from(@NonNull final Configuration configuration, @NonNull String[] arguments) {
-        final ArrayList<Document> documents = new ArrayList<>();
+    static List<Flow> from(@NonNull final Configuration configuration, @NonNull String[] arguments) {
+        final ArrayList<Flow> flows = new ArrayList<>();
         final var output = configuration.getOutput();
         final var input = configuration.getInput();
 
         for (var i = 0; i < arguments.length; i++) {
-            documents.add(new DocumentDefault(
+            flows.add(new FlowDefault(
                 resolveOutputStream(output, input, arguments[i], i),
                 resolveInputStream(input, arguments[i])));
         }
 
-        return unmodifiableList(documents);
+        return unmodifiableList(flows);
     }
 
     @SneakyThrows

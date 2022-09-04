@@ -1,6 +1,5 @@
 package com.osscameroon.jsgenerator.app;
 
-import com.osscameroon.jsgenerator.app.Document;
 import lombok.NonNull;
 
 import java.io.InputStream;
@@ -16,7 +15,7 @@ import java.io.OutputStream;
 public interface Converter {
     void convert(@NonNull final InputStream inputStream, @NonNull final OutputStream outputStream);
 
-    default void convert(@NonNull final Document document) {
-        convert(document.getInputStream(), document.getOutputStream());
+    default void convert(@NonNull final Flow flow) {
+        convert(flow.getInputStream(), flow.getOutputStream());
     }
 }
