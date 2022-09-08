@@ -9,6 +9,7 @@
         <module>jsgenerator-core</module>
         <module>jsgenerator-ante</module>
         <module>jsgenerator-test</module>
+        <module>jsgenerator-cli</module>
     </modules>
 
     <parent>
@@ -25,11 +26,13 @@
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>
 
+        <lomkok.version>1.18.24</lomkok.version>
+        <picocli.version>4.6.3</picocli.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <lomkok.version>1.18.24</lomkok.version>
         <!-- GitHub OAuth token & server : Generating github  gh pages & maven project documents -->
         <github.global.server>github</github.global.server>
         <github.global.oauth2Token>${env.MAVEN_SITE_GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
@@ -64,6 +67,11 @@
                 <artifactId>jsoup</artifactId>
                 <version>1.14.3</version>
             </dependency>
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>${picocli.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -91,28 +99,19 @@
 
     <build>
         <plugins>
-            <!-- Generating github  gh pages & maven project documents  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.11.0</version>
-            </plugin>
-            <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <version>0.12</version>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <message>Building site for ${project.name} ${project.version}</message>
-                    <server>github</server>
+                    <release>${maven.compiler.source}</release>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>site</phase>
-                    </execution>
-                </executions>
             </plugin>
             <!-- Generating jacoco test report for codecov  -->
             <plugin>
@@ -136,21 +135,30 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>${maven.compiler.source}</release>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
             </plugin>
+            <!-- Generating github gh pages & maven project documents  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.11.0</version>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.12</version>
+                <configuration>
+                    <message>Building site for ${project.name} ${project.version}</message>
+                    <server>github</server>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
