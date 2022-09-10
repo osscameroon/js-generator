@@ -1,3 +1,5 @@
+*.jsgenerator.js
+
 # Compiled class file
 *.class
 
