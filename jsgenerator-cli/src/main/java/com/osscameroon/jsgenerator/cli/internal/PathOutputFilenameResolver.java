@@ -17,6 +17,7 @@ import static java.lang.String.valueOf;
 public class PathOutputFilenameResolver implements OutputFilenameResolver {
     @Override
     public String resolve(@NonNull String template, @NonNull Map<String, Object> container) {
+        System.out.printf("template=%s, container=%s%n", template, container);
         return template
             .replaceAll(format("\\{\\{\\s*%s\\s*}}", ORIGINAL_DIRECTORY), valueOf(container.get(ORIGINAL_DIRECTORY)))
             .replaceAll(format("\\{\\{\\s*%s\\s*}}", ORIGINAL_EXTENSION), valueOf(container.get(ORIGINAL_EXTENSION)))

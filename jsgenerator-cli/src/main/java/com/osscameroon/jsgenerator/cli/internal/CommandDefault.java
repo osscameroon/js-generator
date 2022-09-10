@@ -148,6 +148,7 @@ public class CommandDefault implements Command, Valid {
                 .replace("^.*\\.(.*)$", "$1"),
             ORIGINAL_DIRECTORY, path.getName(nameCount - 2).toString(),
             ORIGINAL_BASENAME, path.getName(nameCount - 1).toString(),
+            ORIGINAL, path.toString(),
             EXTENSION, extension
         ));
         final var outputPath = Path.of(outputPathname);
