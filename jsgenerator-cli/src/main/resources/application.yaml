@@ -1,0 +1,6 @@
+logging:
+  level:
+    root: OFF
+spring:
+  main:
+    banner-mode: off
