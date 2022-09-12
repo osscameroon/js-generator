@@ -74,7 +74,7 @@ Translating files, stdin or inline from HTML to JS
 
 # Stack
 
-+ Java 11
++ Java 11 (or GraalVM JDK 11, for native CLI client)
 + Maven 3
 + Spring 5.3.22
 + Spring Boot 2.7.3
@@ -91,9 +91,12 @@ cd js-generator
 # 3. Tests & Build
 mvn clean package
 
-# 4. Browse through code
-# 5. Run CLI with --help and play with it
-# 6. Fork the project, build, test, open a pull request
+# 4. Build Native CLI (Requires GraalVM JDK 11)
+./cli-build.sh # if provided, first argument will be the file name (useful for version tagging) 
+
+# 5. Browse through code
+# 6. Run CLI with --help and play with it
+# 7. Fork the project, build, test, open a pull request
 ```
 
 Hello World, all your contributions are welcome! Don't hesitate to open an issue on this repository and/or create a pull
