@@ -10,6 +10,7 @@
         <module>jsgenerator-ante</module>
         <module>jsgenerator-test</module>
         <module>jsgenerator-cli</module>
+        <module>jsgenerator-api</module>
     </modules>
 
     <parent>
