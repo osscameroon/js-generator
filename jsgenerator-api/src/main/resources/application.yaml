@@ -1,0 +1,15 @@
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+spring:
+  security:
+    user:
+      name: jsgenerator
+      roles: ACTUATOR
+  application:
+    name: jsgenerator-api
