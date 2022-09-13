@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.boot.SpringApplication.run;
@@ -21,6 +19,7 @@ import static org.springframework.boot.actuate.autoconfigure.security.servlet.En
 @SpringBootApplication
 public class JsGeneratorApi {
     public final static String ACTUATOR_ROLE = "ACTUATOR";
+
     @Bean
     public SecurityFilterChain securityFilterChain(
         @Value("${management.endpoints.web.base-path:/actuator}") final String actuatorBasePath,
@@ -39,16 +38,5 @@ public class JsGeneratorApi {
     public static void main(String[] args) {
         //noinspection resource
         run(JsGeneratorApi.class, args);
-    }
-
-    @GetMapping("hi")
-    @PreAuthorize("hasRole('HI')")
-    public String sayHi() {
-        return "Hi";
-    }
-
-    @GetMapping("nigga")
-    public String sayNigga() {
-        return "Nigga";
     }
 }
