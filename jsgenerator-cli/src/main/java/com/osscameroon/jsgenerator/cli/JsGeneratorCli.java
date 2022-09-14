@@ -2,6 +2,7 @@ package com.osscameroon.jsgenerator.cli;
 
 import com.osscameroon.jsgenerator.cli.internal.CommandDefault;
 import com.osscameroon.jsgenerator.core.Converter;
+import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringBootConfiguration;
@@ -26,18 +27,18 @@ public class JsGeneratorCli {
     }
 
     @Bean
-    public OutputFilenameResolver pathOutputFilenameResolver() {
-        return OutputFilenameResolver.ofPath();
+    public OutputStreamResolver pathOutputFilenameResolver() {
+        return OutputStreamResolver.ofPath();
     }
 
     @Bean
-    public OutputFilenameResolver stdinOutputFilenameResolver() {
-        return OutputFilenameResolver.ofStdin();
+    public OutputStreamResolver stdinOutputFilenameResolver() {
+        return OutputStreamResolver.ofStdin();
     }
 
     @Bean
-    public OutputFilenameResolver inlineOutputFilenameResolver() {
-        return OutputFilenameResolver.ofInline();
+    public OutputStreamResolver inlineOutputFilenameResolver() {
+        return OutputStreamResolver.ofInline();
     }
 
     @Bean
@@ -52,13 +53,13 @@ public class JsGeneratorCli {
 
     @Bean
     public Command command(final Converter converter,
-                           final OutputFilenameResolver pathOutputFilenameResolver,
-                           final OutputFilenameResolver stdinOutputFilenameResolver,
-                           final OutputFilenameResolver inlineOutputFilenameResolver) {
+                           final OutputStreamResolver pathOutputStreamResolver,
+                           final OutputStreamResolver stdinOutputStreamResolver,
+                           final OutputStreamResolver inlineOutputStreamResolver) {
         return new CommandDefault(
-            inlineOutputFilenameResolver,
-            stdinOutputFilenameResolver,
-            pathOutputFilenameResolver,
+            inlineOutputStreamResolver,
+            stdinOutputStreamResolver,
+            pathOutputStreamResolver,
             converter);
     }
 }

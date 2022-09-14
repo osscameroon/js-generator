@@ -1,7 +1,7 @@
 package com.osscameroon.jsgenerator.cli.internal;
 
 import com.osscameroon.jsgenerator.cli.Command;
-import com.osscameroon.jsgenerator.cli.OutputFilenameResolver;
+import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import com.osscameroon.jsgenerator.cli.Valid;
 import com.osscameroon.jsgenerator.core.Converter;
 import lombok.Data;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.osscameroon.jsgenerator.cli.OutputFilenameResolver.*;
+import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
@@ -37,9 +37,9 @@ import static java.util.stream.Collectors.toList;
     mixinStandardHelpOptions = true,
     description = "Translating files, stdin or inline from HTML to JS")
 public class CommandDefault implements Command, Valid {
-    private final OutputFilenameResolver inlineFilenameResolver;
-    private final OutputFilenameResolver stdinFilenameResolver;
-    private final OutputFilenameResolver pathFilenameResolver;
+    private final OutputStreamResolver inlineFilenameResolver;
+    private final OutputStreamResolver stdinFilenameResolver;
+    private final OutputStreamResolver pathFilenameResolver;
     private final Converter converter;
 
     @Option(names = {"-t", "--tty"}, description = "output to stdin, not files")
