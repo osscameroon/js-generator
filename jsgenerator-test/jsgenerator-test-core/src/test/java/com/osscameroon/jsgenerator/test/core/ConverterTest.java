@@ -1,20 +1,21 @@
 package com.osscameroon.jsgenerator.test.core;
 
 import com.osscameroon.jsgenerator.core.Converter;
-import com.osscameroon.jsgenerator.core.NameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
 
 /**
  * ConverterTest
@@ -28,7 +29,7 @@ public class ConverterTest {
 
     @BeforeEach
     public void before() {
-        converter = Converter.of(NameGenerationStrategy.ofTypeBased());
+        converter = Converter.of(VariableNameStrategy.ofTypeBased());
     }
 
     @Test
@@ -145,7 +146,7 @@ public class ConverterTest {
             .getResourceAsStream("htmlFilesInput/sample.html");
 
         assertThat(inputStream).isNotNull();
-        Converter.of(NameGenerationStrategy.ofTypeBased()).convert(inputStream, outputStream);
+        Converter.of(VariableNameStrategy.ofTypeBased()).convert(inputStream, outputStream);
 
         assertThat(outputAsStrippedLines(outputStream)).containsExactly(
             "let html_000 = document.createElement('html');",

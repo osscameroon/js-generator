@@ -1,6 +1,6 @@
 package com.osscameroon.jsgenerator.core.internal;
 
-import com.osscameroon.jsgenerator.core.NameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import com.osscameroon.jsgenerator.core.Converter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -27,7 +27,7 @@ public class ConverterDefault implements Converter {
         "autoplay", "checked", "controls", "default", "defer", "disabled", "formnovalidate", "ismap", "itemscope",
         "loop", "multiple", "muted", "nomodule", "novalidate", "open", "playsinline", "readonly", "required",
         "reversed", "selected", "truespeed", "contenteditable");
-    private final NameGenerationStrategy nameGenerationStrategy;
+    private final VariableNameStrategy variableNameStrategy;
 
     @Override
     @SneakyThrows
@@ -70,21 +70,21 @@ public class ConverterDefault implements Converter {
     }
 
     private void visit(Writer writer, String parent, Comment comment) throws IOException {
-        final var variable = nameGenerationStrategy.nextName("comment");
+        final var variable = variableNameStrategy.nextName("comment");
 
         writer.write(format("\r\nlet %s = document.createComment(`%s`);\r\n", variable, comment.getData()));
         writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
     }
 
     private void visit(Writer writer, String parent, TextNode textNode) throws IOException {
-        final var variable = nameGenerationStrategy.nextName("text");
+        final var variable = variableNameStrategy.nextName("text");
 
         writer.write(format("let %s = document.createTextNode(`%s`);\r\n", variable, textNode.getWholeText()));
         writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
     }
 
     private void visit(Writer writer, String parent, Element element) throws IOException {
-        final var variable = nameGenerationStrategy.nextName(element.tagName());
+        final var variable = variableNameStrategy.nextName(element.tagName());
 
         writer.write(format("\r\nlet %s = document.createElement('%s');\r\n", variable, element.tagName()));
         visit(writer, variable, element.attributes());
@@ -107,7 +107,7 @@ public class ConverterDefault implements Converter {
             .replaceAll("`", "\\\\`");
         // FIXME: Will be quirky without tokenizing script code but then, it doesn't matter as it could be
         //        TypeScript or Mustache template or, Pig, etc. We may consider tokenizing those languages
-        final var scriptTextVariable = nameGenerationStrategy.nextName("text");
+        final var scriptTextVariable = variableNameStrategy.nextName("text");
         writer.write(format("\r\n" + join("\r\n", "try {",
                 "    let %3$s = document.createTextNode(`%1$s`);",
                 "    %2$s.appendChild(%3$s);",
