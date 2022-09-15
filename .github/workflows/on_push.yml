@@ -8,15 +8,24 @@ jobs:
   linux-build:
     runs-on: ubuntu-latest
     steps:
-      - name: git:checkout
+      - name: git-checkout
         uses: actions/checkout@v3
-      - name: install:java
+
+      - name: install-java
         uses: graalvm/setup-graalvm@v1
         with:
           version: 'latest'
           java-version: '11'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: mvn:package:site
-        run: which mvn
+
+      - name: mvn-clean-package
+        timeout-minutes: 1
+        run: time mvn clean package -B -e -X
+
+#      - name: native-image
+#        run: time ./cli-build.sh
+
+      - name: code-coverage
+        uses: codecov/codecov-action@v3
 
