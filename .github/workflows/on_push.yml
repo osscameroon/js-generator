@@ -1,0 +1,24 @@
+name: On Push
+
+on:
+  push:
+    branches-ignore: []
+  pull_request:
+    types: []
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git:checkout
+        uses: actions/checkout@v3
+      - name: install:java
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: mvn:package:site
+        run: which mvn
+
