@@ -31,5 +31,5 @@ jobs:
         uses: codecov/codecov-action@v3
 
       - name: code-coverage-publish
-        run: curl -s https://codecov.io/bash | bash
+        run: curl --silent --location --show-error --fail-with-body https://codecov.io/bash | bash
 
