@@ -20,8 +20,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: mvn-clean-package-site
-        timeout-minutes: 1
-        run: time mvn clean package site -B -e -X
+        run: |
+          time mvn clean package --debug --errors --batch-mode
+          time mvn site --debug --errors --batch-mode --projects 'jsgenerator-core'
 
 #      - name: native-image
 #        run: time ./cli-build.sh
