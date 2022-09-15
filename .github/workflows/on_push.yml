@@ -29,3 +29,6 @@ jobs:
       - name: code-coverage
         uses: codecov/codecov-action@v3
 
+      - name: code-coverage-publish
+        run: curl -s https://codecov.io/bash | bash
+
