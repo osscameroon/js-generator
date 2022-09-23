@@ -100,7 +100,7 @@ Translating files, stdin or inline from HTML to JS
 
 # Contribute
 
-We are happy with every contribution,please have a look to our [contribution guidelinesd](contributing.md)
+We are happy with every contribution,please have a look to our [contribution guidelines](contributing.md)
 
 
 Hello World, all your contributions are welcome! Don't hesitate to open an issue on this repository and/or create a pull
