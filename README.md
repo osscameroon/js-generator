@@ -40,6 +40,7 @@ will help more experienced developers whenever they want to use JS instead of HT
 ## Getting started
 
 **CLI**
+
 jsgenerator has several options that can be used in a console here is an example of use below
 
 ```shell
