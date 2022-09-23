@@ -4,10 +4,10 @@
 </p>
 <p align="center">
  <a href="/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/github/license/devicons/devicon?color=%2360be86&style=for-the-badge">
+        <img alt="GitHub" src="https://img.shields.io/github/license/osscameroon/js-generator?color=%2360be86&style=for-the-badge">
     </a>
     <a href="https://github.com/devicons/devicon/graphs/contributors">
-        <img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/devicons/devicon?color=%2360be86&style=for-the-badge">
+        <img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/osscameroon/js-generator?color=%2360be86&style=for-the-badge">
     </a>
  </p>
 
