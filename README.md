@@ -79,6 +79,19 @@ Translating files, stdin or inline from HTML to JS
 + Spring 5.3.22
 + Spring Boot 2.7.3
 
+# Why is the js generator useful:
+
+1- It will be really useful for beginners learning html, css and Js .
+
+2- More experienced devs will like it too. [@sherlockwisdom](https://github.com/sherlockwisdom) shared why he needed such tool:
+<details>
+ <summary>Comment</summary>
+😂 Yes it's hard to say why it's important. I was working on an Android based app, but was building it with Vanilla JavaScript. So I needed a quick way to turn bootstrap code into Vanilla Js objects so that I could do what ReactJS does now 🤣. This was ~4 years back. Not sure of its relevance now, but they could be some. 😅 Sorry if I rather made things not easy for you to explain.
+</details>
+This is an example of html to js converter (https://wtools.io/html-to-javascript-converter), very useful in applications where the code must be dynamically generated.
+
+Why are we building another converter if there are other available converters ? First, we want to use let or var instead of document.write as you might see how some converters do. Secondly, the user is able to convert pure HTML 5 tags or custom tags. Thirdly, we are not only building a web app but a family of Apps / APIs: Maven & Gradle Library, REST APIs, Web & Desktop Apps and Command Line Interface.
+
 # Contribute
 
 ```shell
