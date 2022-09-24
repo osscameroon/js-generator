@@ -1,15 +1,9 @@
 
-<p align="center">
-<img alt="GitHub" src="https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg">
-</p>
-<p align="center">
- <a href="/LICENSE">
-        <img alt="GitHub" src="https://img.shields.io/github/license/osscameroon/js-generator?color=%2360be86&style=for-the-badge">
-    </a>
-    <a href="https://github.com/devicons/devicon/graphs/contributors">
-        <img alt="GitHub contributors" src="https://img.shields.io/github/contributors-anon/osscameroon/js-generator?color=%2360be86&style=for-the-badge">
-    </a>
- </p>
+![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
+[![codecov](https://codecov.io/gh/osscameroon/js-generator/branch/main/graph/badge.svg?token=QJEBIRY8JJ)](https://codecov.io/gh/osscameroon/js-generator)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
+
 
 # table of content
 - [about the project](#about-the-project)
@@ -101,7 +95,7 @@ Translating files, stdin or inline from HTML to JS
 
 # Contribute
 
-We are happy with every contribution,please have a look to our [contribution guidelines](contributing.md)
+We are happy with every contribution,please have a look to our [contribution guidelines](CONTRIBUTING.md)
 
 
 Hello World, all your contributions are welcome! Don't hesitate to open an issue on this repository and/or create a pull
