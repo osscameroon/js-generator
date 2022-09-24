@@ -1,8 +1,18 @@
+
 ![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
 [![codecov](https://codecov.io/gh/osscameroon/js-generator/branch/main/graph/badge.svg?token=QJEBIRY8JJ)](https://codecov.io/gh/osscameroon/js-generator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
 
-# jsgenerator
+
+# table of content
+- [about the project](#about-the-project)
+- [Getting started](#getting-started)
+- [tools](#tools)
+- [contribute](#contribute)
+
+
+# About the project
 
 Translating from HTML to JS.
 
@@ -20,7 +30,13 @@ will help more experienced developers whenever they want to use JS instead of HT
 [Nodes](https://github.com/jhy/jsoup/blob/master/src/main/java/org/jsoup/nodes/Node.java)
 (not Node JS) to generate JavaScript.</del>
 
-eg.:
+
+## Getting started
+
+**CLI**
+
+jsgenerator has several options that can be used in a console here is an example of use below
+
 ```shell
 $ jsgenerator --tty --inline '<div>I am a <strong>tea pot</strong>'
 
@@ -35,9 +51,7 @@ div_000.appendChild(strong_000);
 document.appendChild(div_000);
 ```
 
-## Clients
 
-**CLI**
 ```text
 Usage: jsgenerator [-htV] [-e=<extension>] [--inline-pattern=<inlinePattern>]
                    [--path-pattern=<pathPattern>]
@@ -72,7 +86,7 @@ Translating files, stdin or inline from HTML to JS
 > ***TODO:** Not yet implemented.*
 > See [Wiki](https://github.com/osscameroon/js-generator/wiki).
 
-# Stack
+# Tools
 
 + Java 11
 + Maven 3
@@ -94,23 +108,16 @@ Why are we building another converter if there are other available converters ? 
 
 # Contribute
 
-```shell
-# 1. Clone
-git clone git@github.com:osscameroon/js-generator.git
+We are happy with every contribution,please have a look to our [contribution guidelines](CONTRIBUTING.md)
 
-# 2. Move to root directory
-cd js-generator
-
-# 3. Tests & Build
-mvn clean package
-
-# 4. Browse through code
-# 5. Run CLI with --help and play with it
-# 6. Fork the project, build, test, open a pull request
-```
 
 Hello World, all your contributions are welcome! Don't hesitate to open an issue on this repository and/or create a pull
 request (PR). In order to create a PR, just fork first.
 
 Thanks for your commitment, we really appreciate! 
 Happy Coding! 😊🎉💯
+
+<div align="center">
+    <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
+    <img src="https://forthebadge.com/images/badges/built-by-developers.svg" />
+</div>
