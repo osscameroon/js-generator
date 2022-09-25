@@ -1,25 +1,21 @@
 package com.osscameroon.jsgenerator.test.core;
 
 import com.osscameroon.jsgenerator.core.Converter;
-import com.osscameroon.jsgenerator.core.Flow;
-import com.osscameroon.jsgenerator.core.NameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
 
 /**
  * ConverterTest
@@ -33,7 +29,7 @@ public class ConverterTest {
 
     @BeforeEach
     public void before() {
-        converter = Converter.of(NameGenerationStrategy.ofTypeBased());
+        converter = Converter.of(VariableNameStrategy.ofTypeBased());
     }
 
     @Test
@@ -144,12 +140,13 @@ public class ConverterTest {
     }
 
     @Test
-    public void produceValidCodeWhenGivenPathToAFile(@Mock final Flow flow) throws IOException {
+    public void produceValidCodeWhenGivenPathToAFile() {
         final var outputStream = new ByteArrayOutputStream();
-        doReturn(outputStream).when(flow).getOutputStream();
-        doReturn(getClass().getClassLoader().getResourceAsStream(
-            "htmlFilesInput/sample.html")).when(flow).getInputStream();
-        Converter.of(NameGenerationStrategy.ofTypeBased()).convert(flow);
+        final var inputStream = getClass().getClassLoader()
+            .getResourceAsStream("htmlFilesInput/sample.html");
+
+        assertThat(inputStream).isNotNull();
+        Converter.of(VariableNameStrategy.ofTypeBased()).convert(inputStream, outputStream);
 
         assertThat(outputAsStrippedLines(outputStream)).containsExactly(
             "let html_000 = document.createElement('html');",

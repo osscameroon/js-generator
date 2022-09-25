@@ -1,4 +1,12 @@
 *.jsgenerator.js
+*.build_artifacts.txt
+/jsgenerator*
+!/jsgenerator-ante
+!/jsgenerator-api
+!/jsgenerator-core
+!/jsgenerator-desktop
+!/jsgenerator-test
+!/jsgenerator-web
 
 # Compiled class file
 *.class

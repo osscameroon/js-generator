@@ -16,11 +16,7 @@ import java.io.OutputStream;
 public interface Converter {
     void convert(@NonNull final InputStream inputStream, @NonNull final OutputStream outputStream);
 
-    default void convert(@NonNull final Flow flow) {
-        convert(flow.getInputStream(), flow.getOutputStream());
-    }
-
-    static Converter of(@NonNull final NameGenerationStrategy nameGenerationStrategy) {
-        return new ConverterDefault(nameGenerationStrategy);
+    static Converter of(@NonNull final VariableNameStrategy variableNameStrategy) {
+        return new ConverterDefault(variableNameStrategy);
     }
 }

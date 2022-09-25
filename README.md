@@ -1,8 +1,18 @@
+
 ![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
 [![codecov](https://codecov.io/gh/osscameroon/js-generator/branch/main/graph/badge.svg?token=QJEBIRY8JJ)](https://codecov.io/gh/osscameroon/js-generator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
 
-# jsgenerator
+
+# table of content
+- [about the project](#about-the-project)
+- [Getting started](#getting-started)
+- [tools](#tools)
+- [contribute](#contribute)
+
+
+# About the project
 
 Translating from HTML to JS.
 
@@ -20,7 +30,13 @@ will help more experienced developers whenever they want to use JS instead of HT
 [Nodes](https://github.com/jhy/jsoup/blob/master/src/main/java/org/jsoup/nodes/Node.java)
 (not Node JS) to generate JavaScript.</del>
 
-eg.:
+
+## Getting started
+
+**CLI**
+
+jsgenerator has several options that can be used in a console here is an example of use below
+
 ```shell
 $ jsgenerator --tty --inline '<div>I am a <strong>tea pot</strong>'
 
@@ -74,7 +90,7 @@ Translating files, stdin or inline from HTML to JS
 
 # Stack
 
-+ Java 11
++ Java 11 (or GraalVM JDK 11, for native CLI client)
 + Maven 3
 + Spring 5.3.22
 + Spring Boot 2.7.3
@@ -91,13 +107,17 @@ cd js-generator
 # 3. Tests & Build
 mvn clean package
 
-# 4. Browse through code
-# 5. Run CLI with --help and play with it
-# 6. Fork the project, build, test, open a pull request
+# 4. Build Native CLI (Requires GraalVM JDK 11)
+./cli-build.sh # if provided, first argument will be the file name (useful for version tagging) 
+
+# 5. Browse through code
+# 6. Run CLI with --help and play with it
+# 7. Fork the project, build, test, open a pull request
 ```
 
-Hello World, all your contributions are welcome! Don't hesitate to open an issue on this repository and/or create a pull
-request (PR). In order to create a PR, just fork first.
+All your contributions are welcome!
+Do not hesitate to open an issue on this repository and/or create a pull request (PR).
+In order to create a PR, just fork first.
 
 Thanks for your commitment, we really appreciate! 
 Happy Coding! 😊🎉💯
