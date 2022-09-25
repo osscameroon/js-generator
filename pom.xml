@@ -7,7 +7,6 @@
     <version>${revision}</version>
     <modules>
         <module>jsgenerator-core</module>
-        <module>jsgenerator-ante</module>
         <module>jsgenerator-test</module>
         <module>jsgenerator-cli</module>
     </modules>
