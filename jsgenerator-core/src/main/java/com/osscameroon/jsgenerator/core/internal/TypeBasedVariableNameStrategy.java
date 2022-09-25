@@ -1,6 +1,6 @@
 package com.osscameroon.jsgenerator.core.internal;
 
-import com.osscameroon.jsgenerator.core.NameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import lombok.NonNull;
 
 import java.util.HashMap;
@@ -10,12 +10,12 @@ import java.util.concurrent.atomic.AtomicLong;
 import static java.lang.String.format;
 
 /**
- * TypeBasedNameGenerationStrategy
+ * TypeBasedVariableNameStrategy
  *
  * @author Salathiel @t salathiel@genese.name
  * @since Sep 03, 2022 @t 02:48:58
  */
-public class TypeBasedNameGenerationStrategy implements NameGenerationStrategy {
+public class TypeBasedVariableNameStrategy implements VariableNameStrategy {
     private final Map<String, AtomicLong> counters = new HashMap<>();
 
     @Override

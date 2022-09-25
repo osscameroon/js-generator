@@ -1,6 +1,6 @@
-package com.osscameroon.jsgenerator.cli.internal;
+package com.osscameroon.jsgenerator.core.internal;
 
-import com.osscameroon.jsgenerator.cli.OutputFilenameResolver;
+import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import lombok.NonNull;
 
 import java.util.Map;
@@ -9,12 +9,12 @@ import static java.lang.String.format;
 import static java.lang.String.valueOf;
 
 /**
- * InlineOutputFilenameResolver
+ * InlineOutputStreamResolver
  *
  * @author Salathiel @t salathiel@genese.name
  * @since Sep 04, 2022 @t 23:08:30
  */
-public class InlineOutputFilenameResolver implements OutputFilenameResolver {
+public class InlineOutputStreamResolver implements OutputStreamResolver {
     @Override
     public String resolve(@NonNull String template, @NonNull Map<String, Object> container) {
         return template
