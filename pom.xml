@@ -88,11 +88,6 @@
                 <artifactId>jsgenerator-core</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>com.osscameroon</groupId>
-                <artifactId>jsgenerator-ante</artifactId>
-                <version>${revision}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
