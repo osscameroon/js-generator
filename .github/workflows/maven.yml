@@ -28,10 +28,12 @@ jobs:
     #Re-run Maven using the -X switch to enable full debug logging.
     # -B,--batch-mode Run in non-interactive (batch) mode (disables output color)
     # To learn more about options: https://maven.apache.org/ref/3.6.3/maven-embedder/cli.html
-      run: mvn package site -B -e -X
+      run: |
+        mvn package -B -e -X
+        mvn site -B -e -X --projects 'jsgenerator-core'
       env:
         MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
-        
+
     - name: Codecov
       uses: codecov/codecov-action@v2
       #with:
@@ -41,7 +43,7 @@ jobs:
         #name: codecov-umbrella # optional
         #fail_ci_if_error: true # optional (default = false)
         #verbose: true # optional (default = false)
-        
+
     - name: Codecov Bash
       run: bash <(curl -s https://codecov.io/bash)
-    
+
