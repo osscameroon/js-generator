@@ -11,39 +11,31 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  linux-build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: 11
-        #cache: 'maven'
-    - name: Build with Maven
-    #To see the full stack trace of the errors, re-run Maven with the -e switch.
-    #Re-run Maven using the -X switch to enable full debug logging.
-    # -B,--batch-mode Run in non-interactive (batch) mode (disables output color)
-    # To learn more about options: https://maven.apache.org/ref/3.6.3/maven-embedder/cli.html
-      run: |
-        mvn package -B -e -X
-        mvn site -B -e -X --projects 'jsgenerator-core'
-      env:
-        MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
+      - name: git-checkout
+        uses: actions/checkout@v3
 
-    - name: Codecov
-      uses: codecov/codecov-action@v2
-      #with:
-        #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        #files: ./coverage1.xml,./coverage2.xml # optional
-        #flags: unittests # optional
-        #name: codecov-umbrella # optional
-        #fail_ci_if_error: true # optional (default = false)
-        #verbose: true # optional (default = false)
+      - name: install-java
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '11'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Codecov Bash
-      run: bash <(curl -s https://codecov.io/bash)
+      - name: mvn-clean-package-site-native
+        run: |
+          time mvn clean package --debug --errors --batch-mode
+          time mvn site --debug --errors --batch-mode --projects 'jsgenerator-core'
+
+      - name: native-build
+        run: time ./cli-build.sh
+
+      - name: code-coverage
+        uses: codecov/codecov-action@v3
+
+      - name: code-coverage-publish
+        run: curl --silent --location --show-error --fail-with-body https://codecov.io/bash | bash
 
