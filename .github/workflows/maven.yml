@@ -26,6 +26,8 @@ jobs:
     - name: Build with Maven
     #To see the full stack trace of the errors, re-run Maven with the -e switch.
     #Re-run Maven using the -X switch to enable full debug logging.
+    # -B,--batch-mode Run in non-interactive (batch) mode (disables output color)
+    # To learn more about options: https://maven.apache.org/ref/3.6.3/maven-embedder/cli.html
       run: mvn package site -B -e -X
       env:
         MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
