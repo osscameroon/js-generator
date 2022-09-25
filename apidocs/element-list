@@ -1,5 +1,2 @@
-com.osscameroon.jsgenerator
-com.osscameroon.jsgenerator.exception
-com.osscameroon.jsgenerator.model
-com.osscameroon.jsgenerator.service
-com.osscameroon.jsgenerator.util
+module:com.osscameroon.jsgenerator.core
+com.osscameroon.jsgenerator.core
