@@ -51,7 +51,9 @@ div_000.appendChild(strong_000);
 document.appendChild(div_000);
 ```
 
+## Clients
 
+**CLI**
 ```text
 Usage: jsgenerator [-htV] [-e=<extension>] [--inline-pattern=<inlinePattern>]
                    [--path-pattern=<pathPattern>]
@@ -86,25 +88,36 @@ Translating files, stdin or inline from HTML to JS
 > ***TODO:** Not yet implemented.*
 > See [Wiki](https://github.com/osscameroon/js-generator/wiki).
 
-# Tools
+# Stack
 
-+ Java 11
++ Java 11 (or GraalVM JDK 11, for native CLI client)
 + Maven 3
 + Spring 5.3.22
 + Spring Boot 2.7.3
 
 # Contribute
 
-We are happy with every contribution,please have a look to our [contribution guidelines](CONTRIBUTING.md)
+```shell
+# 1. Clone
+git clone git@github.com:osscameroon/js-generator.git
 
+# 2. Move to root directory
+cd js-generator
 
-Hello World, all your contributions are welcome! Don't hesitate to open an issue on this repository and/or create a pull
-request (PR). In order to create a PR, just fork first.
+# 3. Tests & Build
+mvn clean package
+
+# 4. Build Native CLI (Requires GraalVM JDK 11)
+./cli-build.sh # if provided, first argument will be the file name (useful for version tagging) 
+
+# 5. Browse through code
+# 6. Run CLI with --help and play with it
+# 7. Fork the project, build, test, open a pull request
+```
+
+All your contributions are welcome!
+Do not hesitate to open an issue on this repository and/or create a pull request (PR).
+In order to create a PR, just fork first.
 
 Thanks for your commitment, we really appreciate! 
 Happy Coding! 😊🎉💯
-
-<div align="center">
-    <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
-    <img src="https://forthebadge.com/images/badges/built-by-developers.svg" />
-</div>
