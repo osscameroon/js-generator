@@ -5,14 +5,15 @@
 [![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
 
 
-# table of content
-- [about the project](#about-the-project)
-- [Getting started](#getting-started)
-- [tools](#tools)
-- [contribute](#contribute)
+# Table of Contents
+- [About](#about)
+- [Getting Started](#getting-started)
+- [Clients](#clients)
+- [Stack](#stack)
+- [Contribute](#contribute)
 
 
-# About the project
+# About
 
 Translating from HTML to JS.
 
@@ -31,7 +32,7 @@ will help more experienced developers whenever they want to use JS instead of HT
 (not Node JS) to generate JavaScript.</del>
 
 
-## Getting started
+## Getting Started
 
 **CLI**
 
@@ -121,3 +122,8 @@ In order to create a PR, just fork first.
 
 Thanks for your commitment, we really appreciate! 
 Happy Coding! 😊🎉💯
+
+<div align="center">
+    <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
+    <img src="https://forthebadge.com/images/badges/built-by-developers.svg" />
+</div>
