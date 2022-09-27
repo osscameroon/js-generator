@@ -5,6 +5,8 @@
 [![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
 
 
+![From Html to Js through Java](illustrations/html_java_js.png)
+
 # Table of Contents
 - [About](#about)
 - [Getting Started](#getting-started)
@@ -31,6 +33,7 @@ will help more experienced developers whenever they want to use JS instead of HT
 [Nodes](https://github.com/jhy/jsoup/blob/master/src/main/java/org/jsoup/nodes/Node.java)
 (not Node JS) to generate JavaScript.</del>
 
+![How does it work in a nutshell ?](illustrations/jsgenerator_intro.png)
 
 ## Getting Started
 
