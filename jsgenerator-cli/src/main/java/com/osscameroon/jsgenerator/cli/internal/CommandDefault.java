@@ -1,9 +1,11 @@
 package com.osscameroon.jsgenerator.cli.internal;
 
 import com.osscameroon.jsgenerator.cli.Command;
+import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import com.osscameroon.jsgenerator.cli.Valid;
 import com.osscameroon.jsgenerator.core.Converter;
+import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import picocli.CommandLine;
@@ -32,16 +34,21 @@ import static java.util.stream.Collectors.toList;
 @Data
 @RequiredArgsConstructor
 @CommandLine.Command(
-    name = "jsgenerator",
-    version = "0.0.1-SNAPSHOT",
-    mixinStandardHelpOptions = true,
-    description = "Translating files, stdin or inline from HTML to JS")
+        name = "jsgenerator",
+        version = "0.0.1-SNAPSHOT",
+        mixinStandardHelpOptions = true,
+        description = "Translating files, stdin or inline from HTML to JS")
 public class CommandDefault implements Command, Valid {
     private final OutputStreamResolver inlineFilenameResolver;
     private final OutputStreamResolver stdinFilenameResolver;
     private final OutputStreamResolver pathFilenameResolver;
     private final Converter converter;
 
+    @Option(names = {"-k", "--keyword"}, description = "variable declaration keyword")
+
+    //TODO:show options for variable declarations, test what we get based on user choice let const or var
+
+    private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
     @Option(names = {"-t", "--tty"}, description = "output to stdin, not files")
     private boolean tty;
 
@@ -49,28 +56,28 @@ public class CommandDefault implements Command, Valid {
     private List<Path> paths = new ArrayList<>();
 
     @Option(
-        arity = "1..*", names = {"-i", "--inline"}, description = "args as HTML content, not files")
+            arity = "1..*", names = {"-i", "--inline"}, description = "args as HTML content, not files")
     private List<String> inlineContents = new ArrayList<>();
 
     @Option(names = {"-e", "--ext"}, defaultValue = ".jsgenerator.js", description = "output files' extension")
     private String extension = ".jsgenerator.js";
 
     @Option(
-        names = "--stdin-pattern",
-        defaultValue = "stdin{{ extension }}",
-        description = "pattern for stdin output filenames")
+            names = "--stdin-pattern",
+            defaultValue = "stdin{{ extension }}",
+            description = "pattern for stdin output filenames")
     private String stdinPattern = format("stdin{{ %s }}", EXTENSION);
 
     @Option(
-        names = "--path-pattern",
-        defaultValue = "{{ original }}{{ extension }}",
-        description = "pattern for path-based output filenames")
+            names = "--path-pattern",
+            defaultValue = "{{ original }}{{ extension }}",
+            description = "pattern for path-based output filenames")
     private String pathPattern = format("{{ %s }}{{ %s }}", ORIGINAL, EXTENSION);
 
     @Option(
-        names = "--inline-pattern",
-        defaultValue = "inline.{{ index }}{{ extension }}",
-        description = "Pattern for inline output filename")
+            names = "--inline-pattern",
+            defaultValue = "inline.{{ index }}{{ extension }}",
+            description = "Pattern for inline output filename")
     private String inlinePattern = format("inline.{{ %s }}{{ %s }}", INDEX, EXTENSION);
 
     @Override
@@ -89,8 +96,8 @@ public class CommandDefault implements Command, Valid {
         if (0 < builder.length()) {
             System.err.println("\fTranslating [stdin]: <<");
             converter.convert(
-                new ByteArrayInputStream(builder.toString().getBytes(UTF_8)),
-                outputStream = resolveStdinOutputStream());
+                    new ByteArrayInputStream(builder.toString().getBytes(UTF_8)),
+                    outputStream = resolveStdinOutputStream());
             outputStream.flush();
         }
 
@@ -99,8 +106,8 @@ public class CommandDefault implements Command, Valid {
             if (0 < inlineContents.get(i).length()) {
                 System.err.printf("\fTranslating [inline]: %d%n", i);
                 converter.convert(
-                    new ByteArrayInputStream(inlineContents.get(i).getBytes(UTF_8)),
-                    outputStream = resolveInlineOutputStream(i));
+                        new ByteArrayInputStream(inlineContents.get(i).getBytes(UTF_8)),
+                        outputStream = resolveInlineOutputStream(i));
                 outputStream.flush();
             }
         }
@@ -109,8 +116,9 @@ public class CommandDefault implements Command, Valid {
         for (final var path : paths.stream().map(Path::toAbsolutePath).distinct().collect(toList())) {
             System.err.printf("\fTranslating: %s%n", path);
             converter.convert(
-                Files.newInputStream(path),
-                outputStream = resolvePathOutputStream(path));
+                    Files.newInputStream(path),
+                    outputStream = resolvePathOutputStream(path),
+                    new Configuration(variableDeclaration));
             outputStream.flush();
             outputStream.close();
         }
@@ -131,8 +139,8 @@ public class CommandDefault implements Command, Valid {
         if (tty) return System.out;
 
         final var outputPathname = pathFilenameResolver.resolve(pathPattern, Map.of(
-            EXTENSION, extension,
-            INDEX, index
+                EXTENSION, extension,
+                INDEX, index
         ));
         final var outputPath = Path.of(outputPathname);
 
@@ -144,12 +152,12 @@ public class CommandDefault implements Command, Valid {
 
         final var nameCount = path.getNameCount();
         final var outputPathname = pathFilenameResolver.resolve(pathPattern, Map.of(
-            ORIGINAL_EXTENSION, path.getName(nameCount - 1).toString()
-                .replace("^.*\\.(.*)$", "$1"),
-            ORIGINAL_DIRECTORY, path.getName(nameCount - 2).toString(),
-            ORIGINAL_BASENAME, path.getName(nameCount - 1).toString(),
-            ORIGINAL, path.toString(),
-            EXTENSION, extension
+                ORIGINAL_EXTENSION, path.getName(nameCount - 1).toString()
+                        .replace("^.*\\.(.*)$", "$1"),
+                ORIGINAL_DIRECTORY, path.getName(nameCount - 2).toString(),
+                ORIGINAL_BASENAME, path.getName(nameCount - 1).toString(),
+                ORIGINAL, path.toString(),
+                EXTENSION, extension
         ));
         final var outputPath = Path.of(outputPathname);
 

@@ -1,5 +1,7 @@
 package com.osscameroon.jsgenerator.core.internal;
 
+import com.osscameroon.jsgenerator.core.Configuration;
+import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import com.osscameroon.jsgenerator.core.Converter;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,7 @@ public class ConverterDefault implements Converter {
 
     @Override
     @SneakyThrows
-    public void convert(InputStream inputStream, OutputStream outputStream) {
+    public void convert(InputStream inputStream, OutputStream outputStream, Configuration configuration) {
         final var stringBuilder = new StringBuilder();
         final var scanner = new Scanner(inputStream);
 
@@ -46,15 +48,15 @@ public class ConverterDefault implements Converter {
 
         final var document = Jsoup.parse(content, xmlParser());
         final var writer = new OutputStreamWriter(outputStream);
-        visit(writer, "document", document.childNodes());
+        visit(writer, "document", document.childNodes(),configuration);
         writer.flush();
     }
 
-    private void visit(Writer writer, String parent, List<Node> nodes) throws IOException {
+    private void visit(Writer writer, String parent, List<Node> nodes,Configuration configuration) throws IOException {
         for (final Node node : nodes) {
-            if (node instanceof Element) visit(writer, parent, (Element) node);
-            else if (node instanceof Comment) visit(writer, parent, (Comment) node);
-            else if (node instanceof TextNode) visit(writer, parent, (TextNode) node);
+            if (node instanceof Element) visit(writer, parent, (Element) node,configuration);
+            else if (node instanceof Comment) visit(writer, parent, (Comment) node, configuration);
+            else if (node instanceof TextNode) visit(writer, parent, (TextNode) node,configuration);
         }
     }
 
@@ -69,53 +71,62 @@ public class ConverterDefault implements Converter {
         }
     }
 
-    private void visit(Writer writer, String parent, Comment comment) throws IOException {
+    private void visit(Writer writer, String parent, Comment comment,Configuration configuration) throws IOException {
         final var variable = variableNameStrategy.nextName("comment");
+        String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
-        writer.write(format("\r\nlet %s = document.createComment(`%s`);\r\n", variable, comment.getData()));
+        writer.write(format("\r\n%s %s = document.createComment(`%s`);\r\n",declarationKeyWord, variable, comment.getData()));
         writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
     }
 
-    private void visit(Writer writer, String parent, TextNode textNode) throws IOException {
+    private void visit(Writer writer, String parent, TextNode textNode,Configuration configuration) throws IOException {
         final var variable = variableNameStrategy.nextName("text");
+        String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
-        writer.write(format("let %s = document.createTextNode(`%s`);\r\n", variable, textNode.getWholeText()));
+        writer.write(format("%s %s = document.createTextNode(`%s`);\r\n",declarationKeyWord, variable, textNode.getWholeText()));
         writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
     }
 
-    private void visit(Writer writer, String parent, Element element) throws IOException {
+    private void visit(Writer writer, String parent, Element element,Configuration configuration) throws IOException {
         final var variable = variableNameStrategy.nextName(element.tagName());
+        String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
-        writer.write(format("\r\nlet %s = document.createElement('%s');\r\n", variable, element.tagName()));
+        writer.write(format("\r\n%s %s = document.createElement('%s');\r\n", declarationKeyWord,variable, element.tagName()));
         visit(writer, variable, element.attributes());
 
         if ("script".equalsIgnoreCase(element.tagName())) {
-            visitScriptNode(writer, parent, element, variable);
+            visitScriptNode(writer, parent, element, variable,configuration);
         } else {
-            visit(writer, variable, element.childNodes());
+            visit(writer, variable, element.childNodes(),configuration);
             writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
         }
 
     }
 
-    private void visitScriptNode(Writer writer, String parent, Element element, String variable) throws IOException {
+    private void visitScriptNode(Writer writer, String parent, Element element, String variable,Configuration configuration) throws IOException {
         if (element.attr(element.absUrl("type")).isBlank()) {
             writer.write(format("\r\n%s.type = `text/javascript`;\r\n", variable));
         }
 
+        String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
         final var script = ((TextNode) element.childNodes().get(0)).getWholeText()
             .replaceAll("`", "\\\\`");
         // FIXME: Will be quirky without tokenizing script code but then, it doesn't matter as it could be
         //        TypeScript or Mustache template or, Pig, etc. We may consider tokenizing those languages
         final var scriptTextVariable = variableNameStrategy.nextName("text");
         writer.write(format("\r\n" + join("\r\n", "try {",
-                "    let %3$s = document.createTextNode(`%1$s`);",
+                "    %6$s %3$s = document.createTextNode(`%1$s`);",
                 "    %2$s.appendChild(%3$s);",
                 "    %4$s.appendChild(%2$s);",
                 "} catch (_) {",
                 "    %2$s.text = `%1$s`;",
                 "    %4$s.appendChild(%2$s);",
                 "}") + "\r\n",
-            script, variable, scriptTextVariable, parent, variable));
+            script, variable, scriptTextVariable, parent, variable,declarationKeyWord));
+    }
+
+    private String resolveDeclarationKeyWord(VariableDeclaration variableDeclaration){
+
+        return variableDeclaration.name().toLowerCase();
     }
 }
