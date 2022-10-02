@@ -5,8 +5,6 @@
 [![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
 
 
-![From Html to Js through Java](illustrations/html_java_js.png)
-
 # Table of Contents
 - [About](#about)
 - [Getting Started](#getting-started)
@@ -14,6 +12,7 @@
 - [Stack](#stack)
 - [Contribute](#contribute)
 
+![From Html to Js through Java](illustrations/html_java_js.png)
 
 # About
 
@@ -130,3 +129,5 @@ Happy Coding! 😊🎉💯
     <img src="https://forthebadge.com/images/badges/built-with-love.svg" />
     <img src="https://forthebadge.com/images/badges/built-by-developers.svg" />
 </div>
+
+[Back To The Top](#table-of-contents)
