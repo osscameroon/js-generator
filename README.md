@@ -21,7 +21,7 @@ Translating from HTML to JS.
 > This project is different from the
 > [JavaScript Generator Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
  
-The goal is to generate JS  from HTML  following the JavaScript DOM structure. Sometimes, we forget how to write
+The goal is to generate JS  from HTML  following the [Document Object Model](https://www.w3schools.com/js/js_htmldom.asp) structure. Sometimes, we forget how to write
 JavaScript to build dynamic web apps. Even if we know JS, it happens that we don't always have enough time to generate
 JS from a big HTML code. Thus, the goal of this project is helping developers gaining time by producing JS code as
 Output based on HTML as Input. This project will be very useful for beginners learning HTML and JavaScript. Also, it
