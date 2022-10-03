@@ -1,6 +1,5 @@
 name: Greetings
 on: [pull_request, issues]
-
 jobs:
   greeting:
     runs-on: ubuntu-latest
@@ -14,5 +13,5 @@ jobs:
       continue-on-error: true
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'Thanks for opening this issue 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'' first issue'
-        pr-message: 'Thanks for opening this pull request 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'' first pull request'
+        issue-message: 'Thanks for opening your first issue 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'
+        pr-message: 'Thanks for opening your first pull request 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'
