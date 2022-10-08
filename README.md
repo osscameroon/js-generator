@@ -42,7 +42,7 @@ will help more experienced developers whenever they want to use JS instead of HT
 jsgenerator has several options that can be used in a console here is an example of use below
 
 ```shell
-$ jsgenerator --tty --inline '<div>I am a <strong>tea pot</strong>'
+$ jsgenerator --tty --inline '<div>I am a <strong>tea pot</strong></div>'
 
 let div_000 = document.createElement('div');
 let text_000 = document.createTextNode(`I am a `);
