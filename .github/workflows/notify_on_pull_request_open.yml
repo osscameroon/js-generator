@@ -10,7 +10,7 @@ on:
 
 jobs:
   notify:
-    uses: osscameroon/global-github-actions/.github/workflows/notify_on_pull_request_open.yaml@d796ebff0552a34037e6ce4a53cc730debf3c732
+    uses: osscameroon/global-github-actions/.github/workflows/notify_on_pull_request_open.yaml@fix-notify-on-pull-request-open-action
     secrets:
       telegram_channel_id: ${{ secrets.TELEGRAM_OSSCAMEROON_CHANNEL_ID }}
       telegram_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
