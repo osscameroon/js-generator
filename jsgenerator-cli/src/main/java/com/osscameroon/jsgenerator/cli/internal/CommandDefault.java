@@ -44,10 +44,8 @@ public class CommandDefault implements Command, Valid {
     private final OutputStreamResolver pathFilenameResolver;
     private final Converter converter;
 
-    @Option(names = {"-k", "--keyword"}, description = "variable declaration keyword")
-
     //TODO:show options for variable declarations, test what we get based on user choice let const or var
-
+    @Option(names = {"-k", "--keyword"}, description = "variable declaration keyword")
     private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
     @Option(names = {"-t", "--tty"}, description = "output to stdin, not files")
     private boolean tty;
