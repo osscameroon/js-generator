@@ -1,13 +1,16 @@
 name: notify of pull_request creation
 on:
-  pull_request_target:
-    types: [ opened ]
+  push:
     branches:
-      - main
+      - blabla
+#   pull_request_target:
+#     types: [ opened ]
+#     branches:
+#       - main
 
 jobs:
   notify:
-    uses: osscameroon/global-github-actions/.github/workflows/notify_on_pull_request_open.yaml@main
+    uses: osscameroon/global-github-actions/.github/workflows/notify_on_pull_request_open.yaml@fix-notify-on-pull-request-open-action
     secrets:
       telegram_channel_id: ${{ secrets.TELEGRAM_OSSCAMEROON_CHANNEL_ID }}
       telegram_token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
