@@ -16,4 +16,5 @@ module com.osscameroon.jsgenerator.test.core {
     requires lombok;
     requires org.mockito;
     requires org.mockito.junit.jupiter;
+    requires org.junit.jupiter.params;
 }
