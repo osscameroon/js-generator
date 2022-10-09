@@ -94,7 +94,7 @@ Translating files, stdin or inline from HTML to JS
 
 # Stack
 
-+ Java 11 (or GraalVM JDK 11, for native CLI client)
++ Java 17 (or GraalVM JDK 17, for native CLI client)
 + Maven 3
 + Spring 5.3.22
 + Spring Boot 2.7.3
