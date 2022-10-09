@@ -6,7 +6,7 @@ com.osscameroon.jsgenerator.core='/home/runner/work/js-generator/js-generator/js
 'UTF-8'
 -protected
 -source
-'11'
+'17'
 --module-source-path
 '/home/runner/work/js-generator/js-generator/jsgenerator-core/target/site/apidocs/src'
 -author
@@ -20,8 +20,6 @@ com.osscameroon.jsgenerator.core='/home/runner/work/js-generator/js-generator/js
 'UTF-8'
 -doctitle
 'jsgenerator-core 0.0.1-SNAPSHOT API'
--linkoffline
-'https://docs.oracle.com/en/java/javase/11/docs/api' '/home/runner/work/js-generator/js-generator/jsgenerator-core/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle

@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"com.osscameroon.jsgenerator.core"}]
+moduleSearchIndex = [{"l":"com.osscameroon.jsgenerator.core"}];updateSearchResults();
