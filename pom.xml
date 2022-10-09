@@ -23,6 +23,10 @@
     <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
         <revision>0.0.1-SNAPSHOT</revision>
 
         <lomkok.version>1.18.24</lomkok.version>
@@ -30,8 +34,6 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
         <!-- GitHub OAuth token & server : Generating github  gh pages & maven project documents -->
         <github.global.server>github</github.global.server>
         <github.global.oauth2Token>${env.MAVEN_SITE_GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
@@ -127,9 +129,23 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- In order to avoid "Unsupported class file major version 61" error
+             we made this change related to asm. Version 61 means java 17
+             To know more:
+             https://stackoverflow.com/questions/71496063/maven-surefire-test-failed-unsupported-class-file-major-version-61
+             https://stackoverflow.com/questions/10382929/how-to-fix-java-lang-unsupportedclassversionerror-unsupported-major-minor-versi/11432195#11432195
+             -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                        <version>9.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <!-- Generating github gh pages & maven project documents  -->
             <plugin>
