@@ -18,8 +18,8 @@
     </parent>
 
     <name>jsgenerator</name>
-    <description>Generates JS code from syntatically correct HTML code... following the DOM mapping methods of JS
-    </description>
+    <description>Generates JavaScript code from HTML or Custom tags</description>
+    
     <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
