@@ -28,10 +28,9 @@ JS from a big HTML code. Thus, the goal of this project is helping developers ga
 Output based on HTML as Input. This project will be very useful for beginners learning HTML and JavaScript. Also, it
 will help more experienced developers whenever they want to use JS instead of HTML.
 
-<del>The project is based on [jsoup  library, a Java HTML parser](https://jsoup.org/) /
-[jsoup GitHub Repository](https://github.com/jhy/jsoup/). It's all about using
-[Nodes](https://github.com/jhy/jsoup/blob/master/src/main/java/org/jsoup/nodes/Node.java)
-(not Node JS) to generate JavaScript.</del>
+> We would like to give credit to [jsoup](https://jsoup.org/) /
+> [jsoup GitHub Repository](https://github.com/jhy/jsoup/) as the main library to help us handle HTML tokenization and traversing.
+
 
 ![How does it work in a nutshell ?](illustrations/jsgenerator_intro.png)
 
