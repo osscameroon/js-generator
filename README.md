@@ -26,11 +26,13 @@ The goal is to generate JS  from HTML  following the [Document Object Model](htt
 JavaScript to build dynamic web apps. Even if we know JS, it happens that we don't always have enough time to generate
 JS from a big HTML code. Thus, the goal of this project is helping developers gaining time by producing JS code as
 Output based on HTML as Input. This project will be very useful for beginners learning HTML and JavaScript. Also, it
-will help more experienced developers whenever they want to use JS instead of HTML.
+will help more experienced developers whenever they want to use JS instead of HTML, very useful in applications where the code must be dynamically generated.
 
-> We would like to give credit to [jsoup](https://jsoup.org/) /
-> [jsoup GitHub Repository](https://github.com/jhy/jsoup/) as the main library to help us handle HTML tokenization and traversing.
+[Sherlock Wisdom](https://github.com/sherlockwisdom) shared why he needed such tool:
 
+> 😂 Yes it's hard to say why it's important. I was working on an Android based app, but was building it with Vanilla JavaScript. So I needed a quick way to turn bootstrap code into Vanilla Js objects so that I could do what ReactJS does now 🤣. This was ~4 years back. Not sure of its relevance now, but they could be some. 😅 Sorry if I rather made things not easy for you to explain.
+
+We would like to give credit to [jsoup](https://jsoup.org/) / [jsoup GitHub Repository](https://github.com/jhy/jsoup/) as the main library to help us handle HTML tokenization and traversing.
 
 ![How does it work in a nutshell ?](illustrations/jsgenerator_intro.png)
 
