@@ -6,6 +6,7 @@ import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -35,6 +37,31 @@ public class ConverterTest {
     public void before() {
         converter = Converter.of(VariableNameStrategy.ofTypeBased());
     }
+
+
+    @Test
+    public void produceValidCodeWhenGivenSelfClosingTag(){
+
+        String selfClosingTagInputWithoutSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+
+        String selfClosingTagInputWithSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+
+        System.err.println("selfClosingTagInputWithoutSlashHtml");
+
+        System.err.println(selfClosingTagInputWithoutSlashHtml);
+
+        Arrays.stream(convert(selfClosingTagInputWithoutSlashHtml,new Configuration())).forEach(System.out::println);
+
+        System.err.println("selfClosingTagInputWithSlashHtml");
+
+        System.err.println(selfClosingTagInputWithSlashHtml);
+
+        Arrays.stream(convert(selfClosingTagInputWithSlashHtml,new Configuration())).forEach(System.out::println);
+
+
+
+    }
+
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
