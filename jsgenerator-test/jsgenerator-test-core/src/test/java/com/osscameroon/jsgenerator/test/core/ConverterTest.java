@@ -44,17 +44,19 @@ public class ConverterTest {
 
         String selfClosingTagInputWithoutSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
 
-        String selfClosingTagInputWithSlashHtml = "<input type=\"text\">\r\n" + "<img src=\"#URL\" alt=\"image\">";
+        String selfClosingTagInputWithSlashHtml = "<input type=\"text\"/>\r\n" + "<img src=\"#URL\" alt=\"image\">";
 
-        System.err.println("selfClosingTagInputWithoutSlashHtml");
+        System.out.println("selfClosingTagInputWithoutSlashHtml");
 
-        System.err.println(selfClosingTagInputWithoutSlashHtml);
+        System.out.println(selfClosingTagInputWithoutSlashHtml);
 
         Arrays.stream(convert(selfClosingTagInputWithoutSlashHtml,new Configuration())).forEach(System.out::println);
 
-        System.err.println("selfClosingTagInputWithSlashHtml");
+        System.out.println("------------------------------------");
 
-        System.err.println(selfClosingTagInputWithSlashHtml);
+        System.out.println("selfClosingTagInputWithSlashHtml");
+
+        System.out.println(selfClosingTagInputWithSlashHtml);
 
         Arrays.stream(convert(selfClosingTagInputWithSlashHtml,new Configuration())).forEach(System.out::println);
 
