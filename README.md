@@ -116,8 +116,8 @@ mvn clean package
 ./cli-build.sh # if provided, first argument will be the file name (useful for version tagging) 
 
 # 5. Browse through code
-# 6. Run CLI with --help and play with it
-# 7. Fork the project, build, test, open a pull request
+# 6. Run CLI with --help and play with it   
+# 7. Fork the project, build, test, open a pull request   
 ```
 
 All your contributions are welcome!
