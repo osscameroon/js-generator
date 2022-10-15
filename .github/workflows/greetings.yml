@@ -1,4 +1,5 @@
 name: Greetings
+# The following commented line to should not be used in order to avoid security issues such as "Resource not accessible by integration", this article give some explanations: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
 #on: [pull_request, issues]
 on:
   issues:
