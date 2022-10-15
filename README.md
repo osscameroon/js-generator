@@ -124,6 +124,8 @@ All your contributions are welcome!
 Do not hesitate to open an issue on this repository and/or create a pull request (PR).
 In order to create a PR, just fork first.
 
+**[We started from the bottom 4 years ago](https://github.com/opensourcecameroon/jsGenerator), now we are here, we believe we will continue moving forward together 😊.** 
+
 Thanks for your commitment, we really appreciate! 
 Happy Coding! 😊🎉💯
 
