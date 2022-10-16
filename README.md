@@ -120,7 +120,7 @@ cd js-generator
 # 3. Tests & Build
 mvn clean package
 
-# 4. Build Native CLI (Requires GraalVM JDK 11, and a Linux-friendly shell, like Cmder)
+# 4. Build Native CLI (Requires GraalVM JDK 17, and a Linux-friendly shell, like Cmder)
 ./cli-build.sh # if provided, first argument will be the file name (useful for version tagging) 
 
 # 5. Browse through code
