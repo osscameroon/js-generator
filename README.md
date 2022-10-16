@@ -95,7 +95,15 @@ Translating files, stdin or inline from HTML to JS
 
 # Stack
 
-+ Java 17 (or GraalVM JDK 17, for native CLI client)
++ JDK 17
+  > NOTE: For native build (CLI, for eg.), we use GraalVM with JDK 17.
+  > 
+  > Recent versions of GraalVM are not bundling `native-image` CLI by default.
+  > We are required to install is manually, by running:
+  > ```shell
+  > # Where `gu` is an executable bundled with GraalVM
+  > gu install native-image
+  > ```
 + Maven 3
 + Spring 5.3.22
 + Spring Boot 2.7.3
@@ -112,7 +120,7 @@ cd js-generator
 # 3. Tests & Build
 mvn clean package
 
-# 4. Build Native CLI (Requires GraalVM JDK 11)
+# 4. Build Native CLI (Requires GraalVM JDK 17, and a Linux-friendly shell, like Cmder)
 ./cli-build.sh # if provided, first argument will be the file name (useful for version tagging) 
 
 # 5. Browse through code
