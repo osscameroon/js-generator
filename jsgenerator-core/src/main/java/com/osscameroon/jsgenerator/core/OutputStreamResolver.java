@@ -7,12 +7,6 @@ import lombok.NonNull;
 
 import java.util.Map;
 
-/**
- * OutputStreamResolver
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 04, 2022 @t 23:03:38
- */
 @FunctionalInterface
 public interface OutputStreamResolver {
     String ORIGINAL_DIRECTORY = "original-directory";

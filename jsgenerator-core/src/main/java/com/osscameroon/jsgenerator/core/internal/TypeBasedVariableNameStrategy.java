@@ -9,12 +9,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import static java.lang.String.format;
 
-/**
- * TypeBasedVariableNameStrategy
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 03, 2022 @t 02:48:58
- */
 public class TypeBasedVariableNameStrategy implements VariableNameStrategy {
     private final Map<String, AtomicLong> counters = new HashMap<>();
 

@@ -5,14 +5,6 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-/**
- * Valid
- * <p>
- * An interface to separate validation concern of {@link Command}.
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 04, 2022 @t 22:12:03
- */
 public interface Valid {
     /**
      * Validate the {@link Command} this interface is implemented on.
