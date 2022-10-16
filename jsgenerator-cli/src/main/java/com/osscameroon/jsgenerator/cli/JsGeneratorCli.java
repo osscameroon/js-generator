@@ -4,7 +4,6 @@ import com.osscameroon.jsgenerator.cli.internal.CommandDefault;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import com.osscameroon.jsgenerator.core.VariableNameStrategy;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -58,9 +57,9 @@ public class JsGeneratorCli {
                            final OutputStreamResolver stdinOutputStreamResolver,
                            final OutputStreamResolver inlineOutputStreamResolver) {
         return new CommandDefault(
-            inlineOutputStreamResolver,
-            stdinOutputStreamResolver,
-            pathOutputStreamResolver,
-            converter);
+                inlineOutputStreamResolver,
+                stdinOutputStreamResolver,
+                pathOutputStreamResolver,
+                converter);
     }
 }

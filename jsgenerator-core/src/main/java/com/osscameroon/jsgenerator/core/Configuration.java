@@ -14,7 +14,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Configuration {
-
-
     private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
 }

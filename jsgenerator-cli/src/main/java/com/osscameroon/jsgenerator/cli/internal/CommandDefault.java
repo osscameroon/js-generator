@@ -1,10 +1,10 @@
 package com.osscameroon.jsgenerator.cli.internal;
 
 import com.osscameroon.jsgenerator.cli.Command;
-import com.osscameroon.jsgenerator.core.Configuration;
-import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import com.osscameroon.jsgenerator.cli.Valid;
+import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
+import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,6 @@ import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
-
-/**
- * CommandDefault
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 04, 2022 @t 21:45:35
- */
 
 @Data
 @RequiredArgsConstructor

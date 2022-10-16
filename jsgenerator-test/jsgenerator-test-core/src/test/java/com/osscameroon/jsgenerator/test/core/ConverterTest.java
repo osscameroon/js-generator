@@ -20,12 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * ConverterTest
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 02, 2022 @t 23:50:25
- */
 @ExtendWith(MockitoExtension.class)
 public class ConverterTest {
 
