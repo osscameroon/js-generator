@@ -17,4 +17,6 @@ module com.osscameroon.jsgenerator.cli {
     requires spring.context;
     requires info.picocli;
     requires lombok;
+
+    requires spring.beans;
 }
