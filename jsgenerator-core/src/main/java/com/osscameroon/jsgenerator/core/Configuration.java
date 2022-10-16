@@ -1,43 +1,37 @@
 package com.osscameroon.jsgenerator.core;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import static com.osscameroon.jsgenerator.core.VariableDeclaration.LET;
+import static com.osscameroon.jsgenerator.core.VariableNameStrategy.ofTypeBased;
 
 /**
  * Configuration
  *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 02, 2022 @t 22:07:10
+ * @author Fanon Jupkwo @t jupsfan@gmail.com
+ * @since Oct 02, 2022 @t 09:55:40 WEST
  */
-@Getter
-@RequiredArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Configuration {
-    @NonNull
-    private final Output output;
-    @NonNull
-    private final Input input;
+    private String targetElementSelector = ":root > body";
+    private VariableDeclaration variableDeclaration = LET;
+    private VariableNameStrategy variableNameStrategy = ofTypeBased();
 
-    /**
-     * Input
-     *
-     * @author Salathiel @t salathiel@genese.name
-     * @since Sep 02, 2022 @t 22:03:35
-     */
-    public enum Input {
-        INLINE,
-        FILES,
-        STDIN,
+    public Configuration(final VariableDeclaration variableDeclaration) {
+        this(variableDeclaration, ofTypeBased());
     }
 
-    /**
-     * Output
-     *
-     * @author Salathiel @t salathiel@genese.name
-     * @since Sep 02, 2022 @t 22:05:01
-     */
-    public enum Output {
-        STDOUT,
-        FILES,
+    public Configuration(final String targetElementSelector,
+                         final VariableDeclaration variableDeclaration) {
+        this(targetElementSelector, variableDeclaration, ofTypeBased());
+    }
+
+    public Configuration(final VariableDeclaration variableDeclaration,
+                         final VariableNameStrategy variableNameStrategy) {
+        this(":root > body", variableDeclaration, variableNameStrategy);
     }
 }

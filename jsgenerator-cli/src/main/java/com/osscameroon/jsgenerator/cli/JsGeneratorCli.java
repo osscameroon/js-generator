@@ -2,7 +2,8 @@ package com.osscameroon.jsgenerator.cli;
 
 import com.osscameroon.jsgenerator.cli.internal.CommandDefault;
 import com.osscameroon.jsgenerator.core.Converter;
-import com.osscameroon.jsgenerator.core.NameGenerationStrategy;
+import com.osscameroon.jsgenerator.core.OutputStreamResolver;
+import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -26,39 +27,39 @@ public class JsGeneratorCli {
     }
 
     @Bean
-    public OutputFilenameResolver pathOutputFilenameResolver() {
-        return OutputFilenameResolver.ofPath();
+    public OutputStreamResolver pathOutputStreamResolver() {
+        return OutputStreamResolver.ofPath();
     }
 
     @Bean
-    public OutputFilenameResolver stdinOutputFilenameResolver() {
-        return OutputFilenameResolver.ofStdin();
+    public OutputStreamResolver stdinOutputStreamResolver() {
+        return OutputStreamResolver.ofStdin();
     }
 
     @Bean
-    public OutputFilenameResolver inlineOutputFilenameResolver() {
-        return OutputFilenameResolver.ofInline();
+    public OutputStreamResolver inlineOutputStreamResolver() {
+        return OutputStreamResolver.ofInline();
     }
 
     @Bean
-    public NameGenerationStrategy typeBasedNameGenerationStrategy() {
-        return NameGenerationStrategy.ofTypeBased();
+    public VariableNameStrategy typeBasedNameGenerationStrategy() {
+        return VariableNameStrategy.ofTypeBased();
     }
 
     @Bean
-    public Converter converter(final NameGenerationStrategy typeBasedNameGenerationStrategy) {
-        return Converter.of(typeBasedNameGenerationStrategy);
+    public Converter converter(final VariableNameStrategy typeBasedVariableNameStrategy) {
+        return Converter.of();
     }
 
     @Bean
     public Command command(final Converter converter,
-                           final OutputFilenameResolver pathOutputFilenameResolver,
-                           final OutputFilenameResolver stdinOutputFilenameResolver,
-                           final OutputFilenameResolver inlineOutputFilenameResolver) {
+                           final OutputStreamResolver pathOutputStreamResolver,
+                           final OutputStreamResolver stdinOutputStreamResolver,
+                           final OutputStreamResolver inlineOutputStreamResolver) {
         return new CommandDefault(
-            inlineOutputFilenameResolver,
-            stdinOutputFilenameResolver,
-            pathOutputFilenameResolver,
-            converter);
+                inlineOutputStreamResolver,
+                stdinOutputStreamResolver,
+                pathOutputStreamResolver,
+                converter);
     }
 }

@@ -1,13 +1,24 @@
 name: Greetings
-
-on: [pull_request, issues]
-
+# The following commented line to should not be used in order to avoid security issues such as "Resource not accessible by integration", this article give some explanations: https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+#on: [pull_request, issues]
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
 jobs:
   greeting:
     runs-on: ubuntu-latest
+    #permissions:
+      #pull-requests: write
+      #issues: write
     steps:
     - uses: actions/first-interaction@v1
+    # At this moment, this GitHub Action has an issue: https://github.com/actions/first-interaction/issues/101
+    # In order to try to solve this, we use this: https://github.com/keploy/keploy/pull/182/files 
+    # continue-on-error: true
+    # Finally, this issue is solved by this PR https://github.com/actions/first-interaction/pull/103 so no need to use that condition anymore
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'Thanks for opening this issue 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'' first issue'
-        pr-message: 'Thanks for opening this pull request 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'' first pull request'
+        issue-message: 'Thanks for opening your first issue 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'
+        pr-message: 'Thanks for opening your first pull request 😊 ! We really appreciate your work. Happy Coding 🎉🎊 !'
