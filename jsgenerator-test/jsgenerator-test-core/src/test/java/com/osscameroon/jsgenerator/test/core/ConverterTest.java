@@ -13,9 +13,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
-import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,254 +31,263 @@ public class ConverterTest {
     }
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenCDATA(VariableDeclaration variableDeclaration) {
-
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
-
         final var token = randomUUID().toString();
-        final var converted = convert(format("<![CDATA[ < %s > & ]]>", token), new Configuration(variableDeclaration));
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert("<![CDATA[ < %s > & ]]>".formatted(token), configuration);
 
-        assertThat(converted).containsExactly(format(variableDeclarationKeyWord + " text_000 = document.createTextNode(` < %s > & `);", token),
-                "document.appendChild(text_000);");
+        assertThat(converted).containsExactly(
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s text_000 = document.createTextNode(` < %s > & `);".formatted(keyword, token),
+                "targetElement_000.appendChild(text_000);");
     }
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenPlainText(VariableDeclaration variableDeclaration) {
-
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
         final var token = randomUUID().toString();
-        final var converted = convert(token, new Configuration(variableDeclaration));
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert(token, configuration);
 
-        assertThat(converted).containsExactly(format(variableDeclarationKeyWord + " text_000 = document.createTextNode(`%s`);", token),
-                "document.appendChild(text_000);");
+        assertThat(converted).containsExactly(
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s text_000 = document.createTextNode(`%s`);".formatted(keyword, token),
+                "targetElement_000.appendChild(text_000);");
     }
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
-
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenComment(VariableDeclaration variableDeclaration) {
-
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
         final var token = randomUUID().toString();
-        final var converted = convert(format("<!-- %s -->", token), new Configuration(variableDeclaration));
-
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert("<!-- %s -->".formatted(token), configuration);
 
         assertThat(converted).containsExactly(
-                format(variableDeclarationKeyWord + " comment_000 = document.createComment(` %s `);", token),
-                "document.appendChild(comment_000);");
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s comment_000 = document.createComment(` %s `);".formatted(keyword, token),
+                "targetElement_000.appendChild(comment_000);");
     }
 
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
-
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenScript(VariableDeclaration variableDeclaration) {
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
         final var token = randomUUID().toString();
-        final var converted = convert(format("<script>console.log(`%s`)</script>", token), new Configuration(variableDeclaration));
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert("<script>console.log(`%s`)</script>".formatted(token), configuration);
 
         assertThat(converted).containsExactly(
-                variableDeclarationKeyWord + " script_000 = document.createElement('script');",
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s script_000 = document.createElement('script');".formatted(keyword),
                 "script_000.type = `text/javascript`;",
                 "try {",
-                format(variableDeclarationKeyWord + " text_000 = document.createTextNode(`console.log(\\`%s\\`)`);", token),
+                "%s text_000 = document.createTextNode(`console.log(\\`%s\\`)`);".formatted(keyword, token),
                 "script_000.appendChild(text_000);",
-                "document.appendChild(script_000);",
+                "targetElement_000.appendChild(script_000);",
                 "} catch (_) {",
-                format("script_000.text = `console.log(\\`%s\\`)`;", token),
-                "document.appendChild(script_000);",
+                "script_000.text = `console.log(\\`%s\\`)`;".formatted(token),
+                "targetElement_000.appendChild(script_000);",
                 "}");
     }
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenTagWithAttributes(VariableDeclaration variableDeclaration) {
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
+        final var keyword = keyword(variableDeclaration);
 
         assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration))).containsExactly(
-                variableDeclarationKeyWord + " div_000 = document.createElement('div');",
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s div_000 = document.createElement('div');".formatted(keyword),
                 "div_000.setAttribute(`id`, `id-value`);",
-                "document.appendChild(div_000);");
-
+                "targetElement_000.appendChild(div_000);");
+        // TODO: Name counter need reset across calls to convert
         assertThat(convert("<details open></details>", new Configuration(variableDeclaration))).containsExactly(
-                variableDeclarationKeyWord + " details_000 = document.createElement('details');",
+                "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s details_000 = document.createElement('details');".formatted(keyword),
                 "details_000.setAttribute(`open`, `true`);",
-                "document.appendChild(details_000);");
-
+                "targetElement_001.appendChild(details_000);");
+        // TODO: Name counter need reset across calls to convert
         assertThat(convert("<p class></p>", new Configuration(variableDeclaration))).containsExactly(
-                variableDeclarationKeyWord + " p_000 = document.createElement('p');",
+                "%s targetElement_002 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s p_000 = document.createElement('p');".formatted(keyword),
                 "p_000.setAttribute(`class`, ``);",
-                "document.appendChild(p_000);");
+                "targetElement_002.appendChild(p_000);");
     }
 
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenMultipleNodeAtRoot(VariableDeclaration variableDeclaration) {
-
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
-
-        final var converted = convert("<!-- Here comes a DIV element... --><div></div>", new Configuration(variableDeclaration));
+        final var token = randomUUID().toString();
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert("<!-- %s --><div></div>".formatted(token), configuration);
 
         assertThat(converted).containsExactly(
-                variableDeclarationKeyWord + " comment_000 = document.createComment(` Here comes a DIV element... `);",
-                "document.appendChild(comment_000);",
-                variableDeclarationKeyWord + " div_000 = document.createElement('div');",
-                "document.appendChild(div_000);");
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s comment_000 = document.createComment(` %s `);".formatted(keyword, token),
+                "targetElement_000.appendChild(comment_000);",
+                "%s div_000 = document.createElement('div');".formatted(keyword),
+                "targetElement_000.appendChild(div_000);");
     }
 
-
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWithIncrementVariableNameWhenGivenMultipleNodeWithSameTagNames(VariableDeclaration variableDeclaration) {
-
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
-
-        final var converted = convert("<div></div><div></div>", new Configuration(variableDeclaration));
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert("<div></div><div></div>", configuration);
 
         assertThat(converted).containsExactly(
-                variableDeclarationKeyWord + " div_000 = document.createElement('div');",
-                "document.appendChild(div_000);",
-                variableDeclarationKeyWord + " div_001 = document.createElement('div');",
-                "document.appendChild(div_001);");
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s div_000 = document.createElement('div');".formatted(keyword),
+                "targetElement_000.appendChild(div_000);",
+                "%s div_001 = document.createElement('div');".formatted(keyword),
+                "targetElement_000.appendChild(div_001);");
     }
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenNestedNodes(VariableDeclaration variableDeclaration) {
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
-
-        final var converted = convert("<div>A <strong>...</strong></div><div><p>Well, case!</div>", new Configuration(variableDeclaration));
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        final var converted = convert(
+                "<div>A <strong>...</strong></div><div><p>Well, case!</div>", configuration);
 
         assertThat(converted).containsExactly(
-                variableDeclarationKeyWord + " div_000 = document.createElement('div');",
-                variableDeclarationKeyWord + " text_000 = document.createTextNode(`A `);",
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s div_000 = document.createElement('div');".formatted(keyword),
+                "%s text_000 = document.createTextNode(`A `);".formatted(keyword),
                 "div_000.appendChild(text_000);",
-                variableDeclarationKeyWord + " strong_000 = document.createElement('strong');",
-                variableDeclarationKeyWord + " text_001 = document.createTextNode(`...`);",
+                "%s strong_000 = document.createElement('strong');".formatted(keyword),
+                "%s text_001 = document.createTextNode(`...`);".formatted(keyword),
                 "strong_000.appendChild(text_001);",
                 "div_000.appendChild(strong_000);",
-                "document.appendChild(div_000);",
-                variableDeclarationKeyWord + " div_001 = document.createElement('div');",
-                variableDeclarationKeyWord + " p_000 = document.createElement('p');",
-                variableDeclarationKeyWord + " text_002 = document.createTextNode(`Well, case!`);",
+                "targetElement_000.appendChild(div_000);",
+                "%s div_001 = document.createElement('div');".formatted(keyword),
+                "%s p_000 = document.createElement('p');".formatted(keyword),
+                "%s text_002 = document.createTextNode(`Well, case!`);".formatted(keyword),
                 "p_000.appendChild(text_002);",
                 "div_001.appendChild(p_000);",
-                "document.appendChild(div_001);");
+                "targetElement_000.appendChild(div_001);");
     }
 
     @ParameterizedTest
-    @EnumSource(VariableDeclaration.class) // passing all variable declaration options: LET, VAR, CONST
-    public void produceValidCodeWhenGivenPathToAFile(VariableDeclaration variableDeclaration) {
+    @EnumSource(VariableDeclaration.class)
+    public void produceValidCodeWhenGivenPathToAFile(VariableDeclaration variableDeclaration) throws IOException {
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration);
+        //noinspection resource,ConstantConditions
+        final var input = getClass().getClassLoader()
+                .getResourceAsStream("htmlFilesInput/sample.html")
+                .readAllBytes();
+        final var converted = convert(new String(input, UTF_8), configuration);
 
-        final String variableDeclarationKeyWord = variableDeclaration.name().toLowerCase();
-
-        final var outputStream = new ByteArrayOutputStream();
-        final var inputStream = getClass().getClassLoader()
-                .getResourceAsStream("htmlFilesInput/sample.html");
-
-
-        assertThat(inputStream).isNotNull();
-        Converter.of(VariableNameStrategy.ofTypeBased()).convert(inputStream, outputStream, new Configuration(variableDeclaration));
-
-        assertThat(outputAsStrippedLines(outputStream)).containsExactly(
-                variableDeclarationKeyWord + " html_000 = document.createElement('html');",
-                variableDeclarationKeyWord + " text_000 = document.createTextNode(`    `);",
+        // TODO: This doesn't make sense and deserve and issue to fix:
+        //       html > body > html > body > ...
+        //       Same would be true for doctype child of body
+        assertThat(converted).containsExactly(
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s html_000 = document.createElement('html');".formatted(keyword),
+                "%s text_000 = document.createTextNode(`    `);".formatted(keyword),
                 "html_000.appendChild(text_000);",
-                variableDeclarationKeyWord + " head_000 = document.createElement('head');",
-                variableDeclarationKeyWord + " text_001 = document.createTextNode(`        `);",
+                "%s head_000 = document.createElement('head');".formatted(keyword),
+                "%s text_001 = document.createTextNode(`        `);".formatted(keyword),
                 "head_000.appendChild(text_001);",
-                variableDeclarationKeyWord + " meta_000 = document.createElement('meta');",
+                "%s meta_000 = document.createElement('meta');".formatted(keyword),
                 "meta_000.setAttribute(`charset`, `utf-8`);",
-                variableDeclarationKeyWord + " text_002 = document.createTextNode(`        `);",
+                "%s text_002 = document.createTextNode(`        `);".formatted(keyword),
                 "meta_000.appendChild(text_002);",
-                variableDeclarationKeyWord + " title_000 = document.createElement('title');",
-                variableDeclarationKeyWord + " text_003 = document.createTextNode(`Sample`);",
+                "%s title_000 = document.createElement('title');".formatted(keyword),
+                "%s text_003 = document.createTextNode(`Sample`);".formatted(keyword),
                 "title_000.appendChild(text_003);",
                 "meta_000.appendChild(title_000);",
-                variableDeclarationKeyWord + " text_004 = document.createTextNode(`        `);",
+                "%s text_004 = document.createTextNode(`        `);".formatted(keyword),
                 "meta_000.appendChild(text_004);",
-                variableDeclarationKeyWord + " link_000 = document.createElement('link');",
+                "%s link_000 = document.createElement('link');".formatted(keyword),
                 "link_000.setAttribute(`rel`, `stylesheet`);",
                 "link_000.setAttribute(`href`, ``);",
-                variableDeclarationKeyWord + " text_005 = document.createTextNode(`    `);",
+                "%s text_005 = document.createTextNode(`    `);".formatted(keyword),
                 "link_000.appendChild(text_005);",
                 "meta_000.appendChild(link_000);",
                 "head_000.appendChild(meta_000);",
                 "html_000.appendChild(head_000);",
-                variableDeclarationKeyWord + " text_006 = document.createTextNode(`    `);",
+                "%s text_006 = document.createTextNode(`    `);".formatted(keyword),
                 "html_000.appendChild(text_006);",
-                variableDeclarationKeyWord + " body_000 = document.createElement('body');",
-                variableDeclarationKeyWord + " text_007 = document.createTextNode(`        `);",
+                "%s body_000 = document.createElement('body');".formatted(keyword),
+                "%s text_007 = document.createTextNode(`        `);".formatted(keyword),
                 "body_000.appendChild(text_007);",
-                variableDeclarationKeyWord + " div_000 = document.createElement('div');",
+                "%s div_000 = document.createElement('div');".formatted(keyword),
                 "div_000.setAttribute(`id`, `container`);",
-                variableDeclarationKeyWord + " text_008 = document.createTextNode(`            `);",
+                "%s text_008 = document.createTextNode(`            `);".formatted(keyword),
                 "div_000.appendChild(text_008);",
-                variableDeclarationKeyWord + " div_001 = document.createElement('div');",
+                "%s div_001 = document.createElement('div');".formatted(keyword),
                 "div_001.setAttribute(`id`, `header`);",
-                variableDeclarationKeyWord + " text_009 = document.createTextNode(`                `);",
+                "%s text_009 = document.createTextNode(`                `);".formatted(keyword),
                 "div_001.appendChild(text_009);",
-                variableDeclarationKeyWord + " h1_000 = document.createElement('h1');",
-                variableDeclarationKeyWord + " text_010 = document.createTextNode(`Sample`);",
+                "%s h1_000 = document.createElement('h1');".formatted(keyword),
+                "%s text_010 = document.createTextNode(`Sample`);".formatted(keyword),
                 "h1_000.appendChild(text_010);",
                 "div_001.appendChild(h1_000);",
-                variableDeclarationKeyWord + " text_011 = document.createTextNode(`                `);",
+                "%s text_011 = document.createTextNode(`                `);".formatted(keyword),
                 "div_001.appendChild(text_011);",
-                variableDeclarationKeyWord + " img_000 = document.createElement('img');",
+                "%s img_000 = document.createElement('img');".formatted(keyword),
                 "img_000.setAttribute(`src`, `kanye.jpg`);",
                 "img_000.setAttribute(`alt`, `kanye`);",
-                variableDeclarationKeyWord + " text_012 = document.createTextNode(`            `);",
+                "%s text_012 = document.createTextNode(`            `);".formatted(keyword),
                 "img_000.appendChild(text_012);",
                 "div_001.appendChild(img_000);",
                 "div_000.appendChild(div_001);",
-                variableDeclarationKeyWord + " text_013 = document.createTextNode(`            `);",
+                "%s text_013 = document.createTextNode(`            `);".formatted(keyword),
                 "div_000.appendChild(text_013);",
-                variableDeclarationKeyWord + " div_002 = document.createElement('div');",
+                "%s div_002 = document.createElement('div');".formatted(keyword),
                 "div_002.setAttribute(`id`, `main`);",
-                variableDeclarationKeyWord + " text_014 = document.createTextNode(`                `);",
+                "%s text_014 = document.createTextNode(`                `);".formatted(keyword),
                 "div_002.appendChild(text_014);",
-                variableDeclarationKeyWord + " h2_000 = document.createElement('h2');",
-                variableDeclarationKeyWord + " text_015 = document.createTextNode(`Main`);",
+                "%s h2_000 = document.createElement('h2');".formatted(keyword),
+                "%s text_015 = document.createTextNode(`Main`);".formatted(keyword),
                 "h2_000.appendChild(text_015);",
                 "div_002.appendChild(h2_000);",
-                variableDeclarationKeyWord + " text_016 = document.createTextNode(`                `);",
+                "%s text_016 = document.createTextNode(`                `);".formatted(keyword),
                 "div_002.appendChild(text_016);",
-                variableDeclarationKeyWord + " p_000 = document.createElement('p');",
-                variableDeclarationKeyWord + " text_017 = document.createTextNode(`This is the main content.`);",
+                "%s p_000 = document.createElement('p');".formatted(keyword),
+                "%s text_017 = document.createTextNode(`This is the main content.`);".formatted(keyword),
                 "p_000.appendChild(text_017);",
                 "div_002.appendChild(p_000);",
-                variableDeclarationKeyWord + " text_018 = document.createTextNode(`                `);",
+                "%s text_018 = document.createTextNode(`                `);".formatted(keyword),
                 "div_002.appendChild(text_018);",
-                variableDeclarationKeyWord + " img_001 = document.createElement('img');",
+                "%s img_001 = document.createElement('img');".formatted(keyword),
                 "img_001.setAttribute(`src`, ``);",
                 "img_001.setAttribute(`alt`, ``);",
-                variableDeclarationKeyWord + " text_019 = document.createTextNode(`            `);",
+                "%s text_019 = document.createTextNode(`            `);".formatted(keyword),
                 "img_001.appendChild(text_019);",
                 "div_002.appendChild(img_001);",
                 "div_000.appendChild(div_002);",
-                variableDeclarationKeyWord + " text_020 = document.createTextNode(`            `);",
+                "%s text_020 = document.createTextNode(`            `);".formatted(keyword),
                 "div_000.appendChild(text_020);",
-                variableDeclarationKeyWord + " div_003 = document.createElement('div');",
+                "%s div_003 = document.createElement('div');".formatted(keyword),
                 "div_003.setAttribute(`id`, `footer`);",
-                variableDeclarationKeyWord + " text_021 = document.createTextNode(`                `);",
+                "%s text_021 = document.createTextNode(`                `);".formatted(keyword),
                 "div_003.appendChild(text_021);",
-                variableDeclarationKeyWord + " p_001 = document.createElement('p');",
-                variableDeclarationKeyWord + " text_022 = document.createTextNode(`Copyright © 2019`);",
+                "%s p_001 = document.createElement('p');".formatted(keyword),
+                "%s text_022 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
                 "p_001.appendChild(text_022);",
                 "div_003.appendChild(p_001);",
-                variableDeclarationKeyWord + " text_023 = document.createTextNode(`            `);",
+                "%s text_023 = document.createTextNode(`            `);".formatted(keyword),
                 "div_003.appendChild(text_023);",
                 "div_000.appendChild(div_003);",
-                variableDeclarationKeyWord + " text_024 = document.createTextNode(`        `);",
+                "%s text_024 = document.createTextNode(`        `);".formatted(keyword),
                 "div_000.appendChild(text_024);",
                 "body_000.appendChild(div_000);",
-                variableDeclarationKeyWord + " text_025 = document.createTextNode(`    `);",
+                "%s text_025 = document.createTextNode(`    `);".formatted(keyword),
                 "body_000.appendChild(text_025);",
                 "html_000.appendChild(body_000);",
-                "document.appendChild(html_000);");
+                "targetElement_000.appendChild(html_000);");
     }
 
     /**
@@ -288,7 +297,6 @@ public class ConverterTest {
      * @param configuration The variable declaration used: let, const or var
      * @return Lines of output JS code
      */
-
     private String[] convert(@NonNull String input, Configuration configuration) {
         final var inputStream = new ByteArrayInputStream(input.getBytes(UTF_8));
         final var outputStream = new ByteArrayOutputStream();
@@ -305,5 +313,9 @@ public class ConverterTest {
                 .map(String::strip)
                 .filter(line -> !line.isEmpty())
                 .toArray(String[]::new);
+    }
+
+    private String keyword(final VariableDeclaration variableDeclaration) {
+        return variableDeclaration.name().toLowerCase();
     }
 }

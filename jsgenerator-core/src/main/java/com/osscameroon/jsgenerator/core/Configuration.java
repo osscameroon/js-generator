@@ -11,8 +11,13 @@ import lombok.NoArgsConstructor;
  * @since Oct 02, 2022 @t 09:55:40 WEST
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Configuration {
+    private String targetElementSelector = ":root > body";
     private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
+
+    public Configuration(final VariableDeclaration variableDeclaration) {
+        this(":root > body", variableDeclaration);
+    }
 }
