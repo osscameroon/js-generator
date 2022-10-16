@@ -27,7 +27,7 @@ public class ConverterTest {
 
     @BeforeEach
     public void before() {
-        converter = Converter.of(VariableNameStrategy.ofTypeBased());
+        converter = Converter.of();
     }
 
     @ParameterizedTest
@@ -105,18 +105,16 @@ public class ConverterTest {
                 "%s div_000 = document.createElement('div');".formatted(keyword),
                 "div_000.setAttribute(`id`, `id-value`);",
                 "targetElement_000.appendChild(div_000);");
-        // TODO: Name counter need reset across calls to convert
         assertThat(convert("<details open></details>", new Configuration(variableDeclaration))).containsExactly(
-                "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                 "%s details_000 = document.createElement('details');".formatted(keyword),
                 "details_000.setAttribute(`open`, `true`);",
-                "targetElement_001.appendChild(details_000);");
-        // TODO: Name counter need reset across calls to convert
+                "targetElement_000.appendChild(details_000);");
         assertThat(convert("<p class></p>", new Configuration(variableDeclaration))).containsExactly(
-                "%s targetElement_002 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                 "%s p_000 = document.createElement('p');".formatted(keyword),
                 "p_000.setAttribute(`class`, ``);",
-                "targetElement_002.appendChild(p_000);");
+                "targetElement_000.appendChild(p_000);");
     }
 
 

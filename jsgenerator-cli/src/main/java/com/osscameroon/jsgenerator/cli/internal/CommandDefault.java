@@ -1,5 +1,6 @@
 package com.osscameroon.jsgenerator.cli.internal;
 
+import com.osscameroon.jsgenerator.cli.BuiltinVariableNameStrategy;
 import com.osscameroon.jsgenerator.cli.Command;
 import com.osscameroon.jsgenerator.cli.Valid;
 import com.osscameroon.jsgenerator.core.Configuration;
@@ -19,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.osscameroon.jsgenerator.cli.BuiltinVariableNameStrategy.TYPE_BASED;
 import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 
 @Data
 @RequiredArgsConstructor
@@ -72,6 +73,12 @@ public class CommandDefault implements Command, Valid {
     private String pathPattern = format("{{ %s }}{{ %s }}", ORIGINAL, EXTENSION);
 
     @Option(
+            names = "--variable-name-generation-strategy",
+            defaultValue = "TYPE_BASED",
+            description = "Variable names generation strategy")
+    private BuiltinVariableNameStrategy builtinVariableNameStrategy = TYPE_BASED;
+
+    @Option(
             names = "--inline-pattern",
             defaultValue = "inline.{{ index }}{{ extension }}",
             description = "Pattern for inline output filename")
@@ -115,7 +122,7 @@ public class CommandDefault implements Command, Valid {
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(targetElementSelector, variableDeclaration));
+                    new Configuration(targetElementSelector, variableDeclaration, builtinVariableNameStrategy.get()));
             outputStream.flush();
             outputStream.close();
         }

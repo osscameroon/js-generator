@@ -48,7 +48,7 @@ public class JsGeneratorCli {
 
     @Bean
     public Converter converter(final VariableNameStrategy typeBasedVariableNameStrategy) {
-        return Converter.of(typeBasedVariableNameStrategy);
+        return Converter.of();
     }
 
     @Bean

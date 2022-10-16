@@ -14,7 +14,7 @@ public interface Converter {
 
     void convert(@NonNull final InputStream inputStream, @NonNull final OutputStream outputStream, @NonNull Configuration configuration);
 
-    static Converter of(@NonNull final VariableNameStrategy variableNameStrategy) {
-        return new ConverterDefault(variableNameStrategy);
+    static Converter of() {
+        return new ConverterDefault();
     }
 }
