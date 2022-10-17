@@ -1,6 +1,7 @@
 package com.osscameroon.jsgenerator.api.domain;
 
 import com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy;
+import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import lombok.Data;
 
@@ -23,4 +24,8 @@ public class Command {
     private String targetElementSelector = ":root > body";
     private VariableDeclaration variableDeclaration = CONST;
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
+
+    public Configuration toConfiguration() {
+        return new Configuration(targetElementSelector, variableDeclaration, variableNameStrategy);
+    }
 }
