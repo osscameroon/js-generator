@@ -54,6 +54,12 @@ public class CommandDefault implements Command, Valid {
     private String extension = ".jsgenerator.js";
 
     @Option(
+            names = {"-s", "--selector"},
+            defaultValue = ":root > body",
+            description = "Target element selector")
+    private String targetElementSelector = ":root > body";
+
+    @Option(
             names = "--stdin-pattern",
             defaultValue = "stdin{{ extension }}",
             description = "pattern for stdin output filenames")
@@ -104,12 +110,12 @@ public class CommandDefault implements Command, Valid {
         }
 
         // NOTE: Process paths
-        for (final var path : paths.stream().map(Path::toAbsolutePath).distinct().collect(toList())) {
+        for (final var path : paths.stream().map(Path::toAbsolutePath).distinct().toList()) {
             System.err.printf("\fTranslating: %s%n", path);
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(variableDeclaration));
+                    new Configuration(targetElementSelector, variableDeclaration));
             outputStream.flush();
             outputStream.close();
         }

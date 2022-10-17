@@ -5,8 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Configuration {
+    private String targetElementSelector = ":root > body";
     private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
+
+    public Configuration(final VariableDeclaration variableDeclaration) {
+        this(":root > body", variableDeclaration);
+    }
 }

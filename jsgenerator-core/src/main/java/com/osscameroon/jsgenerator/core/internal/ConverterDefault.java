@@ -42,7 +42,12 @@ public class ConverterDefault implements Converter {
 
         final var document = Jsoup.parse(content, xmlParser());
         final var writer = new OutputStreamWriter(outputStream);
-        visit(writer, "document", document.childNodes(), configuration);
+
+        final var selector = configuration.getTargetElementSelector();
+        final var variable = variableNameStrategy.nextName("targetElement");
+        final var keyword = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
+        writer.write("%s %s = document.querySelector(`%s`);\n\n".formatted(keyword, variable, selector));
+        visit(writer, variable, document.childNodes(), configuration);
         writer.flush();
     }
 
