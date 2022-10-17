@@ -3,7 +3,6 @@ package com.osscameroon.jsgenerator.core.internal;
 import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
-import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 
@@ -22,8 +21,7 @@ public class ConverterDefault implements Converter {
             "reversed", "selected", "truespeed", "contenteditable");
 
     @Override
-    @SneakyThrows
-    public void convert(InputStream inputStream, OutputStream outputStream, Configuration configuration) {
+    public void convert(InputStream inputStream, OutputStream outputStream, Configuration configuration) throws IOException {
         final var stringBuilder = new StringBuilder();
         final var scanner = new Scanner(inputStream);
 

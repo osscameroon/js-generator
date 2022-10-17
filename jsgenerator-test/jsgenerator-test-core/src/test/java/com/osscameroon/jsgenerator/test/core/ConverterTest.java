@@ -3,7 +3,6 @@ package com.osscameroon.jsgenerator.test.core;
 import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
-import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 public class ConverterTest {
-
     private Converter converter;
 
     @BeforeEach
@@ -32,7 +30,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenCDATA(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenCDATA(VariableDeclaration variableDeclaration) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
@@ -46,7 +44,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenPlainText(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenPlainText(VariableDeclaration variableDeclaration) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
@@ -60,7 +58,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenComment(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenComment(VariableDeclaration variableDeclaration) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
@@ -75,7 +73,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenScript(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenScript(VariableDeclaration variableDeclaration) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
@@ -97,7 +95,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenTagWithAttributes(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenTagWithAttributes(VariableDeclaration variableDeclaration) throws IOException {
         final var keyword = keyword(variableDeclaration);
 
         assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration))).containsExactly(
@@ -120,7 +118,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenMultipleNodeAtRoot(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenMultipleNodeAtRoot(VariableDeclaration variableDeclaration) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
@@ -136,7 +134,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWithIncrementVariableNameWhenGivenMultipleNodeWithSameTagNames(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWithIncrementVariableNameWhenGivenMultipleNodeWithSameTagNames(VariableDeclaration variableDeclaration) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
         final var converted = convert("<div></div><div></div>", configuration);
@@ -151,7 +149,7 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void produceValidCodeWhenGivenNestedNodes(VariableDeclaration variableDeclaration) {
+    public void produceValidCodeWhenGivenNestedNodes(VariableDeclaration variableDeclaration) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration);
         final var converted = convert(
@@ -295,7 +293,7 @@ public class ConverterTest {
      * @param configuration The variable declaration used: let, const or var
      * @return Lines of output JS code
      */
-    private String[] convert(@NonNull String input, Configuration configuration) {
+    private String[] convert(@NonNull String input, Configuration configuration) throws IOException {
         final var inputStream = new ByteArrayInputStream(input.getBytes(UTF_8));
         final var outputStream = new ByteArrayOutputStream();
 
