@@ -13,12 +13,6 @@ import java.util.List;
 import static java.util.List.of;
 import static org.slf4j.LoggerFactory.getLogger;
 
-/**
- * ConvertController
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 13, 2022 @t 05:14:18
- */
 @RestController
 @RequestMapping("convert")
 public class ConvertController {

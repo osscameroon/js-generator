@@ -7,12 +7,6 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Command
- *
- * @author Salathiel @t salathiel@genese.name
- * @since Sep 13, 2022 @t 05:15:54
- */
 @Data
 public class Command {
     private String extension = ".jsgenerator.js";
