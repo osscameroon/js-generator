@@ -1,5 +1,6 @@
 package com.osscameroon.jsgenerator.cli;
 
+import com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 

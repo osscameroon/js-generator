@@ -1,6 +1,4 @@
-package com.osscameroon.jsgenerator.cli;
-
-import com.osscameroon.jsgenerator.core.VariableNameStrategy;
+package com.osscameroon.jsgenerator.core;
 
 import java.util.function.Supplier;
 
