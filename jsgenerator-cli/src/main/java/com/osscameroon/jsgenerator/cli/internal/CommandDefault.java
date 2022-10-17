@@ -1,12 +1,8 @@
 package com.osscameroon.jsgenerator.cli.internal;
 
-import com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy;
 import com.osscameroon.jsgenerator.cli.Command;
 import com.osscameroon.jsgenerator.cli.Valid;
-import com.osscameroon.jsgenerator.core.Configuration;
-import com.osscameroon.jsgenerator.core.Converter;
-import com.osscameroon.jsgenerator.core.OutputStreamResolver;
-import com.osscameroon.jsgenerator.core.VariableDeclaration;
+import com.osscameroon.jsgenerator.core.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import picocli.CommandLine;
@@ -122,7 +118,7 @@ public class CommandDefault implements Command, Valid {
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(targetElementSelector, variableDeclaration, builtinVariableNameStrategy.get()));
+                    new Configuration(targetElementSelector, variableDeclaration, builtinVariableNameStrategy));
             outputStream.flush();
             outputStream.close();
         }
