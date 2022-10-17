@@ -3,8 +3,6 @@ package com.osscameroon.jsgenerator.core.internal;
 import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
-import com.osscameroon.jsgenerator.core.VariableNameStrategy;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
@@ -17,13 +15,11 @@ import static java.lang.String.format;
 import static java.lang.String.join;
 import static org.jsoup.parser.Parser.xmlParser;
 
-@RequiredArgsConstructor
 public class ConverterDefault implements Converter {
     private static final List<String> BOOLEAN_ATTRIBUTES = List.of("allowfullscreen", "async", "autofocus",
             "autoplay", "checked", "controls", "default", "defer", "disabled", "formnovalidate", "ismap", "itemscope",
             "loop", "multiple", "muted", "nomodule", "novalidate", "open", "playsinline", "readonly", "required",
             "reversed", "selected", "truespeed", "contenteditable");
-    private final VariableNameStrategy variableNameStrategy;
 
     @Override
     @SneakyThrows
@@ -40,6 +36,7 @@ public class ConverterDefault implements Converter {
         // NOTE: There is nothing to do
         if (content.isBlank()) return;
 
+        final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var document = Jsoup.parse(content, xmlParser());
         final var writer = new OutputStreamWriter(outputStream);
 
@@ -71,6 +68,7 @@ public class ConverterDefault implements Converter {
     }
 
     private void visit(Writer writer, String parent, Comment comment, Configuration configuration) throws IOException {
+        final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var variable = variableNameStrategy.nextName("comment");
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
@@ -79,6 +77,7 @@ public class ConverterDefault implements Converter {
     }
 
     private void visit(Writer writer, String parent, TextNode textNode, Configuration configuration) throws IOException {
+        final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var variable = variableNameStrategy.nextName("text");
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
@@ -87,6 +86,7 @@ public class ConverterDefault implements Converter {
     }
 
     private void visit(Writer writer, String parent, Element element, Configuration configuration) throws IOException {
+        final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var variable = variableNameStrategy.nextName(element.tagName());
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
@@ -103,6 +103,8 @@ public class ConverterDefault implements Converter {
     }
 
     private void visitScriptNode(Writer writer, String parent, Element element, String variable, Configuration configuration) throws IOException {
+        final var variableNameStrategy = configuration.getVariableNameStrategy();
+
         if (element.attr(element.absUrl("type")).isBlank()) {
             writer.write(format("\r\n%s.type = `text/javascript`;\r\n", variable));
         }

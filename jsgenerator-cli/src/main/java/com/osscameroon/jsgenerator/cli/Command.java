@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public interface Command extends Callable<Integer> {
+    BuiltinVariableNameStrategy getBuiltinVariableNameStrategy();
+
     VariableDeclaration getVariableDeclaration();
 
     String getTargetElementSelector();
