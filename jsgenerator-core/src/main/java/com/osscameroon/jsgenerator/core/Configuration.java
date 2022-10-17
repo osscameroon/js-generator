@@ -7,12 +7,6 @@ import lombok.NoArgsConstructor;
 import static com.osscameroon.jsgenerator.core.VariableDeclaration.LET;
 import static com.osscameroon.jsgenerator.core.VariableNameStrategy.ofTypeBased;
 
-/**
- * Configuration
- *
- * @author Fanon Jupkwo @t jupsfan@gmail.com
- * @since Oct 02, 2022 @t 09:55:40 WEST
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
