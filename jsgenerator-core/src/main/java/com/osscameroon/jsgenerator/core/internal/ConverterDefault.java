@@ -41,7 +41,7 @@ public class ConverterDefault implements Converter {
         final var selector = configuration.getTargetElementSelector();
         final var variable = variableNameStrategy.nextName("targetElement");
         final var keyword = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
-        writer.write("%s %s = document.querySelector(`%s`);\n\n".formatted(keyword, variable, selector));
+        writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
         visit(writer, variable, document.childNodes(), configuration);
         writer.flush();
     }
