@@ -1,4 +1,7 @@
 module com.osscameroon.jsgenerator.api {
+    exports com.osscameroon.jsgenerator.api.rest;
+    exports com.osscameroon.jsgenerator.api;
+
     opens com.osscameroon.jsgenerator.api to spring.beans;
     opens com.osscameroon.jsgenerator.api.domain;
     opens com.osscameroon.jsgenerator.api.rest to spring.beans;
