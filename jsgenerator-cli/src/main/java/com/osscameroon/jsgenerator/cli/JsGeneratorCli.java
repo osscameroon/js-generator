@@ -3,7 +3,6 @@ package com.osscameroon.jsgenerator.cli;
 import com.osscameroon.jsgenerator.cli.internal.CommandDefault;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
-import com.osscameroon.jsgenerator.core.VariableNameStrategy;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -42,12 +41,7 @@ public class JsGeneratorCli {
     }
 
     @Bean
-    public VariableNameStrategy typeBasedNameGenerationStrategy() {
-        return VariableNameStrategy.ofTypeBased();
-    }
-
-    @Bean
-    public Converter converter(final VariableNameStrategy typeBasedVariableNameStrategy) {
+    public Converter converter() {
         return Converter.of();
     }
 
