@@ -9,6 +9,7 @@
         <module>jsgenerator-core</module>
         <module>jsgenerator-test</module>
         <module>jsgenerator-cli</module>
+        <module>jsgenerator-desktop</module>
     </modules>
 
     <parent>
