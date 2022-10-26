@@ -1,23 +1,20 @@
 package com.osscameroon.jsgenerator.core;
 
-import lombok.NonNull;
+import java.util.function.Supplier;
 
-import static com.osscameroon.jsgenerator.core.VariableNameStrategy.ofRandom;
-import static com.osscameroon.jsgenerator.core.VariableNameStrategy.ofTypeBased;
-
-public enum BuiltinVariableNameStrategy implements VariableNameStrategy {
-    TYPE_BASED(ofTypeBased()),
-    RANDOM(ofRandom()),
+public enum BuiltinVariableNameStrategy implements Supplier<VariableNameStrategy> {
+    TYPE_BASED(VariableNameStrategy::ofTypeBased),
+    RANDOM(VariableNameStrategy::ofRandom),
     ;
 
-    private final VariableNameStrategy variableNameStrategy;
+    private final Supplier<VariableNameStrategy> variableNameStrategySupplier;
 
-    BuiltinVariableNameStrategy(VariableNameStrategy variableNameStrategy) {
-        this.variableNameStrategy = variableNameStrategy;
+    BuiltinVariableNameStrategy(final Supplier<VariableNameStrategy> variableNameStrategySupplier) {
+        this.variableNameStrategySupplier = variableNameStrategySupplier;
     }
 
     @Override
-    public String nextName(@NonNull String type) {
-        return variableNameStrategy.nextName(type);
+    public VariableNameStrategy get() {
+        return variableNameStrategySupplier.get();
     }
 }

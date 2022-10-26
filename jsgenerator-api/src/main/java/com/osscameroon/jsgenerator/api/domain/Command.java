@@ -26,6 +26,6 @@ public class Command {
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
 
     public Configuration toConfiguration() {
-        return new Configuration(targetElementSelector, variableDeclaration, variableNameStrategy);
+        return new Configuration(targetElementSelector, variableDeclaration, variableNameStrategy.get());
     }
 }

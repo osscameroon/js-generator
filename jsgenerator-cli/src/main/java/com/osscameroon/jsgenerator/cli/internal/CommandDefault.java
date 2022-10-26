@@ -118,7 +118,7 @@ public class CommandDefault implements Command, Valid {
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(targetElementSelector, variableDeclaration, builtinVariableNameStrategy));
+                    new Configuration(targetElementSelector, variableDeclaration, builtinVariableNameStrategy.get()));
             outputStream.flush();
             outputStream.close();
         }
