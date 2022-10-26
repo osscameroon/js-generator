@@ -1,5 +1,6 @@
 package com.osscameroon.jsgenerator.api;
 
+import com.osscameroon.jsgenerator.api.rest.ConvertController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,17 +23,18 @@ public class JsGeneratorApi {
 
     @Bean
     public SecurityFilterChain securityFilterChain(
-        @Value("${management.endpoints.web.base-path:/actuator}") final String actuatorBasePath,
-        final HttpSecurity httpSecurity) throws Exception {
+            @Value("${management.endpoints.web.base-path:/actuator}") final String actuatorBasePath,
+            final HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-            .csrf().disable()
-            .logout().disable()
-            .formLogin().disable()
-            .authorizeRequests()
-            .antMatchers(actuatorBasePath).permitAll()
-            .requestMatchers(toAnyEndpoint().excluding(HealthEndpoint.class).excludingLinks()).hasAnyRole(ACTUATOR_ROLE)
-            .and().httpBasic()
-            .and().build();
+                .csrf().disable()
+                .logout().disable()
+                .formLogin().disable()
+                .authorizeRequests()
+                .antMatchers(actuatorBasePath).permitAll()
+                .requestMatchers(toAnyEndpoint().excluding(HealthEndpoint.class).excludingLinks()).hasAnyRole(ACTUATOR_ROLE)
+                .antMatchers(ConvertController.MAPPING).permitAll()
+                .and().httpBasic()
+                .and().build();
     }
 
     public static void main(String[] args) {

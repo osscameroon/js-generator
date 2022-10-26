@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.osscameroon.jsgenerator.api.rest.ConvertController.MAPPING;
 import static com.osscameroon.jsgenerator.core.OutputStreamResolver.EXTENSION;
 import static com.osscameroon.jsgenerator.core.OutputStreamResolver.INDEX;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -26,8 +27,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("convert")
+@RequestMapping(MAPPING)
 public class ConvertController {
+    public static final String MAPPING = "/convert";
     private static final Logger LOGGER = getLogger(ConvertController.class);
 
     private final OutputStreamResolver inlineOutputStreamResolver;
