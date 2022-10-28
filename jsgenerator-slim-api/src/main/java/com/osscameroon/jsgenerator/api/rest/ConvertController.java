@@ -6,17 +6,17 @@ import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.osscameroon.jsgenerator.api.rest.ConvertController.MAPPING;
@@ -24,6 +24,8 @@ import static com.osscameroon.jsgenerator.core.OutputStreamResolver.EXTENSION;
 import static com.osscameroon.jsgenerator.core.OutputStreamResolver.INDEX;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.slf4j.LoggerFactory.getLogger;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class ConvertController {
     private final OutputStreamResolver inlineOutputStreamResolver;
     private final Converter converter;
 
-    @PostMapping
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public List<InlineOutput> inlineAction(@RequestBody @Valid final Command command) {
         LOGGER.info("{}", command);
 
@@ -63,5 +65,13 @@ public class ConvertController {
                     return new InlineOutput(filename, content);
                 })
                 .toList();
+    }
+
+    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
+    public List<InlineOutput> inlineAction(@RequestPart("config")
+                                           Optional<Command> optionalCommand,
+                                           @RequestPart("files") @Valid @Min(1) @Min(30)
+                                           List<MultipartFile> multipartFiles) throws IOException {
+        return List.of();
     }
 }
