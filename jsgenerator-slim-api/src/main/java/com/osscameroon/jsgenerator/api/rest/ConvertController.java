@@ -8,6 +8,7 @@ import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
+import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -44,13 +44,13 @@ public class ConvertController {
     private final Converter converter;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public List<Output> convertAction(@RequestBody @Valid final InlineOptions options) {
+    public Reply<? extends List<? extends Output>> convertAction(@RequestBody @Valid final InlineOptions options) {
         LOGGER.info("{}", options);
 
         final var index = new AtomicInteger();
         final var configuration = options.toConfiguration();
 
-        return options.getContents().stream()
+        return Reply.ofSuccesses(options.getContents().stream()
                 .map(content -> convert(
                         configuration,
                         new ByteArrayOutputStream(),
@@ -62,17 +62,17 @@ public class ConvertController {
 
                     return new Output(filename, content);
                 })
-                .toList();
+                .toList());
     }
 
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
-    public MultiValueMap<String, Object> convertAction(@RequestPart("options") @Valid
-                                                       Optional<MultipartOptions> optionalCommand,
-                                                       @RequestPart("files") @Size(min = 1, max = 30) @Valid
-                                                       List<MultipartFile> multipartFiles) throws IOException {
+    public MultiValueMap<String, AbstractResource> convertAction(@RequestPart("options") @Valid
+                                                                 Optional<MultipartOptions> optionalCommand,
+                                                                 @RequestPart("files") @Size(min = 1, max = 30) @Valid
+                                                                 List<MultipartFile> multipartFiles) throws IOException {
         new MultipartOptions().toBuilder().build();
         final var command = optionalCommand.orElseGet(MultipartOptions::new);
-        final var map = new LinkedMultiValueMap<String, Object>();
+        final var map = new LinkedMultiValueMap<String, AbstractResource>();
         final var indexTracker = new AtomicInteger();
 
         multipartFiles.stream().map(multipartFile -> {

@@ -111,10 +111,11 @@ public class JsGeneratorApiTest {
                 .andExpectAll(
                         status().isOk(),
                         header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE),
-                        jsonPath("$").isArray(),
-                        jsonPath("$.length()").value(1),
-                        jsonPath("$.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
-                        jsonPath("$.[0].content").value(new Match(new String[]{
+                        jsonPath("$.status").value("SUCCESS"),
+                        jsonPath("$.content").isArray(),
+                        jsonPath("$.content.length()").value(1),
+                        jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
+                        jsonPath("$.content.[0].content").value(new Match(new String[]{
                                 "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                                 "%s div_000 = document.createElement('div');".formatted(keyword),
                                 "div_000.setAttribute(`contenteditable`, `true`);",
