@@ -61,9 +61,11 @@ document.appendChild(div_000);
 **CLI**
 ```text
 Usage: jsgenerator [-htV] [-e=<extension>] [--inline-pattern=<inlinePattern>]
-                   [--path-pattern=<pathPattern>]
-                   [--stdin-pattern=<stdinPattern>] [-i=<inlineContents>...]...
-                   [--] [<paths>...]
+                   [-k=<variableDeclaration>] [--path-pattern=<pathPattern>]
+                   [-s=<targetElementSelector>]
+                   [--stdin-pattern=<stdinPattern>]
+                   [--variable-name-generation-strategy=<builtinVariableNameStra
+                   tegy>] [-i=<inlineContents>...]... [<paths>...]
 Translating files, stdin or inline from HTML to JS
       [<paths>...]        file paths to translate content, parsed as HTML
   -e, --ext=<extension>   output files' extension
@@ -72,12 +74,18 @@ Translating files, stdin or inline from HTML to JS
                           args as HTML content, not files
       --inline-pattern=<inlinePattern>
                           Pattern for inline output filename
+  -k, --keyword=<variableDeclaration>
+                          variable declaration keyword
       --path-pattern=<pathPattern>
                           pattern for path-based output filenames
+  -s, --selector=<targetElementSelector>
+                          Target element selector
       --stdin-pattern=<stdinPattern>
                           pattern for stdin output filenames
   -t, --tty               output to stdin, not files
   -V, --version           Print version information and exit.
+      --variable-name-generation-strategy=<builtinVariableNameStrategy>
+                          Variable names generation strategy
 ```
 
 **API**
