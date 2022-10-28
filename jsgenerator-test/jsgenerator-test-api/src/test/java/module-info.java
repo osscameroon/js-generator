@@ -3,6 +3,7 @@ module com.osscameroon.jsgenerator.test.api {
     requires com.osscameroon.jsgenerator.core;
 
     requires com.fasterxml.jackson.databind;
+    requires lombok;
     requires org.hamcrest;
     requires org.junit.jupiter.params;
     requires spring.beans;
@@ -14,4 +15,6 @@ module com.osscameroon.jsgenerator.test.api {
 
     requires org.assertj.core;
     requires org.junit.jupiter.api;
+
+    requires org.apache.tomcat.embed.core;
 }

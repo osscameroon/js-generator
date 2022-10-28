@@ -19,12 +19,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
+import static com.osscameroon.jsgenerator.test.api.helper.MultipartResultMatcher.withMultipart;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.text.MatchesPattern.matchesPattern;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.MediaType.*;
@@ -36,6 +42,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @SpringBootTest(webEnvironment = MOCK)
 public class JsGeneratorApiTest {
+    private static final Resource SAMPLE_OUTPUT = new ClassPathResource("htmlFilesOutput/sample.js");
     private static final Resource SAMPLE = new ClassPathResource("htmlFilesInput/sample.html");
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -45,11 +52,11 @@ public class JsGeneratorApiTest {
 
     @BeforeEach
     public void beforeEach() {
+        objectMapper = JsonMapper.builder().build();
         mockMvc = webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())
                 .alwaysDo(print())
                 .build();
-        objectMapper = JsonMapper.builder().build();
     }
 
     @Test
@@ -103,7 +110,7 @@ public class JsGeneratorApiTest {
                         ))))
                 .andExpectAll(
                         status().isOk(),
-                        header().string(CONTENT_TYPE, APPLICATION_JSON.toString()),
+                        header().string(CONTENT_TYPE, APPLICATION_JSON_VALUE),
                         jsonPath("$").isArray(),
                         jsonPath("$.length()").value(1),
                         jsonPath("$.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
@@ -127,8 +134,8 @@ public class JsGeneratorApiTest {
 
         mockMvc.perform(multipart(ConvertController.MAPPING)
                         .file(new MockMultipartFile(
-                                "config", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(Map.of(
-                                "inlineContents", List.of("<div contenteditable>%s</div>".formatted(content)),
+                                "command", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(Map.of(
+//                                "inlineContents", List.of("<div contenteditable>%s</div>".formatted(content)),
                                 "inlinePattern", "%s.{{ index }}{{ extension }}".formatted(prefix),
                                 "variableDeclaration", variableDeclaration,
                                 "extension", ".%s".formatted(extension)
@@ -139,13 +146,32 @@ public class JsGeneratorApiTest {
                                 "files", SAMPLE.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE.getInputStream())))
                 .andExpectAll(
                         status().isOk(),
-                        header().string(CONTENT_TYPE, APPLICATION_JSON.toString()),
-                        jsonPath("$").isArray(),
-                        jsonPath("$.length()").value(0));
+                        withMultipart().size(2),
+                        withMultipart().nth(0).exists(),
+                        withMultipart().nth(1).exists(),
+                        withMultipart().nth(0)
+                                .map(JsGeneratorApiTest::toArray)
+                                .passContent(lines -> assertThat(lines).containsExactly(
+                                        toArray(fileContent(SAMPLE_OUTPUT).replaceAll("\\{\\{\s*keyword\s*}}", keyword)))),
+                        content().contentTypeCompatibleWith(MULTIPART_FORM_DATA),
+                        header().string(CONTENT_TYPE, matchesPattern("^%s;boundary=.*$".formatted(MULTIPART_FORM_DATA_VALUE))));
     }
 
     private static String keyword(final VariableDeclaration variableDeclaration) {
         return variableDeclaration.name().toLowerCase();
+    }
+
+    private static String[] toArray(String content) {
+        return content
+                .lines()
+                .map(String::strip)
+                .filter(line -> !line.isEmpty())
+                .toArray(String[]::new);
+    }
+
+    private static String fileContent(final Resource resource) throws IOException {
+        return new BufferedReader(new InputStreamReader(resource.getInputStream(), UTF_8))
+                .lines().collect(joining("\r\n"));
     }
 
     public static class Application extends JsGeneratorApi {
@@ -161,12 +187,7 @@ public class JsGeneratorApiTest {
 
         @Override
         public boolean matches(Object actual) {
-            assertThat(((String) actual)
-                    .lines()
-                    .map(String::strip)
-                    .filter(line -> !line.isEmpty())
-                    .toArray(String[]::new)
-            ).containsExactly(lines);
+            assertThat(toArray((String) actual)).containsExactly(lines);
             return true;
         }
     }
