@@ -13,3 +13,10 @@ spring:
       roles: ACTUATOR
   application:
     name: jsgenerator-api
+springdoc:
+  api-docs:
+    path: /openapi.yaml
+  swagger-ui:
+    path: /
+    use-root-path: false
+    disable-swagger-default-url: true
