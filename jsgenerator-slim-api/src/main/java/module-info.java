@@ -14,6 +14,7 @@ module com.osscameroon.jsgenerator.api {
     requires spring.boot.actuator.autoconfigure;
     requires spring.boot.autoconfigure;
     requires spring.context;
+    requires spring.core;
     requires spring.security.config;
     requires spring.security.web;
     requires spring.web;
