@@ -65,7 +65,7 @@ public class ConvertController {
                 .toList());
     }
 
-    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "files", consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
     public MultiValueMap<String, AbstractResource> convertAction(@RequestPart("options") @Valid
                                                                  Optional<MultipartOptions> optionalCommand,
                                                                  @RequestPart("files") @Size(min = 1, max = 30) @Valid

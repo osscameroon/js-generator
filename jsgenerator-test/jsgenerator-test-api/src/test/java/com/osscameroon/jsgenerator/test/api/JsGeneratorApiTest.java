@@ -132,7 +132,7 @@ public class JsGeneratorApiTest {
         final var extension = randomUUID().toString();
         final var prefix = randomUUID().toString();
 
-        mockMvc.perform(multipart(ConvertController.MAPPING)
+        mockMvc.perform(multipart(ConvertController.MAPPING + "/files")
                         .file(new MockMultipartFile(
                                 "options", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(of(
                                 "pattern", "%s.{{ index }}{{}}{{ extension }}".formatted(prefix),
@@ -158,7 +158,7 @@ public class JsGeneratorApiTest {
 
     @Test
     public void convertBadRequests() throws Exception {
-        mockMvc.perform(multipart(ConvertController.MAPPING))
+        mockMvc.perform(multipart(ConvertController.MAPPING + "/files"))
                 .andExpectAll(status().isBadRequest());
         mockMvc.perform(post(ConvertController.MAPPING)
                         .header(CONTENT_TYPE, APPLICATION_JSON)
