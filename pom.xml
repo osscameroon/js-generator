@@ -10,7 +10,9 @@
         <module>jsgenerator-test</module>
         <module>jsgenerator-slim-cli</module>
         <module>jsgenerator-slim-api</module>
+        <module>jsgenerator-api</module>
         <module>jsgenerator-cli</module>
+        <module>jsgenerator-desktop</module>
     </modules>
 
     <parent>
