@@ -1,7 +1,8 @@
 package com.osscameroon.jsgenerator.api.rest;
 
-import com.osscameroon.jsgenerator.api.domain.Command;
-import com.osscameroon.jsgenerator.api.domain.InlineOutput;
+import com.osscameroon.jsgenerator.api.domain.InlineOptions;
+import com.osscameroon.jsgenerator.api.domain.MultipartOptions;
+import com.osscameroon.jsgenerator.api.domain.Output;
 import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,40 +44,36 @@ public class ConvertController {
     private final Converter converter;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public List<InlineOutput> convertAction(@RequestBody @Valid final Command command) {
-        LOGGER.info("{}", command);
+    public List<Output> convertAction(@RequestBody @Valid final InlineOptions options) {
+        LOGGER.info("{}", options);
 
         final var index = new AtomicInteger();
-        final var configuration = command.toConfiguration();
+        final var configuration = options.toConfiguration();
 
-        return command.getInlineContents().stream()
+        return options.getContents().stream()
                 .map(content -> convert(
                         configuration,
                         new ByteArrayOutputStream(),
                         new ByteArrayInputStream(content.getBytes(UTF_8))))
                 .map(content -> {
-                    final var filename = inlineOutputStreamResolver.resolve(command.getInlinePattern(), Map.of(
+                    final var filename = inlineOutputStreamResolver.resolve(options.getPattern(), Map.of(
                             INDEX, "%d".formatted(index.getAndIncrement()),
-                            EXTENSION, command.getExtension()));
+                            EXTENSION, options.getExtension()));
 
-                    return new InlineOutput(filename, content);
+                    return new Output(filename, content);
                 })
                 .toList();
     }
 
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
-    public MultiValueMap<String, Object> convertAction(@RequestPart("command") @Valid
-                                                       Optional<Command> optionalCommand,
-                                                       @RequestPart("files") @Valid @Min(1) @Min(30)
+    public MultiValueMap<String, Object> convertAction(@RequestPart("options") @Valid
+                                                       Optional<MultipartOptions> optionalCommand,
+                                                       @RequestPart("files") @Size(min = 1, max = 30) @Valid
                                                        List<MultipartFile> multipartFiles) throws IOException {
-        final var command = optionalCommand.orElseGet(Command::new);
+        new MultipartOptions().toBuilder().build();
+        final var command = optionalCommand.orElseGet(MultipartOptions::new);
         final var map = new LinkedMultiValueMap<String, Object>();
         final var indexTracker = new AtomicInteger();
-
-        if (!command.getInlineContents().isEmpty()) {
-            convertAction(command).forEach(output ->
-                    map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes(UTF_8))));
-        }
 
         multipartFiles.stream().map(multipartFile -> {
                     try {
@@ -89,14 +87,14 @@ public class ConvertController {
                 })
                 .map(content -> {
                     //noinspection ConstantConditions
-                    final var filename = pathOutputStreamResolver.resolve(command.getPathPattern(), Map.of(
+                    final var filename = pathOutputStreamResolver.resolve(command.getPattern(), Map.of(
                             ORIGINAL, multipartFiles.get(indexTracker.get()).getOriginalFilename(),
                             INDEX, "%d".formatted(indexTracker.get()),
                             EXTENSION, command.getExtension()));
 
                     indexTracker.getAndIncrement();
 
-                    return new InlineOutput(filename, content);
+                    return new Output(filename, content);
                 })
                 .forEach(output ->
                         map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes(UTF_8))));

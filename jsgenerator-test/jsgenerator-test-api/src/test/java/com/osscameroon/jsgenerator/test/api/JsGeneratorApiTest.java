@@ -103,8 +103,8 @@ public class JsGeneratorApiTest {
         mockMvc.perform(post(ConvertController.MAPPING)
                         .header(CONTENT_TYPE, APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(Map.of(
-                                "inlineContents", List.of("<div contenteditable>%s</div>".formatted(content)),
-                                "inlinePattern", "%s.{{ index }}{{ extension }}".formatted(prefix),
+                                "contents", List.of("<div contenteditable>%s</div>".formatted(content)),
+                                "pattern", "%s.{{ index }}{{ extension }}".formatted(prefix),
                                 "variableDeclaration", variableDeclaration,
                                 "extension", ".%s".formatted(extension)
                         ))))
@@ -130,13 +130,11 @@ public class JsGeneratorApiTest {
         final var keyword = keyword(variableDeclaration);
         final var extension = randomUUID().toString();
         final var prefix = randomUUID().toString();
-        final var content = randomUUID().toString();
 
         mockMvc.perform(multipart(ConvertController.MAPPING)
                         .file(new MockMultipartFile(
-                                "command", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(Map.of(
-//                                "inlineContents", List.of("<div contenteditable>%s</div>".formatted(content)),
-                                "inlinePattern", "%s.{{ index }}{{ extension }}".formatted(prefix),
+                                "options", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(Map.of(
+                                "pattern", "%s.{{ index }}{{}}{{ extension }}".formatted(prefix),
                                 "variableDeclaration", variableDeclaration,
                                 "extension", ".%s".formatted(extension)
                         )).getBytes(UTF_8)))
