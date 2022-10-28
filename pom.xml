@@ -8,6 +8,8 @@
     <modules>
         <module>jsgenerator-core</module>
         <module>jsgenerator-test</module>
+        <module>jsgenerator-slim-cli</module>
+        <module>jsgenerator-slim-api</module>
         <module>jsgenerator-cli</module>
         <module>jsgenerator-api</module>
     </modules>
@@ -87,10 +89,14 @@
                 <artifactId>jsgenerator-core</artifactId>
                 <version>${revision}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.osscameroon</groupId>
-                <artifactId>jsgenerator-api</artifactId>
+                <artifactId>jsgenerator-slim-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.osscameroon</groupId>
+                <artifactId>jsgenerator-slim-cli</artifactId>
                 <version>${revision}</version>
             </dependency>
         </dependencies>
