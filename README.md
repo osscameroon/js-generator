@@ -80,6 +80,17 @@ Translating files, stdin or inline from HTML to JS
   -V, --version           Print version information and exit.
 ```
 
+**API**
+
+Start it with:
+```shell
+java -jar jsgenerator-api/target/jsgenerator-api-0.0.1-SNAPSHOT.jar
+```
+
+Visit OpenAPI spec. at: [http://localhost:8080/openapi.yaml](http://localhost:8080/openapi.yaml)
+
+Visit OpenAPI UI at: [http://localhost:8080](http://localhost:8080)
+
 **WEB**
 
 > ***TODO:** Not yet implemented.*
