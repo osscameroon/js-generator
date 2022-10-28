@@ -12,6 +12,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
@@ -19,19 +22,21 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 import java.util.Map;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @SpringBootTest(webEnvironment = MOCK)
 public class JsGeneratorApiTest {
+    private static final Resource SAMPLE = new ClassPathResource("htmlFilesInput/sample.html");
     @Autowired
     private WebApplicationContext webApplicationContext;
     private ObjectMapper objectMapper;
@@ -42,6 +47,7 @@ public class JsGeneratorApiTest {
     public void beforeEach() {
         mockMvc = webAppContextSetup(webApplicationContext)
                 .apply(springSecurity())
+                .alwaysDo(print())
                 .build();
         objectMapper = JsonMapper.builder().build();
     }
@@ -81,8 +87,7 @@ public class JsGeneratorApiTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
-    public void convertInlineContent(
-            final VariableDeclaration variableDeclaration) throws Exception {
+    public void convertInlineContent(final VariableDeclaration variableDeclaration) throws Exception {
         final var keyword = keyword(variableDeclaration);
         final var extension = randomUUID().toString();
         final var prefix = randomUUID().toString();
@@ -109,8 +114,34 @@ public class JsGeneratorApiTest {
                                 "%s text_000 = document.createTextNode(`%s`);".formatted(keyword, content),
                                 "div_000.appendChild(text_000);",
                                 "targetElement_000.appendChild(div_000);",
-                        }))
-                );
+                        })));
+    }
+
+    @ParameterizedTest
+    @EnumSource(VariableDeclaration.class)
+    public void convertUploadedFilesContent(final VariableDeclaration variableDeclaration) throws Exception {
+        final var keyword = keyword(variableDeclaration);
+        final var extension = randomUUID().toString();
+        final var prefix = randomUUID().toString();
+        final var content = randomUUID().toString();
+
+        mockMvc.perform(multipart(ConvertController.MAPPING)
+                        .file(new MockMultipartFile(
+                                "config", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(Map.of(
+                                "inlineContents", List.of("<div contenteditable>%s</div>".formatted(content)),
+                                "inlinePattern", "%s.{{ index }}{{ extension }}".formatted(prefix),
+                                "variableDeclaration", variableDeclaration,
+                                "extension", ".%s".formatted(extension)
+                        )).getBytes(UTF_8)))
+                        .file(new MockMultipartFile(
+                                "files", SAMPLE.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE.getInputStream()))
+                        .file(new MockMultipartFile(
+                                "files", SAMPLE.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE.getInputStream())))
+                .andExpectAll(
+                        status().isOk(),
+                        header().string(CONTENT_TYPE, APPLICATION_JSON.toString()),
+                        jsonPath("$").isArray(),
+                        jsonPath("$.length()").value(0));
     }
 
     private static String keyword(final VariableDeclaration variableDeclaration) {
