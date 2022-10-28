@@ -16,6 +16,7 @@ public class PathOutputStreamResolver implements OutputStreamResolver {
                 .replaceAll(format("\\{\\{\\s*%s\\s*}}", ORIGINAL_EXTENSION), valueOf(container.get(ORIGINAL_EXTENSION)))
                 .replaceAll(format("\\{\\{\\s*%s\\s*}}", ORIGINAL_BASENAME), valueOf(container.get(ORIGINAL_BASENAME)))
                 .replaceAll(format("\\{\\{\\s*%s\\s*}}", EXTENSION), valueOf(container.get(EXTENSION)))
-                .replaceAll(format("\\{\\{\\s*%s\\s*}}", ORIGINAL), valueOf(container.get(ORIGINAL)));
+                .replaceAll(format("\\{\\{\\s*%s\\s*}}", ORIGINAL), valueOf(container.get(ORIGINAL)))
+                .replaceAll(format("\\{\\{\\s*%s\\s*}}", INDEX), valueOf(container.get(INDEX)));
     }
 }

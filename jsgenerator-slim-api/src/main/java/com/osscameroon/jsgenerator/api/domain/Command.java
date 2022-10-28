@@ -16,7 +16,7 @@ import static com.osscameroon.jsgenerator.core.VariableDeclaration.CONST;
 @Data
 public class Command {
     private String extension = ".jsgenerator.js";
-    private String pathPattern = "{{ original }}{{ extension }}";
+    private String pathPattern = "{{ index }}{{ original }}{{ extension }}";
     @Size(min = 1)
     private List<@NotNull String> inlineContents = new ArrayList<>();
     private String inlinePattern = "inline.{{ index }}{{ extension }}";
