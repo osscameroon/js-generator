@@ -23,10 +23,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.Map;
 
 import static com.osscameroon.jsgenerator.test.api.helper.MultipartResultMatcher.withMultipart;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Map.of;
 import static java.util.UUID.randomUUID;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -102,7 +102,7 @@ public class JsGeneratorApiTest {
 
         mockMvc.perform(post(ConvertController.MAPPING)
                         .header(CONTENT_TYPE, APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(Map.of(
+                        .content(objectMapper.writeValueAsString(of(
                                 "contents", List.of("<div contenteditable>%s</div>".formatted(content)),
                                 "pattern", "%s.{{ index }}{{ extension }}".formatted(prefix),
                                 "variableDeclaration", variableDeclaration,
@@ -133,7 +133,7 @@ public class JsGeneratorApiTest {
 
         mockMvc.perform(multipart(ConvertController.MAPPING)
                         .file(new MockMultipartFile(
-                                "options", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(Map.of(
+                                "options", "config.json", APPLICATION_JSON_VALUE, objectMapper.writeValueAsString(of(
                                 "pattern", "%s.{{ index }}{{}}{{ extension }}".formatted(prefix),
                                 "variableDeclaration", variableDeclaration,
                                 "extension", ".%s".formatted(extension)
@@ -153,6 +153,16 @@ public class JsGeneratorApiTest {
                                         toArray(fileContent(SAMPLE_OUTPUT).replaceAll("\\{\\{\s*keyword\s*}}", keyword)))),
                         content().contentTypeCompatibleWith(MULTIPART_FORM_DATA),
                         header().string(CONTENT_TYPE, matchesPattern("^%s;boundary=.*$".formatted(MULTIPART_FORM_DATA_VALUE))));
+    }
+
+    @Test
+    public void convertBadRequests() throws Exception {
+        mockMvc.perform(multipart(ConvertController.MAPPING))
+                .andExpectAll(status().isBadRequest());
+        mockMvc.perform(post(ConvertController.MAPPING)
+                        .header(CONTENT_TYPE, APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(of("extension", ".js"))))
+                .andExpectAll(status().isBadRequest());
     }
 
     private static String keyword(final VariableDeclaration variableDeclaration) {
