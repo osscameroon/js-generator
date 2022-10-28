@@ -42,7 +42,7 @@ public class ConvertController {
     private final Converter converter;
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public List<InlineOutput> inlineAction(@RequestBody @Valid final Command command) {
+    public List<InlineOutput> convertAction(@RequestBody @Valid final Command command) {
         LOGGER.info("{}", command);
 
         final var index = new AtomicInteger();
@@ -64,16 +64,16 @@ public class ConvertController {
     }
 
     @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
-    public MultiValueMap<String, Object> inlineAction(@RequestPart("command")
-                                                      Optional<Command> optionalCommand,
-                                                      @RequestPart("files") @Valid @Min(1) @Min(30)
-                                                      List<MultipartFile> multipartFiles) throws IOException {
+    public MultiValueMap<String, Object> convertAction(@RequestPart("command") @Valid
+                                                       Optional<Command> optionalCommand,
+                                                       @RequestPart("files") @Valid @Min(1) @Min(30)
+                                                       List<MultipartFile> multipartFiles) throws IOException {
         final var command = optionalCommand.orElseGet(Command::new);
         final var map = new LinkedMultiValueMap<String, Object>();
         final var indexTracker = new AtomicInteger();
 
         if (!command.getInlineContents().isEmpty()) {
-            inlineAction(command).forEach(output ->
+            convertAction(command).forEach(output ->
                     map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes(UTF_8))));
         }
 
