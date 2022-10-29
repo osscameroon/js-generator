@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.osscameroon.jsgenerator.core","l":"com.osscameroon.jsgenerator.core"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.osscameroon.jsgenerator.core","l":"com.osscameroon.jsgenerator.core"},{"m":"com.osscameroon.jsgenerator.core","l":"com.osscameroon.jsgenerator.core.autoconfigure"}];updateSearchResults();
