@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jsgenerator-cli</artifactId>
+    <artifactId>jsgenerator-api</artifactId>
 
     <properties>
-        <start-class>com.osscameroon.jsgenerator.cli.JsGeneratorCli</start-class>
+        <start-class>com.osscameroon.jsgenerator.api.JsGeneratorApi</start-class>
     </properties>
 
     <build>
@@ -27,7 +27,7 @@
     <dependencies>
         <dependency>
             <groupId>com.osscameroon</groupId>
-            <artifactId>jsgenerator-slim-cli</artifactId>
+            <artifactId>jsgenerator-slim-api</artifactId>
         </dependency>
     </dependencies>
 </project>

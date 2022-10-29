@@ -1,12 +1,8 @@
 package com.osscameroon.jsgenerator.cli.internal;
 
-import com.osscameroon.jsgenerator.cli.BuiltinVariableNameStrategy;
 import com.osscameroon.jsgenerator.cli.Command;
 import com.osscameroon.jsgenerator.cli.Valid;
-import com.osscameroon.jsgenerator.core.Configuration;
-import com.osscameroon.jsgenerator.core.Converter;
-import com.osscameroon.jsgenerator.core.OutputStreamResolver;
-import com.osscameroon.jsgenerator.core.VariableDeclaration;
+import com.osscameroon.jsgenerator.core.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import picocli.CommandLine;
@@ -20,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.osscameroon.jsgenerator.cli.BuiltinVariableNameStrategy.TYPE_BASED;
+import static com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy.TYPE_BASED;
 import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;

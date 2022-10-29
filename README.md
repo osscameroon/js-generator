@@ -61,9 +61,11 @@ document.appendChild(div_000);
 **CLI**
 ```text
 Usage: jsgenerator [-htV] [-e=<extension>] [--inline-pattern=<inlinePattern>]
-                   [--path-pattern=<pathPattern>]
-                   [--stdin-pattern=<stdinPattern>] [-i=<inlineContents>...]...
-                   [--] [<paths>...]
+                   [-k=<variableDeclaration>] [--path-pattern=<pathPattern>]
+                   [-s=<targetElementSelector>]
+                   [--stdin-pattern=<stdinPattern>]
+                   [--variable-name-generation-strategy=<builtinVariableNameStra
+                   tegy>] [-i=<inlineContents>...]... [<paths>...]
 Translating files, stdin or inline from HTML to JS
       [<paths>...]        file paths to translate content, parsed as HTML
   -e, --ext=<extension>   output files' extension
@@ -72,12 +74,107 @@ Translating files, stdin or inline from HTML to JS
                           args as HTML content, not files
       --inline-pattern=<inlinePattern>
                           Pattern for inline output filename
+  -k, --keyword=<variableDeclaration>
+                          variable declaration keyword
       --path-pattern=<pathPattern>
                           pattern for path-based output filenames
+  -s, --selector=<targetElementSelector>
+                          Target element selector
       --stdin-pattern=<stdinPattern>
                           pattern for stdin output filenames
   -t, --tty               output to stdin, not files
   -V, --version           Print version information and exit.
+      --variable-name-generation-strategy=<builtinVariableNameStrategy>
+                          Variable names generation strategy
+```
+
+**API**
+
+Start it with:
+```shell
+java -jar jsgenerator-api/target/jsgenerator-api-0.0.1-SNAPSHOT.jar
+```
+
+Visit OpenAPI spec. at: [http://localhost:8080/openapi.yaml](http://localhost:8080/openapi.yaml)
+
+Visit OpenAPI UI at: [http://localhost:8080](http://localhost:8080)
+
+> Two endpoints are exposed:
+> + `POST /convert`
+> + `POST /convert/files`
+>
+> Both accept options as follow:
+> ```json
+> {
+>   "targetElementSelector": ":root > body",
+>   "pattern": "inline-filename-pattern",
+>   "variableNameStrategy": "TYPE_BASED",
+>   "variableDeclaration": "LET",
+>   "extension": ".extension",
+>   "contents": [
+>     "string"
+>   ]
+> }
+> ```
+> **NOTE:** The `content` field in options is mandatory for `POST /convert` and forbidden for `POST /convert/files`
+
+Here follow some example with [`httpie`](https://httpie.io/)
+> ```json
+> { "extension":  ".js" } // ./multipart-options.json
+> ```
+> 
+> ```html
+> <!DOCTYPE html>
+> <!-- ./sample.html -->
+> <html>
+>   <head>
+>     ...
+>   ...
+> ...
+> ```
+
+```shell
+# You can call the API with multiple **files** and at most one **options**
+# Response will be of 'multipart/form-data' content type
+http -vf :8080/convert/files \
+  'files@./sample.html;type=multipart/form-data' \
+  'options@multipart-options.json;type=application/json'
+
+HTTP/1.1 200 
+Content-Type: multipart/form-data;boundary=3N0wqEqnb7AC3WD8M1cYYG-vLfHDND_JdE90
+
+--3N0wqEqnb7AC3WD8M1cYYG-vLfHDND_JdE90
+Content-Disposition: form-data; name="0.sample.html.js"
+Content-Type: application/octet-stream
+Content-Length: 4156
+
+const targetElement_000 = document.querySelector(`:root > body`);
+[... truncated for brievity]
+```
+```shell
+# You can also pass as many HTML content as you want
+# Response will be of 'application/json' content type
+http -vf :8080/convert \
+  extension='.js' \
+  contents[]='<hr/>' \
+  contents[]='<button disabled>click me, please :sob:</button>'
+
+HTTP/1.1 200 
+Content-Type: application/json
+
+{
+  "status": "SUCCESS"
+  "content": [
+    {
+      "content": "const targetElement_000 = document.querySelector(`:root > body`);\r\n\r\n\r\nconst hr_000 = document.createElement('hr');\r\ntargetElement_000.appendChild(hr_000);\r\n",
+      "filename": "inline.0.js"
+    },
+    {
+      "content": "const targetElement_001 = document.querySelector(`:root > body`);\r\n\r\n\r\nconst button_000 = document.createElement('button');\r\nbutton_000.setAttribute(`disabled`, `true`);\r\nconst text_000 = document.createTextNode(`click me, please :sob:`);\r\nbutton_000.appendChild(text_000);\r\ntargetElement_001.appendChild(button_000);\r\n",
+      "filename": "inline.1.js"
+    }
+  ]
+}
 ```
 
 **WEB**

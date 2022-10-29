@@ -3,31 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jsgenerator</artifactId>
+        <artifactId>jsgenerator-test</artifactId>
         <groupId>com.osscameroon</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jsgenerator-cli</artifactId>
-
-    <properties>
-        <start-class>com.osscameroon.jsgenerator.cli.JsGeneratorCli</start-class>
-    </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <artifactId>jsgenerator-test-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.osscameroon</groupId>
-            <artifactId>jsgenerator-slim-cli</artifactId>
+            <artifactId>jsgenerator-slim-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

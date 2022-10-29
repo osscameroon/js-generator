@@ -1,12 +1,15 @@
 *.jsgenerator.js
 *.build_artifacts.txt
+dependency-reduced-pom.xml
 /jsgenerator*
-!/jsgenerator-api
 !/jsgenerator-core
 !/jsgenerator-desktop
 !/jsgenerator-test
-!/jsgenerator-web
+!/jsgenerator-slim-api
+!/jsgenerator-slim-cli
+!/jsgenerator-api
 !/jsgenerator-cli
+!/jsgenerator-web
 
 # Compiled class file
 *.class
