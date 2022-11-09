@@ -1,6 +1,5 @@
 
 ![Maven Build](https://github.com/osscameroon/js-generator/actions/workflows/maven.yml/badge.svg)
-[![codecov](https://codecov.io/gh/osscameroon/js-generator/branch/main/graph/badge.svg?token=QJEBIRY8JJ)](https://codecov.io/gh/osscameroon/js-generator)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Contributors](https://img.shields.io/github/contributors-anon/osscameroon/js-generator)](https://github.com/osscameroon/js-generator/graphs/contributors)
 ![Follow](https://img.shields.io/twitter/follow/osscameroon?style=social)
