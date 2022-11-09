@@ -1,5 +1,0 @@
-coverage:
-  ignore:
-    - "src/main/java/com/osscameroon/jsgenerator/JSGenerator.java"
-    - "src/main/java/com/osscameroon/jsgenerator/exception/"
-    - "src/main/java/com/osscameroon/jsgenerator/model/"
