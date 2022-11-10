@@ -95,6 +95,65 @@
             </exclusions>
         </dependency>
 
+        <!-- Dependency of eu.hansolo.tilesfx
+        We added it in pom in order to avoid "module not found: eu.hansolo.fx.countries"
+        -->
+
+        <dependency>
+            <groupId>eu.hansolo.fx</groupId>
+            <artifactId>countries</artifactId>
+            <version>17.0.22</version>
+
+        </dependency>
+
+
+        <!-- Dependency of eu.hansolo.tilesfx
+        We added it in pom in order to avoid "module not found: eu.hansolo.fx.heatmap"
+        -->
+
+        <dependency>
+            <groupId>eu.hansolo.fx</groupId>
+            <artifactId>heatmap</artifactId>
+            <version>17.0.9</version>
+
+        </dependency>
+
+
+        <!-- Dependency of eu.hansolo.tilesfx
+        We added it in pom in order to avoid "module not found: eu.hansolo.toolboxfx"
+        -->
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>toolboxfx</artifactId>
+            <version>17.0.28</version>
+
+        </dependency>
+
+
+        <!-- Dependency of eu.hansolo.tilesfx
+        We added it in pom in order to avoid "module not found: eu.hansolo.toolbox"
+        -->
+
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>toolbox</artifactId>
+            <version>17.0.22</version>
+
+        </dependency>
+
+        <!-- Dependency of eu.hansolo.tilesfx
+        We added it in pom in order to avoid "module not found: javafx.swing"
+        -->
+
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>20-ea+4</version>
+        </dependency>
+
+
+
     </dependencies>
 
     <build>

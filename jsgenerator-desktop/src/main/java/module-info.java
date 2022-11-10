@@ -11,7 +11,7 @@ module com.osscameroon.jsgenerator.desktop {
     requires net.synedra.validatorfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
-    //requires eu.hansolo.tilesfx;
+    requires eu.hansolo.tilesfx;
 
     opens com.osscameroon.jsgenerator.desktop to javafx.fxml;
     exports com.osscameroon.jsgenerator.desktop;
