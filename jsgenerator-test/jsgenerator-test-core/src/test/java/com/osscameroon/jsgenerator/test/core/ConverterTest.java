@@ -30,9 +30,30 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
+    public void issue145WithCustomTagJavaScriptIdentifiers(final VariableDeclaration variableDeclaration) throws IOException {
+        final var keyword = keyword(variableDeclaration);
+        final var converted = convert("""
+                        <AngularText>Angular</AngularText>
+                        <web-component>Web Component</web-component>""",
+                new Configuration(variableDeclaration));
+
+        assertThat(converted).containsExactly(
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s custom_angulartext_000 = document.createElement('AngularText');".formatted(keyword),
+                "%s text_000 = document.createTextNode(`Angular`);".formatted(keyword),
+                "custom_angulartext_000.appendChild(text_000);",
+                "targetElement_000.appendChild(custom_angulartext_000);",
+                "%s custom_web_component_000 = document.createElement('web-component');".formatted(keyword),
+                "%s text_001 = document.createTextNode(`Web Component`);".formatted(keyword),
+                "custom_web_component_000.appendChild(text_001);",
+                "targetElement_000.appendChild(custom_web_component_000);");
+    }
+
+    @ParameterizedTest
+    @EnumSource(VariableDeclaration.class)
     public void issue41WithSelfClosingTags(final VariableDeclaration variableDeclaration) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        var converted = convert("""
+        final var converted = convert("""
                         <input type="text">
                         <span>Hello</span>
                         <!-- Hello -->
@@ -63,22 +84,7 @@ public class ConverterTest {
                 "} catch (_) {",
                 "script_000.text = `// no-comment`;",
                 "targetElement_000.appendChild(script_000);",
-                "}"
-                );
-
-
-
-//        "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
-//                "%s script_000 = document.createElement('script');".formatted(keyword),
-//                "script_000.type = `text/javascript`;",
-//                "try {",
-//                "%s text_000 = document.createTextNode(`console.log(\\`%s\\`)`);".formatted(keyword, token),
-//                "script_000.appendChild(text_000);",
-//                "targetElement_000.appendChild(script_000);",
-//                "} catch (_) {",
-//                "script_000.text = `console.log(\\`%s\\`)`;".formatted(token),
-//                "targetElement_000.appendChild(script_000);",
-//                "}"
+                "}");
     }
 
     @ParameterizedTest
