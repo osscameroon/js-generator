@@ -7,7 +7,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import static java.lang.String.format;
@@ -40,17 +42,22 @@ public class ConverterDefault implements Converter {
 
         final var selector = configuration.getTargetElementSelector();
         final var variable = variableNameStrategy.nextName("targetElement");
+        // NOTE: We need a variable to keep track of ancestors name.
+        //       Following issue#41, elements that follow self-closing that should be added
+        //       to their real parent and not the JSoup-inferred parent (which happen to just
+        //       be their previous self-closing sibling)
+        final var variables = new HashMap<Element, String>(Map.of(document, variable));
         final var keyword = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
         writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
-        visit(writer, variable, document.childNodes(), configuration);
+        visit(writer, document.childNodes(), configuration, variables);
         writer.flush();
     }
 
-    private void visit(Writer writer, String parent, List<Node> nodes, Configuration configuration) throws IOException {
+    private void visit(Writer writer, List<Node> nodes, Configuration configuration, Map<Element, String> variables) throws IOException {
         for (final Node node : nodes) {
-            if (node instanceof Element) visit(writer, parent, (Element) node, configuration);
-            else if (node instanceof Comment) visit(writer, parent, (Comment) node, configuration);
-            else if (node instanceof TextNode) visit(writer, parent, (TextNode) node, configuration);
+            if (node instanceof Element) visit(writer, (Element) node, configuration, variables);
+            else if (node instanceof Comment) visit(writer, (Comment) node, configuration, variables);
+            else if (node instanceof TextNode) visit(writer, (TextNode) node, configuration, variables);
         }
     }
 
@@ -65,43 +72,58 @@ public class ConverterDefault implements Converter {
         }
     }
 
-    private void visit(Writer writer, String parent, Comment comment, Configuration configuration) throws IOException {
+    private void visit(Writer writer, Comment comment, Configuration configuration, Map<Element, String> variables) throws IOException {
         final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var variable = variableNameStrategy.nextName("comment");
+        final var ancestor = resolveClosestNonSelfClosingAncestor(comment);
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
         writer.write(format("\r\n%s %s = document.createComment(`%s`);\r\n", declarationKeyWord, variable, comment.getData()));
-        writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
+        writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
     }
 
-    private void visit(Writer writer, String parent, TextNode textNode, Configuration configuration) throws IOException {
+    private void visit(Writer writer, TextNode textNode, Configuration configuration, Map<Element, String> variables) throws IOException {
         final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var variable = variableNameStrategy.nextName("text");
+        final var ancestor = resolveClosestNonSelfClosingAncestor(textNode);
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
         writer.write(format("%s %s = document.createTextNode(`%s`);\r\n", declarationKeyWord, variable, textNode.getWholeText()));
-        writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
+        writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
     }
 
-    private void visit(Writer writer, String parent, Element element, Configuration configuration) throws IOException {
+    private void visit(Writer writer, Element element, Configuration configuration, Map<Element, String> variables) throws IOException {
+        final var declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
         final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var variable = variableNameStrategy.nextName(element.tagName());
-        String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
+        variables.put(element, variable);
         writer.write(format("\r\n%s %s = document.createElement('%s');\r\n", declarationKeyWord, variable, element.tagName()));
         visit(writer, variable, element.attributes());
 
         if ("script".equalsIgnoreCase(element.tagName())) {
-            visitScriptNode(writer, parent, element, variable, configuration);
+            visitScriptNode(writer, element, variable, configuration, variables);
         } else {
-            visit(writer, variable, element.childNodes(), configuration);
-            writer.write(format("%s.appendChild(%s);\r\n", parent, variable));
+            final var ancestor = resolveClosestNonSelfClosingAncestor(element);
+
+            if (element.tag().isSelfClosing()) {
+                // NOTE: JSoup wrongly considers the current element being visited as capable of having children.
+                //       This condition ensures that we append the self-closing element to its parent,
+                //       before processing its siblings, which JSoup parses as its children.
+                writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+                visit(writer, element.childNodes(), configuration, variables);
+            } else {
+                visit(writer, element.childNodes(), configuration, variables);
+                writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+            }
         }
 
     }
 
-    private void visitScriptNode(Writer writer, String parent, Element element, String variable, Configuration configuration) throws IOException {
+    private void visitScriptNode(Writer writer, Element element, String variable,
+                                 Configuration configuration, Map<Element, String> variables) throws IOException {
         final var variableNameStrategy = configuration.getVariableNameStrategy();
+        final var ancestor = resolveClosestNonSelfClosingAncestor(element);
 
         if (element.attr(element.absUrl("type")).isBlank()) {
             writer.write(format("\r\n%s.type = `text/javascript`;\r\n", variable));
@@ -121,11 +143,22 @@ public class ConverterDefault implements Converter {
                         "    %2$s.text = `%1$s`;",
                         "    %4$s.appendChild(%2$s);",
                         "}") + "\r\n",
-                script, variable, scriptTextVariable, parent, variable, declarationKeyWord));
+                script, variable, scriptTextVariable, variables.get(ancestor), variable, declarationKeyWord));
     }
 
     private String resolveDeclarationKeyWord(VariableDeclaration variableDeclaration) {
-
         return variableDeclaration.name().toLowerCase();
+    }
+
+    private static Element resolveClosestNonSelfClosingAncestor(Node element) {
+        // NOTE: Fix issue #41 by looking up closest non-self-closing parent/ancestor to append current element to
+        var ancestor = (Element) element.parent();
+
+        //noinspection ConstantConditions
+        while (ancestor.tag().isSelfClosing()) {
+            ancestor = ancestor.parent();
+        }
+
+        return ancestor;
     }
 }
