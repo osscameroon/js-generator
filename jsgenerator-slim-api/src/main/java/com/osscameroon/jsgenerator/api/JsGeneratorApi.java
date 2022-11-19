@@ -9,12 +9,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.boot.SpringApplication.run;
 import static org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest.toAnyEndpoint;
 
-@RestController
 @EnableWebSecurity
 @EnableMethodSecurity
 @SpringBootApplication
