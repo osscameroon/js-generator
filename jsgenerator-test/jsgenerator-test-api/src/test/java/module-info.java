@@ -7,6 +7,7 @@ module com.osscameroon.jsgenerator.test.api {
     requires org.hamcrest;
     requires org.junit.jupiter.params;
     requires spring.beans;
+    requires spring.boot.autoconfigure;
     requires spring.boot.test;
     requires spring.core;
     requires spring.security.test;

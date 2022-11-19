@@ -30,6 +30,59 @@ public class ConverterTest {
 
     @ParameterizedTest
     @EnumSource(VariableDeclaration.class)
+    public void issue41WithSelfClosingTags(final VariableDeclaration variableDeclaration) throws IOException {
+        final var keyword = keyword(variableDeclaration);
+        var converted = convert("""
+                        <input type="text">
+                        <span>Hello</span>
+                        <!-- Hello -->
+                        Bye!
+                        <script>// no-comment</script>""",
+                new Configuration(variableDeclaration));
+
+        assertThat(converted).containsExactly(
+                "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                "%s input_000 = document.createElement('input');".formatted(keyword),
+                "input_000.setAttribute(`type`, `text`);",
+                "targetElement_000.appendChild(input_000);",
+                "%s span_000 = document.createElement('span');".formatted(keyword),
+                "%s text_000 = document.createTextNode(`Hello`);".formatted(keyword),
+                "span_000.appendChild(text_000);",
+                "targetElement_000.appendChild(span_000);",
+                "%s comment_000 = document.createComment(` Hello `);".formatted(keyword),
+                "targetElement_000.appendChild(comment_000);",
+                "%s text_001 = document.createTextNode(`Bye!`);".formatted(keyword),
+                "targetElement_000.appendChild(text_001);",
+
+                "%s script_000 = document.createElement('script');".formatted(keyword),
+                "script_000.type = `text/javascript`;",
+                "try {",
+                "%s text_002 = document.createTextNode(`// no-comment`);".formatted(keyword),
+                "script_000.appendChild(text_002);",
+                "targetElement_000.appendChild(script_000);",
+                "} catch (_) {",
+                "script_000.text = `// no-comment`;",
+                "targetElement_000.appendChild(script_000);",
+                "}"
+                );
+
+
+
+//        "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+//                "%s script_000 = document.createElement('script');".formatted(keyword),
+//                "script_000.type = `text/javascript`;",
+//                "try {",
+//                "%s text_000 = document.createTextNode(`console.log(\\`%s\\`)`);".formatted(keyword, token),
+//                "script_000.appendChild(text_000);",
+//                "targetElement_000.appendChild(script_000);",
+//                "} catch (_) {",
+//                "script_000.text = `console.log(\\`%s\\`)`;".formatted(token),
+//                "targetElement_000.appendChild(script_000);",
+//                "}"
+    }
+
+    @ParameterizedTest
+    @EnumSource(VariableDeclaration.class)
     public void produceValidCodeWhenGivenCDATA(VariableDeclaration variableDeclaration) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
@@ -197,21 +250,21 @@ public class ConverterTest {
                 "head_000.appendChild(text_001);",
                 "%s meta_000 = document.createElement('meta');".formatted(keyword),
                 "meta_000.setAttribute(`charset`, `utf-8`);",
+                "head_000.appendChild(meta_000);",
                 "%s text_002 = document.createTextNode(`        `);".formatted(keyword),
-                "meta_000.appendChild(text_002);",
+                "head_000.appendChild(text_002);",
                 "%s title_000 = document.createElement('title');".formatted(keyword),
                 "%s text_003 = document.createTextNode(`Sample`);".formatted(keyword),
                 "title_000.appendChild(text_003);",
-                "meta_000.appendChild(title_000);",
+                "head_000.appendChild(title_000);",
                 "%s text_004 = document.createTextNode(`        `);".formatted(keyword),
-                "meta_000.appendChild(text_004);",
+                "head_000.appendChild(text_004);",
                 "%s link_000 = document.createElement('link');".formatted(keyword),
                 "link_000.setAttribute(`rel`, `stylesheet`);",
                 "link_000.setAttribute(`href`, ``);",
+                "head_000.appendChild(link_000);",
                 "%s text_005 = document.createTextNode(`    `);".formatted(keyword),
-                "link_000.appendChild(text_005);",
-                "meta_000.appendChild(link_000);",
-                "head_000.appendChild(meta_000);",
+                "head_000.appendChild(text_005);",
                 "html_000.appendChild(head_000);",
                 "%s text_006 = document.createTextNode(`    `);".formatted(keyword),
                 "html_000.appendChild(text_006);",
@@ -235,9 +288,9 @@ public class ConverterTest {
                 "%s img_000 = document.createElement('img');".formatted(keyword),
                 "img_000.setAttribute(`src`, `kanye.jpg`);",
                 "img_000.setAttribute(`alt`, `kanye`);",
-                "%s text_012 = document.createTextNode(`            `);".formatted(keyword),
-                "img_000.appendChild(text_012);",
                 "div_001.appendChild(img_000);",
+                "%s text_012 = document.createTextNode(`            `);".formatted(keyword),
+                "div_001.appendChild(text_012);",
                 "div_000.appendChild(div_001);",
                 "%s text_013 = document.createTextNode(`            `);".formatted(keyword),
                 "div_000.appendChild(text_013);",
@@ -260,9 +313,9 @@ public class ConverterTest {
                 "%s img_001 = document.createElement('img');".formatted(keyword),
                 "img_001.setAttribute(`src`, ``);",
                 "img_001.setAttribute(`alt`, ``);",
-                "%s text_019 = document.createTextNode(`            `);".formatted(keyword),
-                "img_001.appendChild(text_019);",
                 "div_002.appendChild(img_001);",
+                "%s text_019 = document.createTextNode(`            `);".formatted(keyword),
+                "div_002.appendChild(text_019);",
                 "div_000.appendChild(div_002);",
                 "%s text_020 = document.createTextNode(`            `);".formatted(keyword),
                 "div_000.appendChild(text_020);",

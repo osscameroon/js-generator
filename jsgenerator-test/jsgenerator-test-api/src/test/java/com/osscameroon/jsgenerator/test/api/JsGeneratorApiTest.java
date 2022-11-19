@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -183,6 +184,7 @@ public class JsGeneratorApiTest {
                 .lines().collect(joining("\r\n"));
     }
 
+    @SpringBootApplication(exclude = JsGeneratorApi.class)
     public static class Application extends JsGeneratorApi {
     }
 
