@@ -48,7 +48,11 @@ public class ConverterDefault implements Converter {
         //       be their previous self-closing sibling)
         final var variables = new HashMap<Element, String>(Map.of(document, variable));
         final var keyword = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
-        writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
+
+        if(configuration.isQuerySelectorAdded()){
+            writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
+        }
+
         visit(writer, document.childNodes(), configuration, variables);
         writer.flush();
     }

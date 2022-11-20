@@ -16,10 +16,12 @@ import static com.osscameroon.jsgenerator.core.VariableDeclaration.CONST;
 public class Options {
     private String extension = ".jsgenerator.js";
     private String targetElementSelector = ":root > body";
+
+    private boolean querySelectorAdded = true;
     private VariableDeclaration variableDeclaration = CONST;
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
 
     public Configuration toConfiguration() {
-        return new Configuration(targetElementSelector, variableDeclaration, variableNameStrategy.get());
+        return new Configuration(targetElementSelector,querySelectorAdded, variableDeclaration, variableNameStrategy.get());
     }
 }
