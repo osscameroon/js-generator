@@ -229,12 +229,12 @@ public class ConverterDefault implements Converter {
 
 
             writer.write(format("\r\n" + join("\r\n", "try {",
-                            "    %6$s %3$s = document.createTextNode(`%1$s`);",
+                            "    %4$s %3$s = document.createTextNode(`%1$s`);",
                             "    %2$s.appendChild(%3$s);",
                             "} catch (_) {",
                             "    %2$s.text = `%1$s`;",
                             "}") + "\r\n",
-                    script, variable, scriptTextVariable, variables.get(ancestor), variable, declarationKeyWord));
+                    script, variable, scriptTextVariable, declarationKeyWord));
 
         } else {
 

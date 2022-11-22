@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import static com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy.TYPE_BASED;
 import static com.osscameroon.jsgenerator.core.VariableDeclaration.CONST;
+import static com.osscameroon.jsgenerator.core.VariableDeclaration.LET;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class Options {
     private String targetElementSelector = ":root > body";
 
     private boolean querySelectorAdded = true;
-    private VariableDeclaration variableDeclaration = CONST;
+    private VariableDeclaration variableDeclaration = LET;
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
 
     public Configuration toConfiguration() {

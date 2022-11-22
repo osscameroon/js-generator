@@ -279,26 +279,20 @@ public class ConverterTest {
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     public void produceValidCodeWhenGivenTagWithAttributes(VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
-     
-        /*TODO: When using a common configuration object, we have failures with targetElemt starting at 001
-        We should be able to use the same configuration for all convertions
-        * */
-        //final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-
 
         if (querySelectorAdded) {
 
-            assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, querySelectorAdded))).containsExactly(
+            assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, true))).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s div_000 = document.createElement('div');".formatted(keyword),
                     "div_000.setAttribute(`id`, `id-value`);",
                     "targetElement_000.appendChild(div_000);");
-            assertThat(convert("<details open></details>", new Configuration(variableDeclaration, querySelectorAdded))).containsExactly(
+            assertThat(convert("<details open></details>", new Configuration(variableDeclaration, true))).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s details_000 = document.createElement('details');".formatted(keyword),
                     "details_000.setAttribute(`open`, `true`);",
                     "targetElement_000.appendChild(details_000);");
-            assertThat(convert("<p class></p>", new Configuration(variableDeclaration, querySelectorAdded))).containsExactly(
+            assertThat(convert("<p class></p>", new Configuration(variableDeclaration, true))).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s p_000 = document.createElement('p');".formatted(keyword),
                     "p_000.setAttribute(`class`, ``);",
@@ -306,15 +300,15 @@ public class ConverterTest {
 
         } else {
 
-            assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, querySelectorAdded))).containsExactly(
+            assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, false))).containsExactly(
 
                     "%s div_000 = document.createElement('div');".formatted(keyword),
                     "div_000.setAttribute(`id`, `id-value`);");
-            assertThat(convert("<details open></details>", new Configuration(variableDeclaration, querySelectorAdded))).containsExactly(
+            assertThat(convert("<details open></details>", new Configuration(variableDeclaration, false))).containsExactly(
 
                     "%s details_000 = document.createElement('details');".formatted(keyword),
                     "details_000.setAttribute(`open`, `true`);");
-            assertThat(convert("<p class></p>", new Configuration(variableDeclaration, querySelectorAdded))).containsExactly(
+            assertThat(convert("<p class></p>", new Configuration(variableDeclaration, false))).containsExactly(
 
                     "%s p_000 = document.createElement('p');".formatted(keyword),
                     "p_000.setAttribute(`class`, ``);");
@@ -659,7 +653,7 @@ public class ConverterTest {
      * A helper method to work with language-native String and array of data structures.
      *
      * @param input         The input HTML string
-     * @param configuration The variable declaration used: let, const or var
+     * @param configuration The object related to variable declaration (let, const or var) and query selector
      * @return Lines of output JS code
      */
     private String[] convert(@NonNull String input, Configuration configuration) throws IOException {
