@@ -5,7 +5,6 @@ import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -52,6 +52,9 @@ public class ConverterTest {
                         <web-component>Web Component</web-component>""",
                 new Configuration(variableDeclaration, querySelectorAdded));
 
+        printConverted(converted);
+
+
         if (querySelectorAdded) {
 
             assertThat(converted).containsExactly(
@@ -82,6 +85,7 @@ public class ConverterTest {
 
     }
 
+
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     public void issue41WithSelfClosingTags(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
@@ -94,6 +98,7 @@ public class ConverterTest {
                         <script>// no-comment</script>""",
                 new Configuration(variableDeclaration, querySelectorAdded));
 
+        printConverted(converted);
 
 
         if (querySelectorAdded) {
@@ -162,6 +167,9 @@ public class ConverterTest {
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert("<![CDATA[ < %s > & ]]>".formatted(token), configuration);
 
+
+        printConverted(converted);
+
         if (querySelectorAdded) {
             assertThat(converted).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
@@ -187,6 +195,9 @@ public class ConverterTest {
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert(token, configuration);
 
+
+        printConverted(converted);
+
         if (querySelectorAdded) {
 
             assertThat(converted).containsExactly(
@@ -211,6 +222,9 @@ public class ConverterTest {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert("<!-- %s -->".formatted(token), configuration);
+
+        printConverted(converted);
+
 
         if (querySelectorAdded) {
 
@@ -238,6 +252,8 @@ public class ConverterTest {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert("<script>console.log(`%s`)</script>".formatted(token), configuration);
+
+        printConverted(converted);
 
         if (querySelectorAdded) {
 
@@ -282,16 +298,26 @@ public class ConverterTest {
 
         if (querySelectorAdded) {
 
+            printConverted(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, true)));
+
             assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, true))).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s div_000 = document.createElement('div');".formatted(keyword),
                     "div_000.setAttribute(`id`, `id-value`);",
                     "targetElement_000.appendChild(div_000);");
+
+            printConverted(convert("<details open></details>", new Configuration(variableDeclaration, true)));
+
+
             assertThat(convert("<details open></details>", new Configuration(variableDeclaration, true))).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s details_000 = document.createElement('details');".formatted(keyword),
                     "details_000.setAttribute(`open`, `true`);",
                     "targetElement_000.appendChild(details_000);");
+
+            printConverted(convert("<p class></p>", new Configuration(variableDeclaration, true)));
+
+
             assertThat(convert("<p class></p>", new Configuration(variableDeclaration, true))).containsExactly(
                     "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s p_000 = document.createElement('p');".formatted(keyword),
@@ -300,14 +326,22 @@ public class ConverterTest {
 
         } else {
 
+            printConverted(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, false)));
+
             assertThat(convert("<div id=\"id-value\"></div>", new Configuration(variableDeclaration, false))).containsExactly(
 
                     "%s div_000 = document.createElement('div');".formatted(keyword),
                     "div_000.setAttribute(`id`, `id-value`);");
+
+            printConverted(convert("<details open></details>", new Configuration(variableDeclaration, false)));
+
             assertThat(convert("<details open></details>", new Configuration(variableDeclaration, false))).containsExactly(
 
                     "%s details_000 = document.createElement('details');".formatted(keyword),
                     "details_000.setAttribute(`open`, `true`);");
+
+            printConverted(convert("<p class></p>", new Configuration(variableDeclaration, false)));
+
             assertThat(convert("<p class></p>", new Configuration(variableDeclaration, false))).containsExactly(
 
                     "%s p_000 = document.createElement('p');".formatted(keyword),
@@ -324,6 +358,9 @@ public class ConverterTest {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert("<!-- %s --><div></div>".formatted(token), configuration);
+
+        printConverted(converted);
+
 
         if (querySelectorAdded) {
 
@@ -357,6 +394,8 @@ public class ConverterTest {
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert("<div></div><div></div>", configuration);
 
+        printConverted(converted);
+
         if (querySelectorAdded) {
 
             assertThat(converted).containsExactly(
@@ -388,6 +427,8 @@ public class ConverterTest {
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
         final var converted = convert(
                 "<div>A <strong>...</strong></div><div><p>Well, case!</div>", configuration);
+
+        printConverted(converted);
 
         if (querySelectorAdded) {
 
@@ -442,6 +483,9 @@ public class ConverterTest {
                 .getResourceAsStream("htmlFilesInput/sample.html")
                 .readAllBytes();
         final var converted = convert(new String(input, UTF_8), configuration);
+
+        printConverted(converted);
+
 
         // TODO: This doesn't make sense and deserve and issue to fix:
         //       html > body > html > body > ...
@@ -676,5 +720,14 @@ public class ConverterTest {
 
     private String keyword(final VariableDeclaration variableDeclaration) {
         return variableDeclaration.name().toLowerCase();
+    }
+
+    private void printConverted(String[] s) {
+
+        System.err.println("\n");
+        System.err.println("-------------------------------------------------------------------");
+        Arrays.asList(s).stream().forEach(System.out::println);
+        System.err.println("-------------------------------------------------------------------");
+        System.err.println("\n");
     }
 }

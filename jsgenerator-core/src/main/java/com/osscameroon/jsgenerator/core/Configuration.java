@@ -19,7 +19,7 @@ public class Configuration {
      * If not, if the user tries to run the output as it is then the browser will not be able to render,it will show a blank page.
      * So, it depends on what the user wants to do with the output.
      *
-     * @see <a href="https://jsfiddle.net/">JSFiddle</a>  and  <a href="https://codepen.io/pen/">CodePen</a>  help to give a quick browser rendering.
+     * @see <a href="https://jsfiddle.net/">JSFiddle</a>, <a href="https://codepen.io/pen/">CodePen</a> and Browser Console  help to give a quick feedback.
      */
 
 

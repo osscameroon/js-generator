@@ -64,7 +64,7 @@ public class CommandDefault implements Command, Valid {
                     "     to verify that the js output matches what the html input does.\n" +
                     "     If not, if the user tries to run the output as it is then the browser will not be able to render,it will show a blank page.\n" +
                     "     So, it depends on what the user wants to do with the output.\n" +
-                    "     \"https://jsfiddle.net/\" and  \"https://codepen.io/pen/\"  help to give a quick browser rendering.\n")
+                    "     \"https://jsfiddle.net/\", \"https://codepen.io/pen/\" and Browser Console  help to give a quick feedback.\n")
     private boolean querySelectorAdded = true;
 
     @Option(
@@ -129,7 +129,7 @@ public class CommandDefault implements Command, Valid {
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(targetElementSelector,querySelectorAdded, variableDeclaration, builtinVariableNameStrategy.get()));
+                    new Configuration(targetElementSelector, querySelectorAdded, variableDeclaration, builtinVariableNameStrategy.get()));
             outputStream.flush();
             outputStream.close();
         }
