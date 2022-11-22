@@ -34,7 +34,7 @@ public class CommandDefault implements Command, Valid {
     private final OutputStreamResolver pathFilenameResolver;
     private final Converter converter;
 
-    //TODO:show options for variable declarations, test what we get based on user choice let const or var
+    //TODO:show options for variable declarations, test what we get based on user choice let const or var and querySelectorAdded
     @Option(names = {"-k", "--keyword"}, description = "variable declaration keyword")
     private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
     @Option(names = {"-t", "--tty"}, description = "output to stdin, not files")
@@ -55,6 +55,17 @@ public class CommandDefault implements Command, Valid {
             defaultValue = ":root > body",
             description = "Target element selector")
     private String targetElementSelector = ":root > body";
+
+    @Option(
+            names = {"-qs", "--query-selector"},
+            defaultValue = "true",
+            description = "What the browser renders depends on whether \"document.querySelector(':root > body')\" is added to the output." +
+                    "     If added, the browser will render the output successfully, it is useful for debugging purpose,\n" +
+                    "     to verify that the js output matches what the html input does.\n" +
+                    "     If not, if the user tries to run the output as it is then the browser will not be able to render,it will show a blank page.\n" +
+                    "     So, it depends on what the user wants to do with the output.\n" +
+                    "     \"https://jsfiddle.net/\", \"https://codepen.io/pen/\" and Browser Console  help to give a quick feedback.\n")
+    private boolean querySelectorAdded = true;
 
     @Option(
             names = "--stdin-pattern",
@@ -118,7 +129,7 @@ public class CommandDefault implements Command, Valid {
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(targetElementSelector, variableDeclaration, builtinVariableNameStrategy.get()));
+                    new Configuration(targetElementSelector, querySelectorAdded, variableDeclaration, builtinVariableNameStrategy.get()));
             outputStream.flush();
             outputStream.close();
         }

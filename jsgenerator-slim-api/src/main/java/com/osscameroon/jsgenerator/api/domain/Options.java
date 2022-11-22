@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import static com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy.TYPE_BASED;
 import static com.osscameroon.jsgenerator.core.VariableDeclaration.CONST;
+import static com.osscameroon.jsgenerator.core.VariableDeclaration.LET;
 
 @Data
 @NoArgsConstructor
@@ -16,10 +17,12 @@ import static com.osscameroon.jsgenerator.core.VariableDeclaration.CONST;
 public class Options {
     private String extension = ".jsgenerator.js";
     private String targetElementSelector = ":root > body";
-    private VariableDeclaration variableDeclaration = CONST;
+
+    private boolean querySelectorAdded = true;
+    private VariableDeclaration variableDeclaration = LET;
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
 
     public Configuration toConfiguration() {
-        return new Configuration(targetElementSelector, variableDeclaration, variableNameStrategy.get());
+        return new Configuration(targetElementSelector,querySelectorAdded, variableDeclaration, variableNameStrategy.get());
     }
 }

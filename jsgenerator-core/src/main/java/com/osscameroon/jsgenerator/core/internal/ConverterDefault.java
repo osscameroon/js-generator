@@ -22,6 +22,18 @@ public class ConverterDefault implements Converter {
             "loop", "multiple", "muted", "nomodule", "novalidate", "open", "playsinline", "readonly", "required",
             "reversed", "selected", "truespeed", "contenteditable");
 
+    private static Element resolveClosestNonSelfClosingAncestor(Node element) {
+        // NOTE: Fix issue #41 by looking up closest non-self-closing parent/ancestor to append current element to
+        var ancestor = (Element) element.parent();
+
+        //noinspection ConstantConditions
+        while (ancestor.tag().isSelfClosing()) {
+            ancestor = ancestor.parent();
+        }
+
+        return ancestor;
+    }
+
     @Override
     public void convert(InputStream inputStream, OutputStream outputStream, Configuration configuration) throws IOException {
         final var stringBuilder = new StringBuilder();
@@ -41,14 +53,34 @@ public class ConverterDefault implements Converter {
         final var writer = new OutputStreamWriter(outputStream);
 
         final var selector = configuration.getTargetElementSelector();
-        final var variable = variableNameStrategy.nextName("targetElement");
+
+
+        final var variable = configuration.isQuerySelectorAdded()
+                ? variableNameStrategy.nextName("targetElement") : null;
+
+
         // NOTE: We need a variable to keep track of ancestors name.
         //       Following issue#41, elements that follow self-closing that should be added
         //       to their real parent and not the JSoup-inferred parent (which happen to just
         //       be their previous self-closing sibling)
-        final var variables = new HashMap<Element, String>(Map.of(document, variable));
+
+        Map<Element, String> variables = new HashMap<Element, String>();
+        try {
+            variables = new HashMap<Element, String>(Map.of(document, variable));
+        } catch (NullPointerException e) {
+
+            /*
+             * We do nothing in case the query selector is not added
+             * */
+
+        }
+
         final var keyword = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
-        writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
+
+        if (configuration.isQuerySelectorAdded()) {
+            writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
+        }
+
         visit(writer, document.childNodes(), configuration, variables);
         writer.flush();
     }
@@ -79,7 +111,28 @@ public class ConverterDefault implements Converter {
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
         writer.write(format("\r\n%s %s = document.createComment(`%s`);\r\n", declarationKeyWord, variable, comment.getData()));
-        writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+
+        /*
+         * Based on this ternary operation on convert method,
+         *
+         *         final var variable = configuration.isQuerySelectorAdded()
+                ? variableNameStrategy.nextName("targetElement"):null;
+
+         * if configuration.isQuerySelectorAdded() is true then variables.get(ancestor) is not null
+         * if configuration.isQuerySelectorAdded() is false then variables.get(ancestor) is null
+         *
+         * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
+         * */
+
+
+        if (null != variables.get(ancestor)) {
+
+            writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+        }
+
+
     }
 
     private void visit(Writer writer, TextNode textNode, Configuration configuration, Map<Element, String> variables) throws IOException {
@@ -89,7 +142,25 @@ public class ConverterDefault implements Converter {
         String declarationKeyWord = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
         writer.write(format("%s %s = document.createTextNode(`%s`);\r\n", declarationKeyWord, variable, textNode.getWholeText()));
-        writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+        /*
+         * Based on this ternary operation on convert method,
+         *
+         *         final var variable = configuration.isQuerySelectorAdded()
+                ? variableNameStrategy.nextName("targetElement"):null;
+
+         * if configuration.isQuerySelectorAdded() is true then variables.get(ancestor) is not null
+         * if configuration.isQuerySelectorAdded() is false then variables.get(ancestor) is null
+         *
+         * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
+         * */
+
+        if (null != variables.get(ancestor)) {
+
+            writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+        }
+
     }
 
     private void visit(Writer writer, Element element, Configuration configuration, Map<Element, String> variables) throws IOException {
@@ -110,11 +181,48 @@ public class ConverterDefault implements Converter {
                 // NOTE: JSoup wrongly considers the current element being visited as capable of having children.
                 //       This condition ensures that we append the self-closing element to its parent,
                 //       before processing its siblings, which JSoup parses as its children.
-                writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+        /*
+         * Based on this ternary operation on convert method,
+         *
+         *         final var variable = configuration.isQuerySelectorAdded()
+                ? variableNameStrategy.nextName("targetElement"):null;
+
+         * if configuration.isQuerySelectorAdded() is true then variables.get(ancestor) is not null
+         * if configuration.isQuerySelectorAdded() is false then variables.get(ancestor) is null
+         *
+         * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
+         * */
+
+
+                if (null != variables.get(ancestor)) {
+
+                    writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+                }
+
                 visit(writer, element.childNodes(), configuration, variables);
             } else {
                 visit(writer, element.childNodes(), configuration, variables);
-                writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+
+        /*
+         * Based on this ternary operation on convert method,
+         *
+         *         final var variable = configuration.isQuerySelectorAdded()
+                ? variableNameStrategy.nextName("targetElement"):null;
+
+         * if configuration.isQuerySelectorAdded() is true then variables.get(ancestor) is not null
+         * if configuration.isQuerySelectorAdded() is false then variables.get(ancestor) is null
+         *
+         * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
+         * */
+
+                if (null != variables.get(ancestor)) {
+
+                    writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
+
+                }
             }
         }
 
@@ -135,30 +243,48 @@ public class ConverterDefault implements Converter {
         // FIXME: Will be quirky without tokenizing script code but then, it doesn't matter as it could be
         //        TypeScript or Mustache template or, Pig, etc. We may consider tokenizing those languages
         final var scriptTextVariable = variableNameStrategy.nextName("text");
-        writer.write(format("\r\n" + join("\r\n", "try {",
-                        "    %6$s %3$s = document.createTextNode(`%1$s`);",
-                        "    %2$s.appendChild(%3$s);",
-                        "    %4$s.appendChild(%2$s);",
-                        "} catch (_) {",
-                        "    %2$s.text = `%1$s`;",
-                        "    %4$s.appendChild(%2$s);",
-                        "}") + "\r\n",
-                script, variable, scriptTextVariable, variables.get(ancestor), variable, declarationKeyWord));
+
+        /*
+         * Based on this ternary operation on convert method,
+         *
+         *         final var variable = configuration.isQuerySelectorAdded()
+                ? variableNameStrategy.nextName("targetElement"):null;
+
+         * if configuration.isQuerySelectorAdded() is true then variables.get(ancestor) is not null
+         * if configuration.isQuerySelectorAdded() is false then variables.get(ancestor) is null
+         *
+         * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
+         * */
+
+
+        if (null != variables.get(ancestor)) {
+
+
+            writer.write(format("\r\n" + join("\r\n", "try {",
+                            "    %6$s %3$s = document.createTextNode(`%1$s`);",
+                            "    %2$s.appendChild(%3$s);",
+                            "    %4$s.appendChild(%2$s);",
+                            "} catch (_) {",
+                            "    %2$s.text = `%1$s`;",
+                            "    %4$s.appendChild(%2$s);",
+                            "}") + "\r\n",
+                    script, variable, scriptTextVariable, variables.get(ancestor), variable, declarationKeyWord));
+
+
+        } else {
+
+            writer.write(format("\r\n" + join("\r\n", "try {",
+                            "    %4$s %3$s = document.createTextNode(`%1$s`);",
+                            "    %2$s.appendChild(%3$s);",
+                            "} catch (_) {",
+                            "    %2$s.text = `%1$s`;",
+                            "}") + "\r\n",
+                    script, variable, scriptTextVariable, declarationKeyWord));
+
+        }
     }
 
     private String resolveDeclarationKeyWord(VariableDeclaration variableDeclaration) {
         return variableDeclaration.name().toLowerCase();
-    }
-
-    private static Element resolveClosestNonSelfClosingAncestor(Node element) {
-        // NOTE: Fix issue #41 by looking up closest non-self-closing parent/ancestor to append current element to
-        var ancestor = (Element) element.parent();
-
-        //noinspection ConstantConditions
-        while (ancestor.tag().isSelfClosing()) {
-            ancestor = ancestor.parent();
-        }
-
-        return ancestor;
     }
 }
