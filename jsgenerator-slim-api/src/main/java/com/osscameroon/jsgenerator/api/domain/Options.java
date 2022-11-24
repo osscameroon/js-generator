@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import static com.osscameroon.jsgenerator.core.BuiltinVariableNameStrategy.TYPE_BASED;
-import static com.osscameroon.jsgenerator.core.VariableDeclaration.CONST;
 import static com.osscameroon.jsgenerator.core.VariableDeclaration.LET;
 
 @Data
@@ -23,6 +22,6 @@ public class Options {
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
 
     public Configuration toConfiguration() {
-        return new Configuration(targetElementSelector,querySelectorAdded, variableDeclaration, variableNameStrategy.get());
+        return new Configuration(targetElementSelector, querySelectorAdded, variableDeclaration, variableNameStrategy.get());
     }
 }
