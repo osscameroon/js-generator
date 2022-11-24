@@ -65,6 +65,18 @@ public class ConverterDefault implements Converter {
         //       be their previous self-closing sibling)
 
         Map<Element, String> variables = new HashMap<Element, String>();
+
+        /*
+         * if configuration.isQuerySelectorAdded() is true then variable = variableNameStrategy.nextName("targetElement")
+         * if configuration.isQuerySelectorAdded() is false then variable = null
+         *
+         * In case, variable is null, we'll get a NullPointerException from Map.of(document, variable).
+         *
+         * Getting a NullPointerException here is normal because the query selector is not added.
+         * In order to handle this situation,
+         * we do nothing inside this catch but based on this null value,
+         * we'll change the flow of this program inside the visiting methods.
+         * */
         try {
             variables = new HashMap<Element, String>(Map.of(document, variable));
         } catch (NullPointerException e) {
