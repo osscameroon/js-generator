@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -24,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 public class ConverterTest {
+    private static final Logger logger = Logger.getLogger(ConverterTest.class.getName());
     private Converter converter;
 
     private static Stream<Arguments> provideVariableDeclarationsAndQuerySelectorAdded() {
@@ -42,6 +45,92 @@ public class ConverterTest {
     public void before() {
         converter = Converter.of();
     }
+
+    @ParameterizedTest
+    @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
+    public void trying1(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
+        final var keyword = keyword(variableDeclaration);
+        final var converted = convert("""
+                        <h1>HTML To JavaScript</h1>
+                        <ol>
+                            <li>First item</li>
+                            <li>Second item</li>
+                            <li>Third item</li>
+                            <li>Fourth item</li>
+                        </ol>
+                         """,
+                new Configuration(variableDeclaration, querySelectorAdded));
+
+        printConverted(converted);
+
+
+//        let targetElement_000 = document.querySelector(`:root > body`);
+//        let h1_000 = document.createElement('h1');
+//        let text_000 = document.createTextNode(`HTML To JavaScript`);
+//        h1_000.appendChild(text_000);
+//        targetElement_000.appendChild(h1_000);
+//        let text_001 = document.createTextNode(`                                             `);
+//        targetElement_000.appendChild(text_001);
+//        let ol_000 = document.createElement('ol');
+//        let text_002 = document.createTextNode(`                                                 `);
+//        ol_000.appendChild(text_002);
+//        let li_000 = document.createElement('li');
+//        let text_003 = document.createTextNode(`First item`);
+//        li_000.appendChild(text_003);
+//        ol_000.appendChild(li_000);
+//        let text_004 = document.createTextNode(`                                                 `);
+//        ol_000.appendChild(text_004);
+//        let li_001 = document.createElement('li');
+//        let text_005 = document.createTextNode(`Second item`);
+//        li_001.appendChild(text_005);
+//        ol_000.appendChild(li_001);
+//        let text_006 = document.createTextNode(`                                                 `);
+//        ol_000.appendChild(text_006);
+//        let li_002 = document.createElement('li');
+//        let text_007 = document.createTextNode(`Third item`);
+//        li_002.appendChild(text_007);
+//        ol_000.appendChild(li_002);
+//        let text_008 = document.createTextNode(`                                                 `);
+//        ol_000.appendChild(text_008);
+//        let li_003 = document.createElement('li');
+//        let text_009 = document.createTextNode(`Fourth item`);
+//        li_003.appendChild(text_009);
+//        ol_000.appendChild(li_003);
+//        let text_010 = document.createTextNode(`                                             `);
+//        ol_000.appendChild(text_010);
+//        targetElement_000.appendChild(ol_000);
+
+
+        if (querySelectorAdded) {
+
+//            assertThat(converted).containsExactly(
+//                    "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+//                    "%s custom_angulartext_000 = document.createElement('AngularText');".formatted(keyword),
+//                    "%s text_000 = document.createTextNode(`Angular`);".formatted(keyword),
+//                    "custom_angulartext_000.appendChild(text_000);",
+//                    "targetElement_000.appendChild(custom_angulartext_000);",
+//                    "%s custom_web_component_000 = document.createElement('web-component');".formatted(keyword),
+//                    "%s text_001 = document.createTextNode(`Web Component`);".formatted(keyword),
+//                    "custom_web_component_000.appendChild(text_001);",
+//                    "targetElement_000.appendChild(custom_web_component_000);");
+
+        } else {
+
+//            assertThat(converted).containsExactly(
+//                    "%s custom_angulartext_000 = document.createElement('AngularText');".formatted(keyword),
+//                    "%s text_000 = document.createTextNode(`Angular`);".formatted(keyword),
+//                    "custom_angulartext_000.appendChild(text_000);",
+//
+//                    "%s custom_web_component_000 = document.createElement('web-component');".formatted(keyword),
+//                    "%s text_001 = document.createTextNode(`Web Component`);".formatted(keyword),
+//                    "custom_web_component_000.appendChild(text_001);");
+
+
+        }
+
+
+    }
+
 
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
@@ -724,10 +813,16 @@ public class ConverterTest {
 
     private void printConverted(String[] s) {
 
-        System.err.println("\n");
-        System.err.println("-------------------------------------------------------------------");
-        Arrays.asList(s).stream().forEach(System.out::println);
-        System.err.println("-------------------------------------------------------------------");
-        System.err.println("\n");
+
+        String sa = String.join("\n",s);
+
+        String a= """
+                
+                -------------------------------------------------------------------
+                
+                
+                """;
+
+        logger.log(Level.INFO, a+sa+a);
     }
 }
