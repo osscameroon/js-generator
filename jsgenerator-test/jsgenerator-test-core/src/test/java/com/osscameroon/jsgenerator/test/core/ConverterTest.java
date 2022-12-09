@@ -45,6 +45,15 @@ public class ConverterTest {
         converter = Converter.of();
     }
 
+    /*
+    * The goal is to show how precise is our conversion compared to other websites such as:
+    *
+    * https://www.html-code-generator.com/html/html-code-convert-to-javascript
+    *
+    * https://wtools.io/html-to-javascript-converter
+    *
+    * TODO: Add javadoc with the results coming from these 2 sites
+    * */
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     public void trying1(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
