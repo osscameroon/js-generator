@@ -56,7 +56,7 @@ public class ConverterTest {
     * */
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
-    public void trying1(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
+    public void comparisonBetweenJsGeneratorAndOtherConverters(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var converted = convert("""
                         <h1>HTML To JavaScript</h1>
