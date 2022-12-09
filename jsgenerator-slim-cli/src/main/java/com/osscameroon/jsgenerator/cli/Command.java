@@ -15,6 +15,8 @@ public interface Command extends Callable<Integer> {
 
     String getTargetElementSelector();
 
+    boolean isQuerySelectorAdded();
+
     List<String> getInlineContents();
 
     Converter getConverter();
