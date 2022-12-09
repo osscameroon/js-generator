@@ -10,23 +10,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @ExtendWith(MockitoExtension.class)
 public class ConverterTest {
-    private static final Logger logger = Logger.getLogger(ConverterTest.class.getName());
+    private static final Logger logger = getLogger(ConverterTest.class);
     private Converter converter;
 
     private static Stream<Arguments> provideVariableDeclarationsAndQuerySelectorAdded() {
@@ -814,15 +813,15 @@ public class ConverterTest {
     private void printConverted(String[] s) {
 
 
-        String sa = String.join("\n",s);
+        String convertedString = String.join("\n", s);
 
-        String a= """
-                
+        String space = """
+                                
                 -------------------------------------------------------------------
-                
-                
+                                
+                                
                 """;
 
-        logger.log(Level.INFO, a+sa+a);
+        logger.info(space + convertedString + space);
     }
 }

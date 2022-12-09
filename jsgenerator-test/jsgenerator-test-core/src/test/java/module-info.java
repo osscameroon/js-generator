@@ -11,5 +11,5 @@ module com.osscameroon.jsgenerator.test.core {
     requires org.mockito.junit.jupiter;
     requires org.junit.jupiter.params;
 
-    requires java.logging;
+    requires org.slf4j;
 }
