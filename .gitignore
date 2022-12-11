@@ -69,3 +69,44 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/jsgenerator-web/dist
+/jsgenerator-web/tmp
+/jsgenerator-web/out-tsc
+/jsgenerator-web/bazel-out
+
+# Node
+/jsgenerator-web/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/jsgenerator-web/.angular/cache
+.sass-cache/
+/jsgenerator-web/connect.lock
+/jsgenerator-web/coverage
+/jsgenerator-web/libpeerconnection.log
+testem.log
+/jsgenerator-web/typings
+
+-# System files
+-.DS_Store
+-Thumbs.db
