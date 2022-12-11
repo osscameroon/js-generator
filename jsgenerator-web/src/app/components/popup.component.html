@@ -1,12 +1,13 @@
 <dialog [open]="opened" [ngClass]="{'grid': opened, 'none': !opened}"
         class="fixed top-0 left-0 w-full h-full bg-gray-100 items-center justify-center">
   <section class="relative bg-white">
-    <del class="absolute leading-none inline-block rounded-full right-0 h-6 w-6
-                cursor-pointer align-middle text-white text-bold bg-black"
+    <del class="absolute leading-none inline-block rounded-full right-4 top-4 h-6 w-6
+                cursor-pointer align-middle text-white text-bold bg-red-700 shadow-lg
+                border-gray-300 border-4 border"
          (click)="close()"></del>
     <header class="mb-3">
       <h1 class="rounded uppercase font-bold text-xl px-2 py-4
-                 border-b">{{ title }}</h1>
+                 border-red-700 border-b-4">{{ title }}</h1>
     </header>
 
     <main><ng-content></ng-content></main>
