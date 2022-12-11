@@ -4,8 +4,9 @@
     <del class="absolute leading-none inline-block rounded-full right-0 h-6 w-6
                 cursor-pointer align-middle text-white text-bold bg-black"
          (click)="close()"></del>
-    <header>
-      <h1>{{ title }}</h1>
+    <header class="mb-3">
+      <h1 class="rounded uppercase font-bold text-xl px-2 py-4
+                 border-b">{{ title }}</h1>
     </header>
 
     <main><ng-content></ng-content></main>
