@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
-import {PopupComponent} from "./popup.component";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'jsgenerator-configuration',
   templateUrl: './configuration.component.html'
 })
-export class ConfigurationComponent {
-  #popupComponent?: PopupComponent = undefined;
+export class ConfigurationComponent implements OnInit {
+  #fb: FormBuilder;
   #opened = false;
 
   @Output()
@@ -24,12 +24,24 @@ export class ConfigurationComponent {
     return this.#opened;
   }
 
-  toggle() {
-    this.opened = !this.opened;
+  form?: FormGroup;
+
+  constructor(fb: FormBuilder) {
+    this.#fb = fb;
   }
 
-  @ViewChild(PopupComponent)
-  set popupComponent(value: PopupComponent) {
-    this.#popupComponent = value;
+  ngOnInit() {
+    this.form = this.#fb.group({
+      extension: ['.jsgenerator.js', Validators.required],
+      targetElementSelector: [':root > body', Validators.required],
+      variableDeclaration: ['CONST', Validators.required],
+      variableNameStrategy: ['TYPE_BASED', Validators.required],
+    });
+
+    this.form.valueChanges.subscribe(console.log);
+  }
+
+  toggle() {
+    this.opened = !this.opened;
   }
 }
