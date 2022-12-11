@@ -1,3 +1,8 @@
 <div>
   <p>Hello <strong class="text-red-400">world!</strong></p>
+  <button type="button" (click)="openedConfigurationPopup = !openedConfigurationPopup">
+    Configure
+  </button>
 </div>
+
+<jsgenerator-configuration [(opened)]="openedConfigurationPopup"></jsgenerator-configuration>
