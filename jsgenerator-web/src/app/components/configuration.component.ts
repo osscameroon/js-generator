@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'jsgenerator-configuration',
-  templateUrl: './configuration.component.html'
+  templateUrl: './configuration.component.html',
+  styleUrls: ['./configuration.component.sass'],
 })
 export class ConfigurationComponent implements OnInit {
   #fb: FormBuilder;
