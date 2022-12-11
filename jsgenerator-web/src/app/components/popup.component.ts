@@ -1,30 +1,24 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, DoCheck, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 
 @Component({
   selector: 'jsgenerator-popup',
-  templateUrl: './popup.component.html'
+  templateUrl: './popup.component.html',
 })
-export class PopupComponent implements OnInit {
+export class PopupComponent implements OnInit, DoCheck {
   private static listenerRegistered = false;
-
-  #opened = false;
+  #previouslyOpened = false;
 
   @Output()
   openedChange = new EventEmitter<boolean>();
-
+  @Input()
+  opened = false;
   @Input()
   title = 'Call for Action';
 
-  @Input()
-  set opened(value: boolean) {
-    if (value !== this.#opened) {
-      this.#opened = value;
-      this.openedChange.emit(value);
-    }
-  }
+  @ViewChild('box')
+  boxRef?: ElementRef;
 
-  get opened(): boolean {
-    return this.#opened;
+  constructor() {
   }
 
   ngOnInit() {
@@ -37,7 +31,24 @@ export class PopupComponent implements OnInit {
           this.opened = false;
         }
       });
-      PopupComponent.listenerRegistered = true;
+    }
+
+    this.#previouslyOpened = this.opened;
+  }
+
+  ngDoCheck() {
+    if (this.#previouslyOpened !== this.opened) {
+      setTimeout(() =>
+        this.openedChange.emit(this.opened));
+      this.#previouslyOpened = this.opened;
+    }
+  }
+
+  onContainerClick(event: MouseEvent) {
+    const {nativeElement: box} = this.boxRef!;
+
+    if (box !== event.target && !box?.contains(event.target)) {
+      this.close();
     }
   }
 
@@ -50,6 +61,6 @@ export class PopupComponent implements OnInit {
   }
 
   toggle() {
-    this.opened = !this.#opened;
+    this.opened = !this.opened;
   }
 }

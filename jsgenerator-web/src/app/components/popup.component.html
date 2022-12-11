@@ -1,9 +1,9 @@
-<dialog [open]="opened" [ngClass]="{'grid': opened, 'none': !opened}"
+<dialog [open]="opened" [ngClass]="{'grid': opened, 'none': !opened}" (click)="onContainerClick($event)"
         class="fixed top-0 left-0 w-full h-full items-center justify-center opacity-90 backdrop-blur-2xl">
-  <del class="fixed left-0 top-0 h-full w-full bg-gray-700 opacity-90"></del>
-  <section class="relative bg-white rounded-md">
+  <del class="fixed left-0 top-0 h-full w-full bg-gray-700 opacity-90 pointer-events-none"></del>
+  <section class="relative bg-white rounded-md" #box>
     <del class="absolute leading-none inline-block rounded-full right-4 top-4 h-6 w-6
-                cursor-pointer align-middle text-white text-bold bg-red-700 shadow-lg
+                cursor-pointer align-middle text-white bg-red-700 shadow-lg
                 border-gray-300 border-4 border"
          (click)="close()"></del>
     <header class="mb-3">
