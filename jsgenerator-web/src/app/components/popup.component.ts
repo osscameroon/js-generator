@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 
 @Component({
   selector: 'jsgenerator-popup',
   templateUrl: './popup.component.html'
 })
-export class PopupComponent {
+export class PopupComponent implements OnInit {
   #opened = false;
 
   @Output()
@@ -23,6 +23,14 @@ export class PopupComponent {
 
   get opened(): boolean {
     return this.#opened;
+  }
+
+  ngOnInit() {
+    addEventListener('keyup', event => {
+      if ([event.key, event.code].includes('Escape') && this.opened) {
+        this.opened = false;
+      }
+    })
   }
 
   open() {
