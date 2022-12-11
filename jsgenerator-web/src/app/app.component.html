@@ -1,8 +1,8 @@
 <div>
   <p>Hello <strong class="text-red-400">world!</strong></p>
-  <button type="button" (click)="openedConfigurationPopup = !openedConfigurationPopup">
-    Configure
+  <button type="button" (click)="configuration.popupOpened = !configuration.popupOpened">
+    Configure [opened={{configuration.popupOpened}}]
   </button>
 </div>
 
-<jsgenerator-configuration [(opened)]="openedConfigurationPopup"></jsgenerator-configuration>
+<jsgenerator-configuration></jsgenerator-configuration>

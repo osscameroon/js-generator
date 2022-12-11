@@ -1,9 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
+import {CONFIGURATION, Configuration} from "./domain/configuration";
 
 @Component({
   selector: 'jsgenerator-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  openedConfigurationPopup = true;
+  constructor(@Inject(CONFIGURATION) public configuration: Configuration) {
+  }
 }

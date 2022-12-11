@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {Component, HostBinding, Inject, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Configuration, CONFIGURATION} from "../domain/configuration";
 
 @Component({
   selector: 'jsgenerator-configuration',
@@ -8,41 +9,28 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class ConfigurationComponent implements OnInit {
   #fb: FormBuilder;
-  #opened = false;
-
-  @Output()
-  openedChange = new EventEmitter<boolean>();
-
-  @Input()
-  set opened(value: boolean) {
-    if (value !== this.#opened) {
-      this.#opened = value;
-      this.openedChange.emit(value);
-    }
-  }
-
-  get opened(): boolean {
-    return this.#opened;
-  }
-
   form?: FormGroup;
 
-  constructor(fb: FormBuilder) {
+  @HostBinding('class.none')
+  get closed() {
+    return !this.configuration.popupOpened;
+  }
+
+  constructor(@Inject(CONFIGURATION) public configuration: Configuration, fb: FormBuilder) {
     this.#fb = fb;
   }
 
   ngOnInit() {
     this.form = this.#fb.group({
-      extension: ['.jsgenerator.js', Validators.required],
-      targetElementSelector: [':root > body', Validators.required],
-      variableDeclaration: ['CONST', Validators.required],
-      variableNameStrategy: ['TYPE_BASED', Validators.required],
+      extension: [this.configuration.extension, Validators.required],
+      variableDeclaration: [this.configuration.variableDeclaration, Validators.required],
+      variableNameStrategy: [this.configuration.variableNameStrategy, Validators.required],
+      targetElementSelector: [this.configuration.targetElementSelector, Validators.required],
     });
 
-    this.form.valueChanges.subscribe(console.log);
-  }
-
-  toggle() {
-    this.opened = !this.opened;
+    this.form.valueChanges.subscribe(value => this.configuration = {
+      ...this.configuration,
+      ...value,
+    });
   }
 }
