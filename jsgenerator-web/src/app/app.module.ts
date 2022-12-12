@@ -7,11 +7,13 @@ import {ConfigurationComponent} from "./components/configuration.component";
 import {PopupComponent} from "./components/popup.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CONFIGURATION} from "./domain/configuration";
+import {NavigationComponent} from "./components/navigation.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     PopupComponent,
+    NavigationComponent,
     ConfigurationComponent,
   ],
   imports: [
