@@ -1,17 +1,17 @@
 import {MonacoEditorService} from "./monaco-editor.service";
 import {
   Component,
-  ElementRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
+  TemplateRef,
   ViewChild,
   ViewContainerRef
 } from "@angular/core";
 import type * as Monaco from "monaco-editor";
 import {editor} from "monaco-editor";
-import {first, Observable, Subject, Subscription} from "rxjs";
+import {filter, first, Observable, Subject, Subscription} from "rxjs";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import IDimension = editor.IDimension;
 import IStandaloneEditorConstructionOptions = editor.IStandaloneEditorConstructionOptions;
@@ -36,8 +36,10 @@ export class MonacoEditorComponent implements OnInit, OnDestroy {
     language: 'html',
   };
 
-  @ViewChild('monaco')
-  monacoRef?: ElementRef<HTMLDivElement>;
+  @ViewChild('outlet', {read: ViewContainerRef})
+  outletRef?: ViewContainerRef;
+  @ViewChild('inlet', {read: TemplateRef})
+  inletRef?: TemplateRef<any>;
 
   editor?: IStandaloneCodeEditor;
 
@@ -49,15 +51,14 @@ export class MonacoEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.#dimensionSubscription = this.#dimension
-      .pipe(throttle<IDimension>(500))
-      .subscribe(console.log);
+      .pipe(throttle<IDimension>(750))
+      .pipe(filter(() => !!this.editor))
+      .subscribe(size => this.#reRender(size));
     const subscription = this.#monacoEditorService.load().pipe(first()).subscribe(() => {
       const style = getComputedStyle(this.#viewContainerRef.element.nativeElement);
-      this.editor = monaco.editor.create(this.monacoRef?.nativeElement!, {
-        ...this.options, dimension: {
-          height: parseInt(style.height),
-          width: parseInt(style.width),
-        },
+      this.#reRender({
+        height: parseInt(style.height),
+        width: parseInt(style.width),
       });
       subscription.unsubscribe();
     });
@@ -72,6 +73,16 @@ export class MonacoEditorComponent implements OnInit, OnDestroy {
   onResizeEventHandler() {
     const {width: w, height: h} = getComputedStyle(this.#viewContainerRef.element.nativeElement);
     this.#dimension.next({width: parseInt(w), height: parseInt(h)});
+  }
+
+  #reRender(dimension: IDimension) {
+    this.editor?.dispose();
+    this.outletRef?.clear();
+    this.outletRef?.createEmbeddedView(this.inletRef!);
+    const root = this.#viewContainerRef.element.nativeElement.querySelector('div');
+    setTimeout(() => this.editor = monaco.editor.create(root, {
+      ...this.options, dimension,
+    }), 1_500);
   }
 }
 
