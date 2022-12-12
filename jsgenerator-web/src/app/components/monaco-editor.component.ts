@@ -22,7 +22,7 @@ export class MonacoEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.#monacoEditorService.load().pipe(first()).subscribe(() => {
+    const subscription = this.#monacoEditorService.load().pipe(first()).subscribe(() => {
       this.editor = monaco.editor.create(this.monacoRef?.nativeElement!, {
         autoClosingBrackets: 'always',
         automaticLayout: true,
@@ -33,6 +33,7 @@ export class MonacoEditorComponent implements OnInit {
         },
         language: 'html',
       });
+      subscription.unsubscribe();
     });
   }
 }
