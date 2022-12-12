@@ -8,11 +8,13 @@ import {PopupComponent} from "./components/popup.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CONFIGURATION} from "./domain/configuration";
 import {NavigationComponent} from "./components/navigation.component";
+import {FooterComponent} from "./components/footer.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     PopupComponent,
+    FooterComponent,
     NavigationComponent,
     ConfigurationComponent,
   ],
