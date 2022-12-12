@@ -23,18 +23,19 @@ declare const monaco: typeof Monaco;
   templateUrl: './monaco-editor.component.html',
 })
 export class MonacoEditorComponent implements OnInit, OnDestroy {
+  #defaultOptions: IStandaloneEditorConstructionOptions = {
+    autoClosingBrackets: 'always',
+    automaticLayout: true,
+    codeLens: true,
+    language: 'html',
+  };
   #monacoEditorService: MonacoEditorService;
   #dimension = new Subject<IDimension>();
   #dimensionSubscription?: Subscription;
   #viewContainerRef: ViewContainerRef;
 
   @Input()
-  options: IStandaloneEditorConstructionOptions = {
-    autoClosingBrackets: 'always',
-    automaticLayout: true,
-    codeLens: true,
-    language: 'html',
-  };
+  options?: IStandaloneEditorConstructionOptions;
 
   @ViewChild('outlet', {read: ViewContainerRef})
   outletRef?: ViewContainerRef;
@@ -81,7 +82,9 @@ export class MonacoEditorComponent implements OnInit, OnDestroy {
     this.outletRef?.createEmbeddedView(this.inletRef!);
     const root = this.#viewContainerRef.element.nativeElement.querySelector('div');
     setTimeout(() => this.editor = monaco.editor.create(root, {
-      ...this.options, dimension,
+      ...this.#defaultOptions,
+      ...this.options ?? {},
+      dimension,
     }), 1_500);
   }
 }
