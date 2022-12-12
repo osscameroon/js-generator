@@ -10,6 +10,7 @@ import {CONFIGURATION} from "./domain/configuration";
 import {NavigationComponent} from "./components/navigation.component";
 import {FooterComponent} from "./components/footer.component";
 import {MonacoEditorService} from "./components/monaco-editor.service";
+import {MonacoEditorComponent} from "./components/monaco-editor.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {MonacoEditorService} from "./components/monaco-editor.service";
     PopupComponent,
     FooterComponent,
     NavigationComponent,
+    MonacoEditorComponent,
     ConfigurationComponent,
   ],
   imports: [
