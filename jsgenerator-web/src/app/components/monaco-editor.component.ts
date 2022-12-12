@@ -27,10 +27,10 @@ export class MonacoEditorComponent implements OnInit {
         autoClosingBrackets: 'always',
         automaticLayout: true,
         codeLens: true,
-        dimension: {
-          width: 200,
-          height: 300,
-        },
+        // dimension: {
+        //   width: 200,
+        //   height: 300,
+        // },
         language: 'html',
       });
       subscription.unsubscribe();
