@@ -1,10 +1,20 @@
 import {MonacoEditorService} from "./monaco-editor.service";
-import {Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewContainerRef} from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from "@angular/core";
 import type * as Monaco from "monaco-editor";
 import {editor} from "monaco-editor";
-import {first, map, Observable, Subject, Subscription} from "rxjs";
+import {first, Observable, Subject, Subscription} from "rxjs";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 import IDimension = editor.IDimension;
+import IStandaloneEditorConstructionOptions = editor.IStandaloneEditorConstructionOptions;
 
 declare const monaco: typeof Monaco;
 
@@ -17,6 +27,14 @@ export class MonacoEditorComponent implements OnInit, OnDestroy {
   #dimension = new Subject<IDimension>();
   #dimensionSubscription?: Subscription;
   #viewContainerRef: ViewContainerRef;
+
+  @Input()
+  options: IStandaloneEditorConstructionOptions = {
+    autoClosingBrackets: 'always',
+    automaticLayout: true,
+    codeLens: true,
+    language: 'html',
+  };
 
   @ViewChild('monaco')
   monacoRef?: ElementRef<HTMLDivElement>;
@@ -34,15 +52,12 @@ export class MonacoEditorComponent implements OnInit, OnDestroy {
       .pipe(throttle<IDimension>(500))
       .subscribe(console.log);
     const subscription = this.#monacoEditorService.load().pipe(first()).subscribe(() => {
+      const style = getComputedStyle(this.#viewContainerRef.element.nativeElement);
       this.editor = monaco.editor.create(this.monacoRef?.nativeElement!, {
-        autoClosingBrackets: 'always',
-        automaticLayout: true,
-        codeLens: true,
-        dimension: {
-          width: 251,
-          height: 397,
+        ...this.options, dimension: {
+          height: parseInt(style.height),
+          width: parseInt(style.width),
         },
-        language: 'html',
       });
       subscription.unsubscribe();
     });
