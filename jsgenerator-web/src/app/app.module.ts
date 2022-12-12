@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ConfigurationComponent} from "./components/configuration.component";
 import {PopupComponent} from "./components/popup.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CONFIGURATION} from "./domain/configuration";
 import {NavigationComponent} from "./components/navigation.component";
 import {FooterComponent} from "./components/footer.component";
@@ -24,7 +24,8 @@ import {MonacoEditorComponent} from "./components/monaco-editor.component";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     MonacoEditorService,
