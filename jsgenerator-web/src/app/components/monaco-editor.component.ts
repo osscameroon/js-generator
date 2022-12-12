@@ -1,8 +1,8 @@
 import {MonacoEditorService} from "./monaco-editor.service";
-import {Component, ElementRef, HostBinding, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import type * as Monaco from "monaco-editor";
-import {first} from "rxjs";
 import {editor} from "monaco-editor";
+import {first} from "rxjs";
 import IStandaloneCodeEditor = editor.IStandaloneCodeEditor;
 
 declare const monaco: typeof Monaco;
@@ -37,3 +37,16 @@ export class MonacoEditorComponent implements OnInit {
     });
   }
 }
+/*
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TITLE</title>
+    </head>
+    <body>
+        lorem ipsum
+    </body>
+</html>
+
+ */
