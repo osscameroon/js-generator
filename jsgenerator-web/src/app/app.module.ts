@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {CONFIGURATION} from "./domain/configuration";
 import {NavigationComponent} from "./components/navigation.component";
 import {FooterComponent} from "./components/footer.component";
+import {MonacoEditorService} from "./components/monaco-editor.service";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {FooterComponent} from "./components/footer.component";
     ReactiveFormsModule
   ],
   providers: [
+    MonacoEditorService,
     {
       provide: CONFIGURATION, useValue: {
         targetElementSelector: ':root > body',
