@@ -145,7 +145,7 @@ public class ConverterTest {
      * </pre>
      *
      *
-     * Our 3 possible results use let,var and const as variable declarations, we also generate js variable for each element.
+     * Our results use let,var and const as variable declarations, we also generate js variable for each element.
      *
      *
      * */
