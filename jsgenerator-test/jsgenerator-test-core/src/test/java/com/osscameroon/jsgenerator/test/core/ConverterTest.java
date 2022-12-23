@@ -28,7 +28,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 *
 * TODO: Every test should be also validated on JSFiddle (https://jsfiddle.net/) and CodePen (https://codepen.io/).
 *  The goal is to see if the js output matches the html code by pasting each code then see how they are rendered.
-*  "document.querySelector(`:root > body`);" must be added to see the resuts.
+*  "document.querySelector(`:root > body`);" must be added into JS output to see the results.
 *  To do so, just copy and paste the result from the method "printConverted(String[])".
 *
 * */
