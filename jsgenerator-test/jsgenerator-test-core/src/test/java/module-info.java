@@ -10,4 +10,6 @@ module com.osscameroon.jsgenerator.test.core {
     requires org.mockito;
     requires org.mockito.junit.jupiter;
     requires org.junit.jupiter.params;
+
+    requires org.slf4j;
 }
