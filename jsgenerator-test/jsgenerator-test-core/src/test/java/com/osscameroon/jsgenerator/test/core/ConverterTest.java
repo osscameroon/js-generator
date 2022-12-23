@@ -23,6 +23,15 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
 
+
+/*
+*
+* TODO: Every test should be also validated on JSFiddle (https://jsfiddle.net/) and CodePen (https://codepen.io/).
+*  The goal is to see if the js output matches the html code by pasting each code then see how they are rendered.
+*  "document.querySelector(`:root > body`);" must be added to see the resuts.
+*  To do so, just copy and paste the result from the method "printConverted(String[])".
+*
+* */
 @ExtendWith(MockitoExtension.class)
 public class ConverterTest {
     private static final Logger logger = getLogger(ConverterTest.class);
@@ -45,20 +54,107 @@ public class ConverterTest {
         converter = Converter.of();
     }
 
-    /*
-    * The goal is to show how precise is our conversion compared to other websites such as:
-    *
-    * https://www.html-code-generator.com/html/html-code-convert-to-javascript
-    *
-    * https://wtools.io/html-to-javascript-converter
-    *
-    * TODO: Add javadoc with the results coming from these 2 sites
-    * */
+    /**
+     * The goal is to show how precise is our conversion compared to other websites such as
+     * <a href="https://www.html-code-generator.com/html/html-code-convert-to-javascript">HTML Code Generator</a>
+     * and <a href="https://wtools.io/html-to-javascript-converter">WTOOLS</a>.
+     *
+     *
+     <br>
+     <br>
+     *
+     *
+     * Result of HTML conversion to JS code from
+     * <a href="https://www.html-code-generator.com/html/html-code-convert-to-javascript">HTML Code Generator</a>:
+     *
+     *
+     *
+     *
+     * <pre>
+     *     {@code
+     *
+            let code = "";
+            code += "<h1>HTML To JavaScript</h1>\n";
+            code += "<ol>\n";
+            code += "\t<li>First item</li>\n";
+            code += "\t<li>Second item</li>\n";
+            code += "\t<li>Third item</li>\n";
+            code += "\t<li>Fourth item</li>\n";
+            code += "</ol>\n";
+     *
+     *
+     *     }
+     * </pre>
+
+     *
+     *
+     *
+     *3 possible results of HTML conversion to JS code from  <a href="https://wtools.io/html-to-javascript-converter">WTOOLS</a>:
+     *
+     *
+     * <pre>
+     *     {@code
+     *
+     *     document.write('<h1>HTML To JavaScript</h1>');
+     *     document.write('<ol>');
+     *     document.write('    <li>First item</li>');
+     *     document.write('    <li>Second item</li>');
+     *     document.write('    <li>Third item</li>');
+     *     document.write('    <li>Fourth item</li>');
+     *     document.write('</ol>');
+     *
+     *
+     *     }
+     * </pre>
+     *
+     *-----------------------------------------------------
+     *
+     * <pre>
+     *     {@code
+     *
+     *     document.writeln('<h1>HTML To JavaScript</h1>');
+     *     document.writeln('<ol>');
+     *     document.writeln('    <li>First item</li>');
+     *     document.writeln('    <li>Second item</li>');
+     *     document.writeln('    <li>Third item</li>');
+     *     document.writeln('    <li>Fourth item</li>');
+     *     document.writeln('</ol>');
+     *
+     *
+     *     }
+     * </pre>
+
+
+     -----------------------------------------------------
+
+     * <pre>
+     *     {@code
+     *
+            var variable = '' +
+            '<h1>HTML To JavaScript</h1>' +
+            '<ol>' +
+            '    <li>First item</li>' +
+            '    <li>Second item</li>' +
+            '    <li>Third item</li>' +
+            '    <li>Fourth item</li>' +
+            '</ol>' +
+            '';
+     *
+     *
+     *     }
+     * </pre>
+     *
+     *
+     * Our 3 possible results use let,var and const as variable declarations, we also generate js variable for each element.
+     *
+     *
+     * */
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     public void comparisonBetweenJsGeneratorAndOtherConverters(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        final var converted = convert("""
+        final var converted = convert(
+                """
                         <h1>HTML To JavaScript</h1>
                         <ol>
                             <li>First item</li>
@@ -72,73 +168,84 @@ public class ConverterTest {
         printConverted(converted);
 
 
-//        let targetElement_000 = document.querySelector(`:root > body`);
-//        let h1_000 = document.createElement('h1');
-//        let text_000 = document.createTextNode(`HTML To JavaScript`);
-//        h1_000.appendChild(text_000);
-//        targetElement_000.appendChild(h1_000);
-//        let text_001 = document.createTextNode(`                                             `);
-//        targetElement_000.appendChild(text_001);
-//        let ol_000 = document.createElement('ol');
-//        let text_002 = document.createTextNode(`                                                 `);
-//        ol_000.appendChild(text_002);
-//        let li_000 = document.createElement('li');
-//        let text_003 = document.createTextNode(`First item`);
-//        li_000.appendChild(text_003);
-//        ol_000.appendChild(li_000);
-//        let text_004 = document.createTextNode(`                                                 `);
-//        ol_000.appendChild(text_004);
-//        let li_001 = document.createElement('li');
-//        let text_005 = document.createTextNode(`Second item`);
-//        li_001.appendChild(text_005);
-//        ol_000.appendChild(li_001);
-//        let text_006 = document.createTextNode(`                                                 `);
-//        ol_000.appendChild(text_006);
-//        let li_002 = document.createElement('li');
-//        let text_007 = document.createTextNode(`Third item`);
-//        li_002.appendChild(text_007);
-//        ol_000.appendChild(li_002);
-//        let text_008 = document.createTextNode(`                                                 `);
-//        ol_000.appendChild(text_008);
-//        let li_003 = document.createElement('li');
-//        let text_009 = document.createTextNode(`Fourth item`);
-//        li_003.appendChild(text_009);
-//        ol_000.appendChild(li_003);
-//        let text_010 = document.createTextNode(`                                             `);
-//        ol_000.appendChild(text_010);
-//        targetElement_000.appendChild(ol_000);
-
-
         if (querySelectorAdded) {
 
-//            assertThat(converted).containsExactly(
-//                    "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
-//                    "%s custom_angulartext_000 = document.createElement('AngularText');".formatted(keyword),
-//                    "%s text_000 = document.createTextNode(`Angular`);".formatted(keyword),
-//                    "custom_angulartext_000.appendChild(text_000);",
-//                    "targetElement_000.appendChild(custom_angulartext_000);",
-//                    "%s custom_web_component_000 = document.createElement('web-component');".formatted(keyword),
-//                    "%s text_001 = document.createTextNode(`Web Component`);".formatted(keyword),
-//                    "custom_web_component_000.appendChild(text_001);",
-//                    "targetElement_000.appendChild(custom_web_component_000);");
+
+            assertThat(converted).containsExactly( "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                    "%s h1_000 = document.createElement('h1');".formatted(keyword),
+                    "%s text_000 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
+                    "h1_000.appendChild(text_000);",
+                    "targetElement_000.appendChild(h1_000);",
+                    "%s ol_000 = document.createElement('ol');".formatted(keyword),
+                    "%s text_001 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_001);",
+                    "%s li_000 = document.createElement('li');".formatted(keyword),
+                    "%s text_002 = document.createTextNode(`First item`);".formatted(keyword),
+                    "li_000.appendChild(text_002);",
+                    "ol_000.appendChild(li_000);",
+                    "%s text_003 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_003);",
+                    "%s li_001 = document.createElement('li');".formatted(keyword),
+                    "%s text_004 = document.createTextNode(`Second item`);".formatted(keyword),
+                    "li_001.appendChild(text_004);",
+                    "ol_000.appendChild(li_001);",
+                    "%s text_005 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_005);",
+                    "%s li_002 = document.createElement('li');".formatted(keyword),
+                    "%s text_006 = document.createTextNode(`Third item`);".formatted(keyword),
+                    "li_002.appendChild(text_006);",
+                    "ol_000.appendChild(li_002);",
+                    "%s text_007 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_007);",
+                    "%s li_003 = document.createElement('li');".formatted(keyword),
+                    "%s text_008 = document.createTextNode(`Fourth item`);".formatted(keyword),
+                    "li_003.appendChild(text_008);",
+                    "ol_000.appendChild(li_003);",
+                    "targetElement_000.appendChild(ol_000);"
+
+            );
+
 
         } else {
 
-//            assertThat(converted).containsExactly(
-//                    "%s custom_angulartext_000 = document.createElement('AngularText');".formatted(keyword),
-//                    "%s text_000 = document.createTextNode(`Angular`);".formatted(keyword),
-//                    "custom_angulartext_000.appendChild(text_000);",
-//
-//                    "%s custom_web_component_000 = document.createElement('web-component');".formatted(keyword),
-//                    "%s text_001 = document.createTextNode(`Web Component`);".formatted(keyword),
-//                    "custom_web_component_000.appendChild(text_001);");
+            assertThat(converted).containsExactly(
+
+                    "%s h1_000 = document.createElement('h1');".formatted(keyword),
+                    "%s text_000 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
+                    "h1_000.appendChild(text_000);",
+                    "%s ol_000 = document.createElement('ol');".formatted(keyword),
+                    "%s text_001 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_001);",
+                    "%s li_000 = document.createElement('li');".formatted(keyword),
+                    "%s text_002 = document.createTextNode(`First item`);".formatted(keyword),
+                    "li_000.appendChild(text_002);",
+                    "ol_000.appendChild(li_000);",
+                    "%s text_003 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_003);",
+                    "%s li_001 = document.createElement('li');".formatted(keyword),
+                    "%s text_004 = document.createTextNode(`Second item`);".formatted(keyword),
+                    "li_001.appendChild(text_004);",
+                    "ol_000.appendChild(li_001);",
+                    "%s text_005 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_005);",
+                    "%s li_002 = document.createElement('li');".formatted(keyword),
+                    "%s text_006 = document.createTextNode(`Third item`);".formatted(keyword),
+                    "li_002.appendChild(text_006);",
+                    "ol_000.appendChild(li_002);",
+                    "%s text_007 = document.createTextNode(`    `);".formatted(keyword),
+                    "ol_000.appendChild(text_007);",
+                    "%s li_003 = document.createElement('li');".formatted(keyword),
+                    "%s text_008 = document.createTextNode(`Fourth item`);".formatted(keyword),
+                    "li_003.appendChild(text_008);",
+                    "ol_000.appendChild(li_003);"
+
+            );
 
 
         }
 
 
     }
-
 
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
