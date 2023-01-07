@@ -14,27 +14,33 @@ public class SelfClosingTagIssue {
 
 	String div = "<br> <div><div/>";
 
-	Element htmlDoc = Jsoup.parse(div, "", Parser.xmlParser());
+	Element htmlDoc = Jsoup.parse(selfClosingTagNotWorking, "", Parser.htmlParser());
 
-	for (Element child : htmlDoc.children()) {
-
-	    boolean hasChild = child.childrenSize() > 0;
-
-	    System.err.println(" **** Analyze :" + child.tag().getName() + " -> isEmpty : " + child.tag().isEmpty()
-		    + " -> isSelfClosing : " + child.tag().isSelfClosing() + " -> hasChild : " + hasChild + " **** ");
-
-	    if (hasChild) {
-		System.err.println("Children of " + child.tagName() + ": ");
-
-		for (Element e : child.children()) {
-
-		    System.err.println(e.tagName());
-
-		}
-	    }
+		analyzeElement(htmlDoc);
 
 	}
 
-    }
+	private static void analyzeElement(Element htmlDoc) {
+		for (Element child : htmlDoc.children()) {
+
+			boolean hasChild = child.childrenSize() > 0;
+
+			System.err.println(" **** Analyze :" + child.tag().getName() + " -> isEmpty : " + child.tag().isEmpty()
+				+ " -> isSelfClosing : " + child.tag().isSelfClosing() + " -> hasChild : " + hasChild + " **** ");
+
+			if (hasChild) {
+			System.err.println("Children of " + child.tagName() + ": ");
+
+			for (Element e : child.children()) {
+
+				System.err.println(e.tagName());
+
+			}
+			}
+
+			analyzeElement(child);
+
+		}
+	}
 
 }
