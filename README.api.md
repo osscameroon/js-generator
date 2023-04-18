@@ -85,4 +85,4 @@ Both accept options as follow:
   ]
 }
 ```
-> **NOTE:** The `"content"` field is mandatory for `POST /convert` and forbidden for `POST /convert/files`
+> **NOTE:** The `"content"` field is mandatory for `POST /api/convert` and forbidden for `POST /api/convert/files`
