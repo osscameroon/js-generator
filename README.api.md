@@ -4,7 +4,7 @@ Using [`httpie`](https://httpie.io/):
 ```shell
 # You can also pass as many HTML content as you want
 # Response will be of 'application/json' content type
-http -vf :8080/convert \
+http -vf :8080/api/convert \
   extension='.js' \
   contents[]='<hr/>' \
   contents[]='<button disabled>click me, please :sob:</button>'
@@ -45,7 +45,7 @@ Or, give the following two files contents:
 ```shell
 # You can call the API with multiple **files** and at most one **options**
 # Response will be of 'multipart/form-data' content type
-http -vf :8080/convert/files \
+http -vf :8080/api/convert/files \
   'files@./sample.html;type=multipart/form-data' \
   'options@multipart-options.json;type=application/json'
 
@@ -69,8 +69,8 @@ After starting the `jsgenerator-api` as described in the [README.md](./README.md
 + OpenAPI UI at: [http://localhost:8080](http://localhost:8080)
 
 Two endpoints are exposed:
-+ `POST /convert`
-+ `POST /convert/files`
++ `POST /api/convert`
++ `POST /api/convert/files`
 
 Both accept options as follow:
 ```json
