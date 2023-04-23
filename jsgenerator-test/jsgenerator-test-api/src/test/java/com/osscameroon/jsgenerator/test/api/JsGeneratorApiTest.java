@@ -45,9 +45,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @SpringBootTest(webEnvironment = MOCK)
 public class JsGeneratorApiTest {
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED = new ClassPathResource("htmlFilesOutput/querySelectorAdded/sample.js");
+    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED = new ClassPathResource("jsFilesOutput/querySelectorAdded/sample.js");
 
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED = new ClassPathResource("htmlFilesOutput/querySelectorNotAdded/sample.js");
+    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED = new ClassPathResource("jsFilesOutput/querySelectorNotAdded/sample.js");
     private static final Resource SAMPLE = new ClassPathResource("htmlFilesInput/sample.html");
     @Autowired
     private WebApplicationContext webApplicationContext;
