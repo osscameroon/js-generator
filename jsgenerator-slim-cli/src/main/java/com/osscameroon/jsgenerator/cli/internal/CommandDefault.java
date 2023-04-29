@@ -34,7 +34,7 @@ public class CommandDefault implements Command, Valid {
     private final OutputStreamResolver pathFilenameResolver;
     private final Converter converter;
 
-    //TODO:show options for variable declarations, test what we get based on user choice let const or var and querySelectorAdded
+    //TODO:show options for variable declarations, test what we get based on user choice let const or var and querySelectorAdded and commentsAdded
     @Option(names = {"-k", "--keyword"}, description = "variable declaration keyword")
     private VariableDeclaration variableDeclaration = VariableDeclaration.LET;
     @Option(names = {"-t", "--tty"}, description = "output to stdin, not files")
@@ -66,6 +66,13 @@ public class CommandDefault implements Command, Valid {
                     "     So, it depends on what the user wants to do with the output.\n" +
                     "     \"https://jsfiddle.net/\", \"https://codepen.io/pen/\" and Browser Console  help to give a quick feedback.\n")
     private boolean querySelectorAdded = true;
+
+
+    @Option(
+            names = {"-c", "--comment"},
+            defaultValue = "true",
+            description = "optional comments")
+    private boolean commentConversionModeActivated = true;
 
     @Option(
             names = "--stdin-pattern",
@@ -129,7 +136,7 @@ public class CommandDefault implements Command, Valid {
             converter.convert(
                     Files.newInputStream(path),
                     outputStream = resolvePathOutputStream(path),
-                    new Configuration(targetElementSelector, querySelectorAdded, variableDeclaration, builtinVariableNameStrategy.get()));
+                    new Configuration(targetElementSelector, querySelectorAdded, commentConversionModeActivated, variableDeclaration, builtinVariableNameStrategy.get()));
             outputStream.flush();
             outputStream.close();
         }

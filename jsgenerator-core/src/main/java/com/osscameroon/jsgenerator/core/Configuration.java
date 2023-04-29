@@ -11,7 +11,10 @@ import static com.osscameroon.jsgenerator.core.VariableNameStrategy.ofTypeBased;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Configuration {
-    private String targetElementSelector = ":root > body";
+
+    private static final String ROOT_BODY = ":root > body";
+
+    private String targetElementSelector = ROOT_BODY;
     /**
      * What the browser renders depends on whether we add <strong>document.querySelector(':root > body')</strong> to the output.
      * If added, the browser will render the output successfully, it is useful for debugging purpose,
@@ -22,10 +25,8 @@ public class Configuration {
      * @see <a href="https://jsfiddle.net/">JSFiddle</a>, <a href="https://codepen.io/pen/">CodePen</a> and Browser Console  help to give a quick feedback.
      */
 
-
     private boolean querySelectorAdded = true;
-
-
+    private boolean commentConversionModeActivated = true;
     private VariableDeclaration variableDeclaration = LET;
     private VariableNameStrategy variableNameStrategy = ofTypeBased();
 
@@ -33,30 +34,32 @@ public class Configuration {
         this(variableDeclaration, ofTypeBased());
     }
 
-    public Configuration(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) {
-        this(variableDeclaration, ofTypeBased(), querySelectorAdded);
+    public Configuration(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) {
+        this(variableDeclaration, ofTypeBased(), querySelectorAdded, commentConversionModeActivated);
     }
+
+    public Configuration(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) {
+        this(variableDeclaration, ofTypeBased(), querySelectorAdded, true);
+    }
+
 
     public Configuration(final String targetElementSelector,
                          final VariableDeclaration variableDeclaration) {
-        this(targetElementSelector, true, variableDeclaration, ofTypeBased());
+        this(targetElementSelector, true, true, variableDeclaration, ofTypeBased());
     }
 
     public Configuration(final String targetElementSelector,
-                         final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) {
-        this(targetElementSelector, querySelectorAdded, variableDeclaration, ofTypeBased());
+                         final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) {
+        this(targetElementSelector, querySelectorAdded, commentConversionModeActivated, variableDeclaration, ofTypeBased());
     }
-
 
     public Configuration(final VariableDeclaration variableDeclaration,
                          final VariableNameStrategy variableNameStrategy) {
-        this(":root > body", true, variableDeclaration, variableNameStrategy);
+        this(ROOT_BODY, true, true, variableDeclaration, variableNameStrategy);
     }
-
 
     public Configuration(final VariableDeclaration variableDeclaration,
-                         final VariableNameStrategy variableNameStrategy, final boolean querySelectorAdded) {
-        this(":root > body", querySelectorAdded, variableDeclaration, variableNameStrategy);
+                         final VariableNameStrategy variableNameStrategy, final boolean querySelectorAdded, final boolean commentConversionModeActivated) {
+        this(ROOT_BODY, querySelectorAdded, commentConversionModeActivated, variableDeclaration, variableNameStrategy);
     }
-
 }

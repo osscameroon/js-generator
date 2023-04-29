@@ -12,7 +12,11 @@ import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -26,7 +30,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.osscameroon.jsgenerator.api.rest.ConvertController.MAPPING;
-import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
+import static com.osscameroon.jsgenerator.core.OutputStreamResolver.EXTENSION;
+import static com.osscameroon.jsgenerator.core.OutputStreamResolver.INDEX;
+import static com.osscameroon.jsgenerator.core.OutputStreamResolver.ORIGINAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;

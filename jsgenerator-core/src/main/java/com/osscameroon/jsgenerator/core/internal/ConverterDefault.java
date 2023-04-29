@@ -4,9 +4,18 @@ import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.*;
+import org.jsoup.nodes.Attribute;
+import org.jsoup.nodes.Attributes;
+import org.jsoup.nodes.Comment;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +98,10 @@ public class ConverterDefault implements Converter {
 
         final var keyword = resolveDeclarationKeyWord(configuration.getVariableDeclaration());
 
+        final var lineSeparator = System.lineSeparator();
+
         if (configuration.isQuerySelectorAdded()) {
-            writer.write("%s %s = document.querySelector(`%s`);\r\n\r\n".formatted(keyword, variable, selector));
+            writer.write("%s %s = document.querySelector(`%s`);%s%s".formatted(keyword, variable, selector,lineSeparator,lineSeparator));
         }
 
         visit(writer, document.childNodes(), configuration, variables);
@@ -100,8 +111,11 @@ public class ConverterDefault implements Converter {
     private void visit(Writer writer, List<Node> nodes, Configuration configuration, Map<Element, String> variables) throws IOException {
         for (final Node node : nodes) {
             if (node instanceof Element) visit(writer, (Element) node, configuration, variables);
-            else if (node instanceof Comment) visit(writer, (Comment) node, configuration, variables);
-            else if (node instanceof TextNode) visit(writer, (TextNode) node, configuration, variables);
+            else if (node instanceof Comment) {
+                if (configuration.isCommentConversionModeActivated()) {
+                    visit(writer, (Comment) node, configuration, variables);
+                }
+            } else if (node instanceof TextNode) visit(writer, (TextNode) node, configuration, variables);
         }
     }
 
@@ -137,14 +151,9 @@ public class ConverterDefault implements Converter {
          * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
          * */
 
-
-        if (null != variables.get(ancestor)) {
-
+        if (variables.get(ancestor) != null) {
             writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
-
         }
-
-
     }
 
     private void visit(Writer writer, TextNode textNode, Configuration configuration, Map<Element, String> variables) throws IOException {
@@ -167,7 +176,7 @@ public class ConverterDefault implements Converter {
          * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
          * */
 
-        if (null != variables.get(ancestor)) {
+        if (variables.get(ancestor) != null) {
 
             writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
 
@@ -207,7 +216,7 @@ public class ConverterDefault implements Converter {
          * */
 
 
-                if (null != variables.get(ancestor)) {
+                if (variables.get(ancestor) != null) {
 
                     writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
 
@@ -230,7 +239,7 @@ public class ConverterDefault implements Converter {
          * In order to not appendChild to a null element (configuration.isQuerySelectorAdded() is false), we use this condition
          * */
 
-                if (null != variables.get(ancestor)) {
+                if (variables.get(ancestor) != null) {
 
                     writer.write(format("%s.appendChild(%s);\r\n", variables.get(ancestor), variable));
 
@@ -269,7 +278,7 @@ public class ConverterDefault implements Converter {
          * */
 
 
-        if (null != variables.get(ancestor)) {
+        if (variables.get(ancestor) != null) {
 
 
             writer.write(format("\r\n" + join("\r\n", "try {",

@@ -18,10 +18,12 @@ public class Options {
     private String targetElementSelector = ":root > body";
 
     private boolean querySelectorAdded = true;
+
+    private boolean commentConversionModeActivated = true;
     private VariableDeclaration variableDeclaration = LET;
     private BuiltinVariableNameStrategy variableNameStrategy = TYPE_BASED;
 
     public Configuration toConfiguration() {
-        return new Configuration(targetElementSelector, querySelectorAdded, variableDeclaration, variableNameStrategy.get());
+        return new Configuration(targetElementSelector, querySelectorAdded, commentConversionModeActivated, variableDeclaration, variableNameStrategy.get());
     }
 }
