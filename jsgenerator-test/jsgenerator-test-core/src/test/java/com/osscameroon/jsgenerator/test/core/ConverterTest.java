@@ -1382,6 +1382,7 @@ class ConverterTest {
 
     }
 
+    //The way we define encoding utf8 is very important to solve the issue we get at Rest API Level
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
     void produceValidCodeWhenGivenPathToAFileWithComment(VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {

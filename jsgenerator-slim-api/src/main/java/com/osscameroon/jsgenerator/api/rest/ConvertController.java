@@ -49,6 +49,13 @@ public class ConvertController {
     private final OutputStreamResolver pathOutputStreamResolver;
     private final Converter converter;
 
+    //TODO: Make sure all these 4 case are taken into account
+    // code html to code js OK
+    // code html to file js
+    // file html to code js
+    // file html to file js OK
+
+    // code html to code js OK
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Reply<? extends List<? extends Output>> convertAction(@RequestBody @Valid final InlineOptions options) {
         LOGGER.info("{}", options);
@@ -71,6 +78,7 @@ public class ConvertController {
                 .toList());
     }
 
+    // file html to file js OK
     @PostMapping(path = "files", consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
     public MultiValueMap<String, AbstractResource> convertAction(@RequestPart("options") @Valid
                                                                  Optional<MultipartOptions> optionalCommand,

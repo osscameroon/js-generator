@@ -43,6 +43,11 @@ public class ConverterDefault implements Converter {
         return ancestor;
     }
 
+    /*
+    * TODO: There is some issue related to encoding, should we not set utf8 encoding here instead of setting it as we do inside ConverterTest ?
+    *  Make sure that every input has utf8 encoding. If not, we set this encoding.
+    *
+    * */
     @Override
     public void convert(InputStream inputStream, OutputStream outputStream, Configuration configuration) throws IOException {
         final var stringBuilder = new StringBuilder();
