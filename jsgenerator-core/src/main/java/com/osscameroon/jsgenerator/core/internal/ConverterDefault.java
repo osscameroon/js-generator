@@ -23,7 +23,15 @@ import java.util.Scanner;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.jsoup.parser.Parser.xmlParser;
+
+//TODO: Think about the user will use this library , if needed provide 4 explicit methods for these 4 cases
+// code html to code js
+// code html to file js
+// file html to code js
+// file html to file js
+
 
 public class ConverterDefault implements Converter {
     private static final List<String> BOOLEAN_ATTRIBUTES = List.of("allowfullscreen", "async", "autofocus",
@@ -57,16 +65,19 @@ public class ConverterDefault implements Converter {
         final var scanner = new Scanner(inputStream);
 
         while (scanner.hasNext()) {
-            stringBuilder.append(scanner.nextLine());
+            stringBuilder.append(new String(scanner.nextLine().getBytes(UTF_8), UTF_8));
         }
 
         final var content = stringBuilder.toString();
 
+        //Encoding in UTF8 then decoding in UTF8
+        var contentWithUTF8Charset = content;
+
         // NOTE: There is nothing to do
-        if (content.isBlank()) return;
+        if (contentWithUTF8Charset.isBlank()) return;
 
         final var variableNameStrategy = configuration.getVariableNameStrategy();
-        final var document = Jsoup.parse(content, xmlParser());
+        final var document = Jsoup.parse(contentWithUTF8Charset, xmlParser());
         final var writer = new OutputStreamWriter(outputStream);
 
         final var selector = configuration.getTargetElementSelector();

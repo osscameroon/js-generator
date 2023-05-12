@@ -24,6 +24,7 @@ import javax.validation.constraints.Size;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class ConvertController {
     private final OutputStreamResolver pathOutputStreamResolver;
     private final Converter converter;
 
-    //TODO: Make sure all these 4 case are taken into account
+    //TODO: Make sure all these 4 cases are taken into account
     // code html to code js OK
     // code html to file js
     // file html to code js
@@ -67,6 +68,7 @@ public class ConvertController {
                 .map(content -> convert(
                         configuration,
                         new ByteArrayOutputStream(),
+                        //convertInlineContentWithCopyrightCharacterWithComment works after doing this, why ? It used to work without this ? What happened ?
                         new ByteArrayInputStream(content.getBytes(UTF_8))))
                 .map(content -> {
                     final var filename = inlineOutputStreamResolver.resolve(options.getPattern(), Map.of(
@@ -111,7 +113,7 @@ public class ConvertController {
                     return new Output(filename, content);
                 })
                 .forEach(output ->
-                        map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes(UTF_8))));
+                        map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes())));
 
         return map;
     }
