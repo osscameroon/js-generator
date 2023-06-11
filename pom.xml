@@ -22,7 +22,7 @@
     </parent>
 
     <name>jsgenerator</name>
-    <description>Generates JavaScript code from HTML or Custom tags</description>
+    <description>Generates JavaScript from HTML</description>
     
     <url>https://github.com/osscameroon/js-generator</url>
 
