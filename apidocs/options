@@ -13,7 +13,7 @@ com.osscameroon.jsgenerator.core='/home/runner/work/js-generator/js-generator/js
 '/home/runner/work/js-generator/js-generator/jsgenerator-core/target/site/apidocs/src'
 -author
 -bottom
-'Copyright &#169; 2023 <a href="https://osscameroon.com/">Open Source Society Cameroon</a>. All rights reserved.'
+'Copyright &#169; 2018&#x2013;2023 <a href="https://osscameroon.com/">Open Source Society Cameroon</a>. All rights reserved.'
 -charset
 'UTF-8'
 -d
