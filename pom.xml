@@ -23,6 +23,7 @@
 
     <name>jsgenerator</name>
     <description>Generates JavaScript from HTML</description>
+    <inceptionYear>2018</inceptionYear>
     
     <url>https://github.com/osscameroon/js-generator</url>
 
