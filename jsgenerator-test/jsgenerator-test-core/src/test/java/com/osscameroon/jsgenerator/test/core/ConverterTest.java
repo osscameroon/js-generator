@@ -16,8 +16,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Stream;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -32,7 +34,6 @@ import static org.slf4j.LoggerFactory.getLogger;
 *
 * */
 
-//
 @ExtendWith(MockitoExtension.class)
 class ConverterTest {
     private static final Logger logger = getLogger(ConverterTest.class);
@@ -172,7 +173,7 @@ class ConverterTest {
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     void comparisonBetweenJsGeneratorAndOtherConverters(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        final var converted = convert(
+        final var converted = converter.convert(
                 """
                         <h1>HTML To JavaScript</h1>
                         <ol>
@@ -258,7 +259,7 @@ class ConverterTest {
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
     void comparisonBetweenJsGeneratorAndOtherConvertersWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded,final boolean commentConversionModeActivated) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        final var converted = convert(
+        final var converted = converter.convert(
                 """
                         <h1>HTML To JavaScript</h1>
                         <ol>
@@ -438,7 +439,7 @@ class ConverterTest {
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     void issue145WithCustomTagJavaScriptIdentifiers(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        final var converted = convert("""
+        final var converted = converter.convert("""
                         <AngularText>Angular</AngularText>
                         <web-component>Web Component</web-component>""",
                 new Configuration(variableDeclaration, querySelectorAdded));
@@ -471,7 +472,7 @@ class ConverterTest {
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
     void issue145WithCustomTagJavaScriptIdentifiersWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        final var converted = convert("""
+        final var converted = converter.convert("""
                         <!--Angular Comment-->
                         <AngularText>Angular</AngularText>
                         <!--Web Component-->
@@ -538,7 +539,7 @@ class ConverterTest {
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
     void issue41WithSelfClosingTags(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {
         final var keyword = keyword(variableDeclaration);
-        final var converted = convert("""
+        final var converted = converter.convert("""
                         <input type="text">
                         <span>Hello</span>
                         <!-- Hello -->
@@ -640,7 +641,7 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-        final var converted = convert("<![CDATA[ < %s > & ]]>".formatted(token), configuration);
+        final var converted = converter.convert("<![CDATA[ < %s > & ]]>".formatted(token), configuration);
 
         loggingOutput(converted);
 
@@ -658,7 +659,7 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-        final var converted = convert(token, configuration);
+        final var converted = converter.convert(token, configuration);
 
         loggingOutput(converted);
 
@@ -676,7 +677,7 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded, commentConversionModeActivated);
-        final var converted = convert("<!-- %s --> %s".formatted(token,token), configuration);
+        final var converted = converter.convert("<!-- %s --> %s".formatted(token,token), configuration);
 
         loggingOutput(converted);
 
@@ -709,7 +710,7 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded,commentConversionModeActivated);
-        final var converted = convert("<!-- %s -->".formatted(token), configuration);
+        final var converted = converter.convert("<!-- %s -->".formatted(token), configuration);
 
         loggingOutput(converted);
 
@@ -738,7 +739,7 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-        final var converted = convert("<script>console.log(`%s`)</script>".formatted(token), configuration);
+        final var converted = converter.convert("<script>console.log(`%s`)</script>".formatted(token), configuration);
 
         loggingOutput(converted);
 
@@ -777,7 +778,7 @@ class ConverterTest {
 
             String input = "<div id=\"id-value\"></div>";
             var configuration = new Configuration(variableDeclaration, true);
-            var converted = convert(input, configuration);
+            var converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -788,7 +789,7 @@ class ConverterTest {
 
             input = "<details open></details>";
             configuration = new Configuration(variableDeclaration, true);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -799,7 +800,7 @@ class ConverterTest {
 
             input = "<p class></p>";
             configuration = new Configuration(variableDeclaration, true);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -810,7 +811,7 @@ class ConverterTest {
 
             input = "<p class=\"class-value\"></p>";
             configuration = new Configuration(variableDeclaration, true);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -823,7 +824,7 @@ class ConverterTest {
 
             String input = "<div id=\"id-value\"></div>";
             var configuration = new Configuration(variableDeclaration, false);
-            var converted = convert(input, configuration);
+            var converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -832,7 +833,7 @@ class ConverterTest {
 
             input = "<details open></details>";
             configuration = new Configuration(variableDeclaration, false);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -841,7 +842,7 @@ class ConverterTest {
 
             input = "<p class></p>";
             configuration = new Configuration(variableDeclaration, false);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -850,7 +851,7 @@ class ConverterTest {
 
             input = "<p class=\"class-value\"></p>";
             configuration = new Configuration(variableDeclaration, false);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             loggingOutput(converted);
             assertThat(converted).containsExactly(
@@ -868,7 +869,7 @@ class ConverterTest {
 
             String input = "<!-- Div with id --><div id=\"id-value\"></div>";
             var configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
-            var converted = convert(input, configuration);
+            var converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -894,7 +895,7 @@ class ConverterTest {
 
             input = "<!-- Details tag with open attribute --><details open></details>";
             configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -920,7 +921,7 @@ class ConverterTest {
 
             input = "<!-- Paragraph tag with empty class attribute --><p class></p>";
             configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -945,7 +946,7 @@ class ConverterTest {
 
             input = "<!-- Paragraph tag with class attribute --><p class=\"class-value\"></p>";
             configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -972,7 +973,7 @@ class ConverterTest {
 
             String input = "<!-- Div with id --><div id=\"id-value\"></div>";
             var configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
-            var converted = convert(input, configuration);
+            var converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
                 loggingOutput(converted);
@@ -990,7 +991,7 @@ class ConverterTest {
 
             input = "<!-- Details tag with open attribute --><details open></details>";
             configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -1011,7 +1012,7 @@ class ConverterTest {
 
             input = "<!-- Paragraph tag with empty class attribute --><p class></p>";
             configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -1031,7 +1032,7 @@ class ConverterTest {
 
             input = "<!-- Paragraph tag with class attribute --><p class=\"class-value\"></p>";
             configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
-            converted = convert(input, configuration);
+            converted = converter.convert(input, configuration);
 
             if(commentConversionModeActivated){
 
@@ -1059,7 +1060,7 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded, commentConversionModeActivated);
-        final var converted = convert("<!-- %s --><div></div>".formatted(token), configuration);
+        final var converted = converter.convert("<!-- %s --><div></div>".formatted(token), configuration);
 
         loggingOutput(converted);
 
@@ -1094,7 +1095,7 @@ class ConverterTest {
     void produceValidCodeWithIncrementVariableNameWhenGivenMultipleNodeWithSameTagNames(VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-        final var converted = convert("<div></div><div></div>", configuration);
+        final var converted = converter.convert("<div></div><div></div>", configuration);
 
         loggingOutput(converted);
 
@@ -1120,7 +1121,7 @@ class ConverterTest {
     void produceValidCodeWhenGivenNestedNodes(VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-        final var converted = convert("<div>A <strong>...</strong></div><div><p>Well, case!</p></div>", configuration);
+        final var converted = converter.convert("<div>A <strong>...</strong></div><div><p>Well, case!</p></div>", configuration);
 
         loggingOutput(converted);
 
@@ -1161,6 +1162,9 @@ class ConverterTest {
         }
     }
 
+
+    // Why not also use convert(new String(input.getBytes(), UTF_8), configuration) for String not coming from files too ?
+    // Why not calling this method directly from core ?
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
     void produceValidCodeWhenGivenPathToAFile(VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
@@ -1170,7 +1174,7 @@ class ConverterTest {
         final var input = getClass().getClassLoader()
                 .getResourceAsStream("htmlFilesInput/sample.html")
                 .readAllBytes();
-        final var converted = convert(new String(input), configuration);
+        final var converted = converter.convert(new String(input, UTF_8), configuration);
 
         loggingOutput(converted);
 
@@ -1266,7 +1270,7 @@ class ConverterTest {
                     "%s text_021 = document.createTextNode(`                `);".formatted(keyword),
                     "div_003.appendChild(text_021);",
                     "%s p_001 = document.createElement('p');".formatted(keyword),
-                    "%s text_022 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                    "%s text_022 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                     "p_001.appendChild(text_022);",
                     "div_003.appendChild(p_001);",
                     "%s text_023 = document.createTextNode(`            `);".formatted(keyword),
@@ -1366,7 +1370,7 @@ class ConverterTest {
                     "%s text_021 = document.createTextNode(`                `);".formatted(keyword),
                     "div_003.appendChild(text_021);",
                     "%s p_001 = document.createElement('p');".formatted(keyword),
-                    "%s text_022 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                    "%s text_022 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                     "p_001.appendChild(text_022);",
                     "div_003.appendChild(p_001);",
                     "%s text_023 = document.createTextNode(`            `);".formatted(keyword),
@@ -1392,7 +1396,7 @@ class ConverterTest {
         final var input = getClass().getClassLoader()
                 .getResourceAsStream("htmlFilesInput/sampleWithComment.html")
                 .readAllBytes();
-        final var converted = convert(new String(input), configuration);
+        final var converted = converter.convert(new String(input, UTF_8), configuration);
 
         loggingOutput(converted);
 
@@ -1497,7 +1501,7 @@ class ConverterTest {
                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                         "div_003.appendChild(text_023);",
                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                         "p_001.appendChild(text_024);",
                         "div_003.appendChild(p_001);",
                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -1602,7 +1606,7 @@ class ConverterTest {
                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                         "div_003.appendChild(text_023);",
                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                         "p_001.appendChild(text_024);",
                         "div_003.appendChild(p_001);",
                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -1713,7 +1717,7 @@ class ConverterTest {
                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                         "div_003.appendChild(text_023);",
                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                         "p_001.appendChild(text_024);",
                         "div_003.appendChild(p_001);",
                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -1814,7 +1818,7 @@ class ConverterTest {
                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                         "div_003.appendChild(text_023);",
                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                         "p_001.appendChild(text_024);",
                         "div_003.appendChild(p_001);",
                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -1833,30 +1837,44 @@ class ConverterTest {
 
     }
 
-    //Think about moving this method to convertdefault
-    /**
-     * A helper method to work with language-native String and array of data structures.
-     *
-     * @param input         The input HTML string
-     * @param configuration The object related to variable declaration (let, const or var) and query selector
-     * @return Lines of output JS code
-     */
-    private String[] convert(@NonNull String input, Configuration configuration) throws IOException {
-        final var inputStream = new ByteArrayInputStream(input.getBytes());
-        final var outputStream = new ByteArrayOutputStream();
+    /*
+    * This method tests that there is no issue with no ascii characters
+    * Some useful links:
+    * https://www.baeldung.com/java-char-encoding
+    * https://stackoverflow.com/questions/41690641/non-ascii-value-symbols-not-getting-printed
+    * https://docs.oracle.com/javase/8/docs/api/java/text/Normalizer.html
+    * https://www.tabnine.com/code/java/classes/java.text.Normalizer
+    * https://www.educative.io/answers/what-is-stringutilsisasciiprintable-in-java
+    * https://stackoverflow.com/questions/30111273/how-do-i-remove-copyright-and-other-non-ascii-characters-from-my-java-string
+    * https://github.com/google/guava/wiki/StringsExplained
+    * https://stackoverflow.com/questions/54752377/handling-strings-with-special-characters-in-java
+    * */
 
-        converter.convert(inputStream, outputStream, configuration);
+    @ParameterizedTest
+    @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
+    void produceValidCodeWithNonASCIICharacters(VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
+        final var keyword = keyword(variableDeclaration);
+        final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
+        final var converted = converter.convert("<div>Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2023 </div>", configuration);
 
-        return outputAsStrippedLines(outputStream);
-    }
+        loggingOutput(converted);
 
-    private String[] outputAsStrippedLines(OutputStream outputStream) {
-        return outputStream
-                .toString()
-                .lines()
-                .map(String::strip)
-                .filter(line -> !line.isEmpty())
-                .toArray(String[]::new);
+        if (querySelectorAdded) {
+
+            assertThat(converted).containsExactly(
+                    "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
+                    "%s div_000 = document.createElement('div');".formatted(keyword),
+                    "%s text_000 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2023 `);".formatted(keyword),
+                    "div_000.appendChild(text_000);",
+                    "targetElement_000.appendChild(div_000);");
+
+        } else {
+
+            assertThat(converted).containsExactly(
+                    "%s div_000 = document.createElement('div');".formatted(keyword),
+                    "%s text_000 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2023 `);".formatted(keyword),
+                    "div_000.appendChild(text_000);");
+        }
     }
 
     private String keyword(final VariableDeclaration variableDeclaration) {

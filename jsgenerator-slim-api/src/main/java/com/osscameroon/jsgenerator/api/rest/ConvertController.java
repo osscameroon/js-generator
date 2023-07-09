@@ -68,7 +68,7 @@ public class ConvertController {
                 .map(content -> convert(
                         configuration,
                         new ByteArrayOutputStream(),
-                        //convertInlineContentWithCopyrightCharacterWithComment works after doing this, why ? It used to work without this ? What happened ?
+                        //convertInlineContentWithCopyrightCharacterWithComment works after doing this, why ? What happened ?
                         new ByteArrayInputStream(content.getBytes(UTF_8))))
                 .map(content -> {
                     final var filename = inlineOutputStreamResolver.resolve(options.getPattern(), Map.of(
@@ -124,7 +124,6 @@ public class ConvertController {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-
         return outputStream.toString(UTF_8);
     }
 }

@@ -7,7 +7,6 @@ import com.osscameroon.jsgenerator.api.rest.ConvertController;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import org.hamcrest.CustomMatcher;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -434,14 +433,12 @@ class JsGeneratorApiTest {
     * https://github.com/osscameroon/js-generator/issues/238
     * Finally this test helped us to understand that there was no issue when the output is just code but issue occurred when output was a js file.
     * */
-    //@Disabled
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
-    void convertInlineContentWithCopyrightCharacterWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws Exception {
+    void convertInlineContentWithNonASCIICharactersWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws Exception {
         final var keyword = keyword(variableDeclaration);
         final var extension = randomUUID().toString();
         final var prefix = randomUUID().toString();
-        final var content = randomUUID().toString();
         final var input = """
 <!DOCTYPE html>
 
@@ -465,7 +462,7 @@ class JsGeneratorApiTest {
             </div>
             <div id="footer">
                 <!-- Copyright -->
-                <p>Copyright © 2019</p>
+                <p>Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019</p>
             </div>
         </div>
     </body>
@@ -584,7 +581,7 @@ class JsGeneratorApiTest {
                                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                                         "div_003.appendChild(text_023);",
                                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                                         "p_001.appendChild(text_024);",
                                         "div_003.appendChild(p_001);",
                                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -705,7 +702,7 @@ class JsGeneratorApiTest {
                                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                                         "div_003.appendChild(text_023);",
                                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                                         "p_001.appendChild(text_024);",
                                         "div_003.appendChild(p_001);",
                                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -832,7 +829,7 @@ class JsGeneratorApiTest {
                                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                                         "div_003.appendChild(text_023);",
                                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                                         "p_001.appendChild(text_024);",
                                         "div_003.appendChild(p_001);",
                                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),
@@ -952,7 +949,7 @@ class JsGeneratorApiTest {
                                         "%s text_023 = document.createTextNode(`                `);".formatted(keyword),
                                         "div_003.appendChild(text_023);",
                                         "%s p_001 = document.createElement('p');".formatted(keyword),
-                                        "%s text_024 = document.createTextNode(`Copyright © 2019`);".formatted(keyword),
+                                        "%s text_024 = document.createTextNode(`Ã – string çöntäining nön äsçii çhäräçtérs couldn't Copyright © 2019`);".formatted(keyword),
                                         "p_001.appendChild(text_024);",
                                         "div_003.appendChild(p_001);",
                                         "%s text_025 = document.createTextNode(`            `);".formatted(keyword),

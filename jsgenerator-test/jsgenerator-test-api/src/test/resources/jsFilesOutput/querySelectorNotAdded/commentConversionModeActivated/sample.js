@@ -65,7 +65,7 @@ div_002.appendChild(h2_000);
 {{keyword}} text_017 = document.createTextNode(`                `);
 div_002.appendChild(text_017);
 {{keyword}} p_000 = document.createElement('p');
-{{keyword}} text_018 = document.createTextNode(`This is the main content.`);
+{{keyword}} text_018 = document.createTextNode(`This is the main content. Ã – string çöntäining nön äsçii çhäräçtérs couldn't`);
 p_000.appendChild(text_018);
 div_002.appendChild(p_000);
 {{keyword}} text_019 = document.createTextNode(`                `);

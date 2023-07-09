@@ -23,7 +23,6 @@ import java.util.Scanner;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.jsoup.parser.Parser.xmlParser;
 
 //TODO: Think about the user will use this library , if needed provide 4 explicit methods for these 4 cases
@@ -65,19 +64,16 @@ public class ConverterDefault implements Converter {
         final var scanner = new Scanner(inputStream);
 
         while (scanner.hasNext()) {
-            stringBuilder.append(new String(scanner.nextLine().getBytes(UTF_8), UTF_8));
+            stringBuilder.append(scanner.nextLine());
         }
 
         final var content = stringBuilder.toString();
 
-        //Encoding in UTF8 then decoding in UTF8
-        var contentWithUTF8Charset = content;
-
         // NOTE: There is nothing to do
-        if (contentWithUTF8Charset.isBlank()) return;
+        if (content.isBlank()) return;
 
         final var variableNameStrategy = configuration.getVariableNameStrategy();
-        final var document = Jsoup.parse(contentWithUTF8Charset, xmlParser());
+        final var document = Jsoup.parse(content, xmlParser());
         final var writer = new OutputStreamWriter(outputStream);
 
         final var selector = configuration.getTargetElementSelector();
