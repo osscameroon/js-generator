@@ -963,7 +963,7 @@ class JsGeneratorApiTest {
                                         "body_000.appendChild(div_000);",
                                         "%s text_027 = document.createTextNode(`    `);".formatted(keyword),
                                         "body_000.appendChild(text_027);",
-                                        "html_000.appendChild(body_000);"
+                                        "html_000.appendChild(body_100);"
                                 })));
 
             }
