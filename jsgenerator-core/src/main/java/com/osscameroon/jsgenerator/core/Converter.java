@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -40,6 +41,19 @@ public interface Converter {
                 .map(String::strip)
                 .filter(line -> !line.isEmpty())
                 .toArray(String[]::new);
+    }
+
+    default String[] convert(@NonNull byte[] input, Configuration configuration) throws IOException{
+        return convert(new String(input, UTF_8),configuration);
+    }
+
+    default String convert(Configuration configuration, ByteArrayOutputStream outputStream, ByteArrayInputStream inputStream) {
+        try {
+            convert(inputStream, outputStream, configuration);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
+        return outputStream.toString(UTF_8);
     }
 
 

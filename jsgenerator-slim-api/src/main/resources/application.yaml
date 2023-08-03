@@ -20,3 +20,9 @@ springdoc:
     path: /
     use-root-path: false
     disable-swagger-default-url: true
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true

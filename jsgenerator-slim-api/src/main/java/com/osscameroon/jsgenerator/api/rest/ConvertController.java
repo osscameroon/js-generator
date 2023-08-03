@@ -3,13 +3,13 @@ package com.osscameroon.jsgenerator.api.rest;
 import com.osscameroon.jsgenerator.api.domain.InlineOptions;
 import com.osscameroon.jsgenerator.api.domain.MultipartOptions;
 import com.osscameroon.jsgenerator.api.domain.Output;
-import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class ConvertController {
         final var configuration = options.toConfiguration();
 
         return Reply.ofSuccesses(options.getContents().stream()
-                .map(content -> convert(
+                .map(content -> converter.convert(
                         configuration,
                         new ByteArrayOutputStream(),
                         //convertInlineContentWithCopyrightCharacterWithComment works after doing this, why ? What happened ?
@@ -93,7 +94,7 @@ public class ConvertController {
 
         multipartFiles.stream().map(multipartFile -> {
                     try {
-                        return convert(
+                        return converter.convert(
                                 command.toConfiguration(),
                                 new ByteArrayOutputStream(),
                                 new ByteArrayInputStream(multipartFile.getBytes()));
@@ -118,12 +119,22 @@ public class ConvertController {
         return map;
     }
 
-    private String convert(Configuration configuration, ByteArrayOutputStream outputStream, ByteArrayInputStream inputStream) {
-        try {
-            converter.convert(inputStream, outputStream, configuration);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-        return outputStream.toString(UTF_8);
+    private byte[] encodingAndDecodingInUTF8(MultipartFile file) throws IOException {
+
+        // Encode the MultipartFile as UTF-8 bytes
+        byte[] encodedBytes = file.getBytes();
+        String encodedText = new String(encodedBytes,StandardCharsets.UTF_8);
+
+        // Decode the UTF-8 bytes back to MultipartFile
+        byte[] decodedBytes = encodedText.getBytes(StandardCharsets.UTF_8);
+
+/*
+        String content = new String (multipartFile.getBytes());
+
+        byte[] encodedBytes = content.getBytes(UTF_8);
+
+        return new String(encodedBytes, UTF_8).getBytes();*/
+
+        return decodedBytes;
     }
 }

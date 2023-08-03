@@ -24,6 +24,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -379,11 +381,12 @@ class JsGeneratorApiTest {
                                     "extension", ".%s".formatted(extension),
                                     "querySelectorAdded", true,
                                     "commentConversionModeActivated", true
-                            )).getBytes()))
+                            )).getBytes(UTF_8)))
                             .file(new MockMultipartFile(
                                     "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream()))
                             .file(new MockMultipartFile(
-                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream())))
+                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream()))
+                            .characterEncoding(UTF_8))
                     .andExpectAll(
                             status().isOk(),
                             withMultipart().size(2),
@@ -411,7 +414,7 @@ class JsGeneratorApiTest {
                             .file(new MockMultipartFile(
                                     "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream()))
                             .file(new MockMultipartFile(
-                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream())))
+                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream())).characterEncoding(UTF_8))
                     .andExpectAll(
                             status().isOk(),
                             withMultipart().size(2),

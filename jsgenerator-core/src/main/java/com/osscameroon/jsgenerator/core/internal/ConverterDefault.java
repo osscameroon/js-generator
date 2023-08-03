@@ -11,11 +11,22 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CodingErrorAction;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +34,7 @@ import java.util.Scanner;
 
 import static java.lang.String.format;
 import static java.lang.String.join;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.jsoup.parser.Parser.xmlParser;
 
 //TODO: Think about the user will use this library , if needed provide 4 explicit methods for these 4 cases
@@ -72,9 +84,12 @@ public class ConverterDefault implements Converter {
         // NOTE: There is nothing to do
         if (content.isBlank()) return;
 
+        //String normalisedContent = nfdNormalized(content);
+
         final var variableNameStrategy = configuration.getVariableNameStrategy();
         final var document = Jsoup.parse(content, xmlParser());
         final var writer = new OutputStreamWriter(outputStream);
+        //final var writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
 
         final var selector = configuration.getTargetElementSelector();
 
@@ -323,4 +338,91 @@ public class ConverterDefault implements Converter {
     private String resolveDeclarationKeyWord(VariableDeclaration variableDeclaration) {
         return variableDeclaration.name().toLowerCase();
     }
+
+    private String nfdNormalized(String txt) {
+        if (!Normalizer.isNormalized(txt, Normalizer.Form.NFD)) {
+            return Normalizer.normalize(txt, Normalizer.Form.NFD);
+        }
+        return txt;
+    }
+
+    private String decodeTextWithUTF8(String input) throws IOException {
+        return
+                new BufferedReader(
+                        new InputStreamReader(
+                                new ByteArrayInputStream(input.getBytes()),
+                                UTF_8))
+                        .readLine();
+    }
+
+    private String  a (String text) throws CharacterCodingException {
+        // Text to decode with unknown encoding
+        //String text = "你好, こんにちは, 안녕하세요, مرحبًا";
+
+        // Charset for encoding and decoding (UTF-8)
+        Charset charset = StandardCharsets.UTF_8;
+
+        // Create a CharsetDecoder for decoding
+        CharsetDecoder decoder = charset.newDecoder();
+        decoder.onMalformedInput(CodingErrorAction.REPLACE);
+        decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+
+        // Encode the text into bytes using UTF-8
+        ByteBuffer encodedBytes = charset.encode(text);
+
+        // Reset the decoder and decode the bytes to characters
+        decoder.reset();
+        CharBuffer decodedChars = decoder.decode(encodedBytes);
+
+        // Get the decoded text
+        String decodedText = decodedChars.toString();
+
+        return decodedText;
+    }
+
+    private String  b (String text) throws CharacterCodingException {
+        // Text to decode with unknown encoding
+        //String text = "你好, こんにちは, 안녕하세요, مرحبًا";
+
+        // Normalize the text using NFKC normalization
+        String normalizedText = Normalizer.normalize(text, Normalizer.Form.NFD);
+
+        // Decode the normalized text with UTF-8
+        byte[] bytes = normalizedText.getBytes(StandardCharsets.UTF_8);
+        String decodedText = new String(bytes, StandardCharsets.UTF_8);
+
+        //System.out.println("Original Text: " + text);
+        //System.out.println("Decoded Text: " + decodedText);
+
+        return decodedText;
+    }
+
+    private String  c (String text) throws CharacterCodingException {
+        // Text to decode with unknown encoding
+        //String text = "你好, こんにちは, 안녕하세요, مرحبًا";
+
+        // Normalize the text using NFKC normalization
+        String normalizedText = Normalizer.normalize(text, Normalizer.Form.NFD);
+
+        // Charset for encoding and decoding (UTF-8)
+        Charset charset = StandardCharsets.UTF_8;
+
+        // Create a CharsetDecoder for decoding
+        CharsetDecoder decoder = charset.newDecoder();
+        decoder.onMalformedInput(CodingErrorAction.REPLACE);
+        decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+
+        // Encode the text into bytes using UTF-8
+        ByteBuffer encodedBytes = charset.encode(normalizedText);
+
+        // Reset the decoder and decode the bytes to characters
+        decoder.reset();
+        CharBuffer decodedChars = decoder.decode(encodedBytes);
+
+        // Get the decoded text
+        String decodedText = decodedChars.toString();
+
+        return decodedText;
+    }
+
 }

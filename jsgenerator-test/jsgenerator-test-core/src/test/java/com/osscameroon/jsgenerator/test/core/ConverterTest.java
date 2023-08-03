@@ -1174,7 +1174,7 @@ class ConverterTest {
         final var input = getClass().getClassLoader()
                 .getResourceAsStream("htmlFilesInput/sample.html")
                 .readAllBytes();
-        final var converted = converter.convert(new String(input, UTF_8), configuration);
+        final var converted = converter.convert(input, configuration);
 
         loggingOutput(converted);
 
@@ -1396,7 +1396,7 @@ class ConverterTest {
         final var input = getClass().getClassLoader()
                 .getResourceAsStream("htmlFilesInput/sampleWithComment.html")
                 .readAllBytes();
-        final var converted = converter.convert(new String(input, UTF_8), configuration);
+        final var converted = converter.convert(input, configuration);
 
         loggingOutput(converted);
 
