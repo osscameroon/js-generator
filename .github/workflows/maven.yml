@@ -24,7 +24,7 @@ jobs:
         java-version: 17
         # Given the fact that this is a multimodule project, build process will take long time so we activate caching
         # To know more: https://maven.apache.org/extensions/maven-build-cache-extension/cache.html
-        cache: 'maven'
+        #cache: 'maven'
     - name: Build with Maven
     #To see the full stack trace of the errors, re-run Maven with the -e switch.
     #Re-run Maven using the -X switch to enable full debug logging.
