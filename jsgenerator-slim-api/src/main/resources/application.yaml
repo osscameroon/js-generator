@@ -13,6 +13,8 @@ spring:
       roles: ACTUATOR
   application:
     name: jsgenerator-api
+  banner:
+    location: classpath:/banner.txt
 springdoc:
   api-docs:
     path: /openapi.yaml
