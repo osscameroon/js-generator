@@ -1,7 +1,4 @@
-# This workflow will build a Java project with Maven
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
-
-name: Java CI with Maven
+name: Maven Site
 
 on:
   push:
@@ -25,10 +22,13 @@ jobs:
         # Given the fact that this is a multimodule project, build process will take long time so we activate caching
         # To know more: https://maven.apache.org/extensions/maven-build-cache-extension/cache.html
         cache: 'maven'
-    - name: Build with Maven
+    - name: Build Javadoc Site with Maven
     #To see the full stack trace of the errors, re-run Maven with the -e switch.
     #Re-run Maven using the -X switch to enable full debug logging.
     # -B,--batch-mode Run in non-interactive (batch) mode (disables output color)
     # To learn more about options: https://maven.apache.org/ref/3.6.3/maven-embedder/cli.html
       run: |
-        mvn clean test -B -e -X
+        mvn package -B -e -X
+        mvn clean site -B -e -X --projects 'jsgenerator-core'
+      env:
+        MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
