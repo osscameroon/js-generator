@@ -3,13 +3,13 @@ package com.osscameroon.jsgenerator.api.rest;
 import com.osscameroon.jsgenerator.api.domain.InlineOptions;
 import com.osscameroon.jsgenerator.api.domain.MultipartOptions;
 import com.osscameroon.jsgenerator.api.domain.Output;
-import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,7 +51,7 @@ public class ConvertController {
     private final OutputStreamResolver pathOutputStreamResolver;
     private final Converter converter;
 
-    //TODO: Make sure all these 4 case are taken into account
+    //TODO: Make sure all these 4 cases are taken into account
     // code html to code js OK
     // code html to file js
     // file html to code js
@@ -64,9 +66,10 @@ public class ConvertController {
         final var configuration = options.toConfiguration();
 
         return Reply.ofSuccesses(options.getContents().stream()
-                .map(content -> convert(
+                .map(content -> converter.convert(
                         configuration,
                         new ByteArrayOutputStream(),
+                        //convertInlineContentWithCopyrightCharacterWithComment works after doing this, why ? What happened ?
                         new ByteArrayInputStream(content.getBytes(UTF_8))))
                 .map(content -> {
                     final var filename = inlineOutputStreamResolver.resolve(options.getPattern(), Map.of(
@@ -91,7 +94,7 @@ public class ConvertController {
 
         multipartFiles.stream().map(multipartFile -> {
                     try {
-                        return convert(
+                        return converter.convert(
                                 command.toConfiguration(),
                                 new ByteArrayOutputStream(),
                                 new ByteArrayInputStream(multipartFile.getBytes()));
@@ -111,18 +114,27 @@ public class ConvertController {
                     return new Output(filename, content);
                 })
                 .forEach(output ->
-                        map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes(UTF_8))));
+                        map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes())));
 
         return map;
     }
 
-    private String convert(Configuration configuration, ByteArrayOutputStream outputStream, ByteArrayInputStream inputStream) {
-        try {
-            converter.convert(inputStream, outputStream, configuration);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+    private byte[] encodingAndDecodingInUTF8(MultipartFile file) throws IOException {
 
-        return outputStream.toString(UTF_8);
+        // Encode the MultipartFile as UTF-8 bytes
+        byte[] encodedBytes = file.getBytes();
+        String encodedText = new String(encodedBytes,StandardCharsets.UTF_8);
+
+        // Decode the UTF-8 bytes back to MultipartFile
+        byte[] decodedBytes = encodedText.getBytes(StandardCharsets.UTF_8);
+
+/*
+        String content = new String (multipartFile.getBytes());
+
+        byte[] encodedBytes = content.getBytes(UTF_8);
+
+        return new String(encodedBytes, UTF_8).getBytes();*/
+
+        return decodedBytes;
     }
 }

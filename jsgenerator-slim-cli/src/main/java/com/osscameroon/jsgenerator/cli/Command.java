@@ -17,6 +17,8 @@ public interface Command extends Callable<Integer> {
 
     boolean isQuerySelectorAdded();
 
+    boolean isCommentConversionModeActivated();
+
     List<String> getInlineContents();
 
     Converter getConverter();
