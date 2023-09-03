@@ -24,7 +24,7 @@
     <name>jsgenerator</name>
     <description>Generates JavaScript from HTML</description>
     <inceptionYear>2018</inceptionYear>
-    
+
     <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
@@ -139,6 +139,13 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.8.7</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
