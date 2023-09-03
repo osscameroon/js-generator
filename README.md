@@ -116,16 +116,16 @@ mvn clean test
 API Server
 ```shell
 # After starting the server, visit http://localhost:8080
-mvn --projects jsgenerator-api spring-boot:run
+mvn --also-make --projects jsgenerator-api clean spring-boot:run
 ```
 
 Command Line Interface (CLI)
 ```shell
 # After reading the help, play out with different CLI options
-mvn --projects jsgenerator-cli spring-boot:run -Dspring-boot.run.arguments=--help
+mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments=--help
 
 # For example:
-mvn --projects :jsgenerator-cli spring-boot:run \
+mvn --also-make --projects :jsgenerator-cli clean spring-boot:run \
   -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
 ```
 
