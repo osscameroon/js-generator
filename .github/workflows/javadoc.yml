@@ -1,12 +1,5 @@
 name: Maven Site
 
-on:
-  push:
-    branches: [ main ]
-  pull_request_target:
-    types: [ opened, edited, synchronize, ready_for_review, review_requested, review_request_removed ]
-    branches: [ main ]
-
 jobs:
   build:
 
@@ -28,7 +21,6 @@ jobs:
     # -B,--batch-mode Run in non-interactive (batch) mode (disables output color)
     # To learn more about options: https://maven.apache.org/ref/3.6.3/maven-embedder/cli.html
       run: |
-        mvn package -B -e -X
         mvn clean site -B -e -X --projects 'jsgenerator-core'
       env:
         MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
