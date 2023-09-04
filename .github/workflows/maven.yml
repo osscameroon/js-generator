@@ -31,7 +31,4 @@ jobs:
     # -B,--batch-mode Run in non-interactive (batch) mode (disables output color)
     # To learn more about options: https://maven.apache.org/ref/3.6.3/maven-embedder/cli.html
       run: |
-        mvn package -B -e -X
-        mvn site -B -e -X --projects 'jsgenerator-core'
-      env:
-        MAVEN_SITE_GITHUB_OAUTH_TOKEN: ${{ secrets.MAVEN_SITE_GITHUB_OAUTH_TOKEN }}
+        mvn clean test -B -e -X
