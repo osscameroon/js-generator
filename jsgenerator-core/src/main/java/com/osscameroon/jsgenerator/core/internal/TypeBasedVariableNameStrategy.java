@@ -31,6 +31,6 @@ public class TypeBasedVariableNameStrategy implements VariableNameStrategy {
             }
         }
 
-        return format("%s_%03d", identifier, counters.computeIfAbsent(type, __ -> new AtomicLong()).getAndIncrement());
+        return format("%s_%03d", identifier, counters.computeIfAbsent(type, __ -> new AtomicLong(1)).getAndIncrement());
     }
 }
