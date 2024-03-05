@@ -189,7 +189,7 @@ class ConverterTest {
         if (querySelectorAdded) {
 
             assertThat(converted).containsExactly( "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
-                    "%s h1_001 = document.createElement('h1');".formatted(keyword),
+                    "%s h1_000 = document.createElement('h1');".formatted(keyword),
                     "%s text_000 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
                     "h1_000.appendChild(text_000);",
                     "targetElement_000.appendChild(h1_000);",
