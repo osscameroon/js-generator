@@ -3,6 +3,10 @@ name: Maven Site
 on:
   push:
     branches: [ main ]
+    paths:
+      - '.github/workflows/javadoc.yml'
+      - 'jsgenerator-core/**'
+      - 'pom.xml'
 
 jobs:
   build:
