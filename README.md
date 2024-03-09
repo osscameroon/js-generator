@@ -21,7 +21,7 @@
 
 # About
 
-Translating from HTML to JS.
+Translating from HTML to JS
 
 > This project is different from the
 > [JavaScript Generator Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
