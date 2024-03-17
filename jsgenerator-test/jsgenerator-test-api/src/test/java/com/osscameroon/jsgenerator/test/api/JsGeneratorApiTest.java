@@ -180,12 +180,12 @@ class JsGeneratorApiTest {
                             jsonPath("$.content.length()").value(1),
                             jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
                             jsonPath("$.content.[0].content").value(new Match(new String[]{
-                                    "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
-                                    "%s div_000 = document.createElement('div');".formatted(keyword),
-                                    "div_000.setAttribute(`contenteditable`, `true`);",
-                                    "%s text_000 = document.createTextNode(`%s`);".formatted(keyword, content),
-                                    "div_000.appendChild(text_000);",
-                                    "targetElement_000.appendChild(div_000);"
+                                    "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+                                    "%s div_001 = document.createElement('div');".formatted(keyword),
+                                    "div_001.setAttribute(`contenteditable`, `true`);",
+                                    "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, content),
+                                    "div_001.appendChild(text_001);",
+                                    "targetElement_001.appendChild(div_001);"
                             })));
 
 
@@ -210,10 +210,10 @@ class JsGeneratorApiTest {
                             jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
                             jsonPath("$.content.[0].content").value(new Match(new String[]{
 
-                                    "%s div_000 = document.createElement('div');".formatted(keyword),
-                                    "div_000.setAttribute(`contenteditable`, `true`);",
-                                    "%s text_000 = document.createTextNode(`%s`);".formatted(keyword, content),
-                                    "div_000.appendChild(text_000);"
+                                    "%s div_001 = document.createElement('div');".formatted(keyword),
+                                    "div_001.setAttribute(`contenteditable`, `true`);",
+                                    "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, content),
+                                    "div_001.appendChild(text_001);"
 
                             })));
 
@@ -253,16 +253,16 @@ class JsGeneratorApiTest {
                                 jsonPath("$.content.length()").value(1),
                                 jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
                                 jsonPath("$.content.[0].content").value(new Match(new String[]{
-                                        "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
-                                        "%s comment_000 = document.createComment(` ContentEditable `);".formatted(keyword),
-                                        "targetElement_000.appendChild(comment_000);",
-                                        "%s text_000 = document.createTextNode(` `);".formatted(keyword),
-                                        "targetElement_000.appendChild(text_000);",
-                                        "%s div_000 = document.createElement('div');".formatted(keyword),
-                                        "div_000.setAttribute(`contenteditable`, `true`);",
-                                        "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, content),
-                                        "div_000.appendChild(text_001);",
-                                        "targetElement_000.appendChild(div_000);"
+                                        "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+                                        "%s comment_001 = document.createComment(` ContentEditable `);".formatted(keyword),
+                                        "targetElement_001.appendChild(comment_001);",
+                                        "%s text_001 = document.createTextNode(` `);".formatted(keyword),
+                                        "targetElement_001.appendChild(text_001);",
+                                        "%s div_001 = document.createElement('div');".formatted(keyword),
+                                        "div_001.setAttribute(`contenteditable`, `true`);",
+                                        "%s text_002 = document.createTextNode(`%s`);".formatted(keyword, content),
+                                        "div_001.appendChild(text_002);",
+                                        "targetElement_001.appendChild(div_001);"
                                 })));
 
 
@@ -287,14 +287,14 @@ class JsGeneratorApiTest {
                                 jsonPath("$.content.length()").value(1),
                                 jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
                                 jsonPath("$.content.[0].content").value(new Match(new String[]{
-                                        "%s targetElement_000 = document.querySelector(`:root > body`);".formatted(keyword),
-                                        "%s text_000 = document.createTextNode(` `);".formatted(keyword),
-                                        "targetElement_000.appendChild(text_000);",
-                                        "%s div_000 = document.createElement('div');".formatted(keyword),
-                                        "div_000.setAttribute(`contenteditable`, `true`);",
-                                        "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, content),
-                                        "div_000.appendChild(text_001);",
-                                        "targetElement_000.appendChild(div_000);"
+                                        "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+                                        "%s text_001 = document.createTextNode(` `);".formatted(keyword),
+                                        "targetElement_001.appendChild(text_001);",
+                                        "%s div_001 = document.createElement('div');".formatted(keyword),
+                                        "div_001.setAttribute(`contenteditable`, `true`);",
+                                        "%s text_002 = document.createTextNode(`%s`);".formatted(keyword, content),
+                                        "div_001.appendChild(text_002);",
+                                        "targetElement_001.appendChild(div_001);"
                                 })));
 
             }
@@ -321,12 +321,12 @@ class JsGeneratorApiTest {
                                 jsonPath("$.content.length()").value(1),
                                 jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
                                 jsonPath("$.content.[0].content").value(new Match(new String[]{
-                                        "%s comment_000 = document.createComment(` ContentEditable `);".formatted(keyword),
-                                        "%s text_000 = document.createTextNode(` `);".formatted(keyword),
-                                        "%s div_000 = document.createElement('div');".formatted(keyword),
-                                        "div_000.setAttribute(`contenteditable`, `true`);",
-                                        "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, content),
-                                        "div_000.appendChild(text_001);"
+                                        "%s comment_001 = document.createComment(` ContentEditable `);".formatted(keyword),
+                                        "%s text_001 = document.createTextNode(` `);".formatted(keyword),
+                                        "%s div_001 = document.createElement('div');".formatted(keyword),
+                                        "div_001.setAttribute(`contenteditable`, `true`);",
+                                        "%s text_002 = document.createTextNode(`%s`);".formatted(keyword, content),
+                                        "div_001.appendChild(text_002);"
                                 })));
 
 
@@ -350,11 +350,11 @@ class JsGeneratorApiTest {
                                 jsonPath("$.content.length()").value(1),
                                 jsonPath("$.content.[0].filename").value("%s.0.%s".formatted(prefix, extension)),
                                 jsonPath("$.content.[0].content").value(new Match(new String[]{
-                                        "%s text_000 = document.createTextNode(` `);".formatted(keyword),
-                                        "%s div_000 = document.createElement('div');".formatted(keyword),
-                                        "div_000.setAttribute(`contenteditable`, `true`);",
-                                        "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, content),
-                                        "div_000.appendChild(text_001);"
+                                        "%s text_001 = document.createTextNode(` `);".formatted(keyword),
+                                        "%s div_001 = document.createElement('div');".formatted(keyword),
+                                        "div_001.setAttribute(`contenteditable`, `true`);",
+                                        "%s text_002 = document.createTextNode(`%s`);".formatted(keyword, content),
+                                        "div_001.appendChild(text_002);"
                                 })));
 
             }
