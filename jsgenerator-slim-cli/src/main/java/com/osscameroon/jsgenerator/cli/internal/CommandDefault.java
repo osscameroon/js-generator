@@ -3,8 +3,6 @@ package com.osscameroon.jsgenerator.cli.internal;
 import com.osscameroon.jsgenerator.cli.Command;
 import com.osscameroon.jsgenerator.cli.Valid;
 import com.osscameroon.jsgenerator.core.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -21,8 +19,6 @@ import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@Data
-@RequiredArgsConstructor
 @CommandLine.Command(
         name = "jsgenerator",
         version = "0.0.1-SNAPSHOT",
@@ -97,6 +93,73 @@ public class CommandDefault implements Command, Valid {
             defaultValue = "inline.{{ index }}{{ extension }}",
             description = "Pattern for inline output filename")
     private String inlinePattern = format("inline.{{ %s }}{{ %s }}", INDEX, EXTENSION);
+
+    public CommandDefault(OutputStreamResolver inlineFilenameResolver, OutputStreamResolver stdinFilenameResolver, OutputStreamResolver pathFilenameResolver, Converter converter) {
+        this.inlineFilenameResolver = inlineFilenameResolver;
+        this.stdinFilenameResolver = stdinFilenameResolver;
+        this.pathFilenameResolver = pathFilenameResolver;
+        this.converter = converter;
+    }
+
+    @Override
+    public VariableDeclaration getVariableDeclaration() {
+        return variableDeclaration;
+    }
+
+    @Override
+    public boolean isTty() {
+        return tty;
+    }
+
+    @Override
+    public List<Path> getPaths() {
+        return paths;
+    }
+
+    @Override
+    public List<String> getInlineContents() {
+        return inlineContents;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    @Override
+    public String getTargetElementSelector() {
+        return targetElementSelector;
+    }
+
+    @Override
+    public boolean isQuerySelectorAdded() {
+        return querySelectorAdded;
+    }
+
+    public boolean isCommentConversionModeActivated() {
+        return commentConversionModeActivated;
+    }
+
+    public String getStdinPattern() {
+        return stdinPattern;
+    }
+
+    public String getPathPattern() {
+        return pathPattern;
+    }
+
+    @Override
+    public BuiltinVariableNameStrategy getBuiltinVariableNameStrategy() {
+        return builtinVariableNameStrategy;
+    }
+
+    @Override
+    public Converter getConverter() {
+        return converter;
+    }
+
+    public String getInlinePattern() {
+        return inlinePattern;
+    }
 
     @Override
     public Integer call() throws IOException {

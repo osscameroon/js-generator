@@ -1,7 +1,7 @@
 package com.osscameroon.jsgenerator.core;
 
 import com.osscameroon.jsgenerator.core.internal.ConverterDefault;
-import lombok.NonNull;
+import org.springframework.lang.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;

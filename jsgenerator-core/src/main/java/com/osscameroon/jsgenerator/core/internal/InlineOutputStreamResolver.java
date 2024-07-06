@@ -1,7 +1,7 @@
 package com.osscameroon.jsgenerator.core.internal;
 
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
-import lombok.NonNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Map;
 

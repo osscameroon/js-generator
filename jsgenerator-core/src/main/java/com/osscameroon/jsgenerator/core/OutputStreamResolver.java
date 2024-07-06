@@ -3,7 +3,7 @@ package com.osscameroon.jsgenerator.core;
 import com.osscameroon.jsgenerator.core.internal.InlineOutputStreamResolver;
 import com.osscameroon.jsgenerator.core.internal.PathOutputStreamResolver;
 import com.osscameroon.jsgenerator.core.internal.StdinOutputStreamResolver;
-import lombok.NonNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Map;
 

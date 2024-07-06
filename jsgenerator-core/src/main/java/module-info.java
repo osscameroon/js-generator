@@ -4,10 +4,10 @@ module com.osscameroon.jsgenerator.core {
 
     opens com.osscameroon.jsgenerator.core.autoconfigure;
 
-    requires lombok;
     requires org.jsoup;
     requires spring.boot;
     requires spring.context;
 
     requires spring.boot.autoconfigure;
+    requires spring.core;
 }

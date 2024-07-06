@@ -1,7 +1,6 @@
 module com.osscameroon.jsgenerator.desktop {
 
     requires com.osscameroon.jsgenerator.core;
-    requires lombok;
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;

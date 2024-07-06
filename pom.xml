@@ -18,7 +18,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>2.7.3</version>
+        <version>3.3.1</version>
     </parent>
 
     <name>jsgenerator</name>
@@ -28,13 +28,12 @@
     <url>https://github.com/osscameroon/js-generator</url>
 
     <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
 
         <revision>0.0.1-SNAPSHOT</revision>
 
-        <lomkok.version>1.18.24</lomkok.version>
         <picocli.version>4.6.3</picocli.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -48,10 +47,6 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
@@ -75,11 +70,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lomkok.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
@@ -114,14 +104,6 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.11.0</version>
                 </plugin>
@@ -138,7 +120,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.7</version>
+                    <version>0.8.12</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
@@ -150,21 +132,7 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>${maven.compiler.source}</release>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-            <!-- Generating jacoco test report for codecov  -->
+            <!-- Generating jacoco test report for codecov -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -190,17 +158,6 @@
              https://stackoverflow.com/questions/71496063/maven-surefire-test-failed-unsupported-class-file-major-version-61
              https://stackoverflow.com/questions/10382929/how-to-fix-java-lang-unsupportedclassversionerror-unsupported-major-minor-versi/11432195#11432195
              -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.ow2.asm</groupId>
-                        <artifactId>asm</artifactId>
-                        <version>9.1</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
             <!-- Generating github gh pages & maven project documents  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

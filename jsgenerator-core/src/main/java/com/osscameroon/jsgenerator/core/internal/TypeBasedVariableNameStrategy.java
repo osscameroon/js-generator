@@ -1,7 +1,7 @@
 package com.osscameroon.jsgenerator.core.internal;
 
 import com.osscameroon.jsgenerator.core.VariableNameStrategy;
-import lombok.NonNull;
+import org.springframework.lang.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;

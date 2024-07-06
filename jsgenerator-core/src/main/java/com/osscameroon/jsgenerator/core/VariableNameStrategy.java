@@ -2,7 +2,7 @@ package com.osscameroon.jsgenerator.core;
 
 import com.osscameroon.jsgenerator.core.internal.RandomVariableNameStrategy;
 import com.osscameroon.jsgenerator.core.internal.TypeBasedVariableNameStrategy;
-import lombok.NonNull;
+import org.springframework.lang.NonNull;
 
 @FunctionalInterface
 public interface VariableNameStrategy {

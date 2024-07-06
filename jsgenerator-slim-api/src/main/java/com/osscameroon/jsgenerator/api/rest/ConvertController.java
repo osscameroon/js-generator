@@ -6,21 +6,16 @@ import com.osscameroon.jsgenerator.api.domain.Output;
 import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import org.slf4j.Logger;
 import org.springframework.core.io.AbstractResource;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,16 +25,13 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.osscameroon.jsgenerator.api.rest.ConvertController.MAPPING;
-import static com.osscameroon.jsgenerator.core.OutputStreamResolver.EXTENSION;
-import static com.osscameroon.jsgenerator.core.OutputStreamResolver.INDEX;
-import static com.osscameroon.jsgenerator.core.OutputStreamResolver.ORIGINAL;
+import static com.osscameroon.jsgenerator.core.OutputStreamResolver.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(MAPPING)
 public class ConvertController {
     public static final String MAPPING = "/convert";
@@ -48,6 +40,15 @@ public class ConvertController {
     private final OutputStreamResolver inlineOutputStreamResolver;
     private final OutputStreamResolver pathOutputStreamResolver;
     private final Converter converter;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    public ConvertController(OutputStreamResolver inlineOutputStreamResolver,
+                             OutputStreamResolver pathOutputStreamResolver,
+                             Converter converter) {
+        this.inlineOutputStreamResolver = inlineOutputStreamResolver;
+        this.pathOutputStreamResolver = pathOutputStreamResolver;
+        this.converter = converter;
+    }
 
     //TODO: Make sure all these 4 case are taken into account
     // code html to code js OK
@@ -80,11 +81,9 @@ public class ConvertController {
 
     // file html to file js OK
     @PostMapping(path = "files", consumes = MULTIPART_FORM_DATA_VALUE, produces = MULTIPART_FORM_DATA_VALUE)
-    public MultiValueMap<String, AbstractResource> convertAction(@RequestPart("options") @Valid
-                                                                 Optional<MultipartOptions> optionalCommand,
-                                                                 @RequestPart("files") @Size(min = 1, max = 30) @Valid
-                                                                 List<MultipartFile> multipartFiles) throws IOException {
-        new MultipartOptions().toBuilder().build();
+    public MultiValueMap<String, AbstractResource> convertAction(
+            @RequestPart("options") @Valid Optional<MultipartOptions> optionalCommand,
+            @RequestPart("files") @Size(min = 1, max = 30) @Valid List<MultipartFile> multipartFiles) {
         final var command = optionalCommand.orElseGet(MultipartOptions::new);
         final var map = new LinkedMultiValueMap<String, AbstractResource>();
         final var indexTracker = new AtomicInteger();
@@ -111,7 +110,7 @@ public class ConvertController {
                     return new Output(filename, content);
                 })
                 .forEach(output ->
-                        map.add(output.getFilename(), new ByteArrayResource(output.getContent().getBytes(UTF_8))));
+                        map.add(output.filename(), new ByteArrayResource(output.content().getBytes(UTF_8))));
 
         return map;
     }

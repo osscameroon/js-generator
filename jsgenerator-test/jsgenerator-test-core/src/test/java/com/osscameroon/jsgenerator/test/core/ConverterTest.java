@@ -3,7 +3,6 @@ package com.osscameroon.jsgenerator.test.core;
 import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
-import lombok.NonNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,11 +10,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
+import org.springframework.lang.NonNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -25,13 +27,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 
 /*
-*
-* TODO: Every test should be also validated on JSFiddle (https://jsfiddle.net/) and CodePen (https://codepen.io/).
-*  The goal is to see if the js output matches the html code by pasting each code then see how they are rendered.
-*  "document.querySelector(`:root > body`);" must be added into JS output to see the results.
-*  To do so, just copy and paste the result from the method "printConverted(String[])".
-*
-* */
+ *
+ * TODO: Every test should be also validated on JSFiddle (https://jsfiddle.net/) and CodePen (https://codepen.io/).
+ *  The goal is to see if the js output matches the html code by pasting each code then see how they are rendered.
+ *  "document.querySelector(`:root > body`);" must be added into JS output to see the results.
+ *  To do so, just copy and paste the result from the method "printConverted(String[])".
+ *
+ * */
 @ExtendWith(MockitoExtension.class)
 class ConverterTest {
     private static final Logger logger = getLogger(ConverterTest.class);
@@ -77,10 +79,10 @@ class ConverterTest {
      * and <a href="https://wtools.io/html-to-javascript-converter">WTOOLS</a>.
      *
      *
-     <br>
-     <br>
-     *
-     *
+     * <br>
+     * <br>
+     * <p>
+     * <p>
      * Result of HTML conversion to JS code from
      * <a href="https://www.html-code-generator.com/html/html-code-convert-to-javascript">HTML Code Generator</a>:
      *
@@ -90,23 +92,23 @@ class ConverterTest {
      * <pre>
      *     {@code
      *
-            let code = "";
-            code += "<h1>HTML To JavaScript</h1>\n";
-            code += "<ol>\n";
-            code += "\t<li>First item</li>\n";
-            code += "\t<li>Second item</li>\n";
-            code += "\t<li>Third item</li>\n";
-            code += "\t<li>Fourth item</li>\n";
-            code += "</ol>\n";
+     * let code = "";
+     * code += "<h1>HTML To JavaScript</h1>\n";
+     * code += "<ol>\n";
+     * code += "\t<li>First item</li>\n";
+     * code += "\t<li>Second item</li>\n";
+     * code += "\t<li>Third item</li>\n";
+     * code += "\t<li>Fourth item</li>\n";
+     * code += "</ol>\n";
      *
      *
      *     }
      * </pre>
-
-     *
-     *
-     *
-     *3 possible results of HTML conversion to JS code from  <a href="https://wtools.io/html-to-javascript-converter">WTOOLS</a>:
+     * <p>
+     * <p>
+     * <p>
+     * <p>
+     * 3 possible results of HTML conversion to JS code from  <a href="https://wtools.io/html-to-javascript-converter">WTOOLS</a>:
      *
      *
      * <pre>
@@ -123,8 +125,8 @@ class ConverterTest {
      *
      *     }
      * </pre>
-     *
-     *-----------------------------------------------------
+     * <p>
+     * -----------------------------------------------------
      *
      * <pre>
      *     {@code
@@ -140,32 +142,30 @@ class ConverterTest {
      *
      *     }
      * </pre>
-
-
-     -----------------------------------------------------
-
+     * <p>
+     * <p>
+     * -----------------------------------------------------
+     *
      * <pre>
      *     {@code
      *
-            var variable = '' +
-            '<h1>HTML To JavaScript</h1>' +
-            '<ol>' +
-            '    <li>First item</li>' +
-            '    <li>Second item</li>' +
-            '    <li>Third item</li>' +
-            '    <li>Fourth item</li>' +
-            '</ol>' +
-            '';
+     * var variable = '' +
+     * '<h1>HTML To JavaScript</h1>' +
+     * '<ol>' +
+     * '    <li>First item</li>' +
+     * '    <li>Second item</li>' +
+     * '    <li>Third item</li>' +
+     * '    <li>Fourth item</li>' +
+     * '</ol>' +
+     * '';
      *
      *
      *     }
      * </pre>
-     *
-     *
+     * <p>
+     * <p>
      * Our results use let,var and const as variable declarations, we also generate js variable for each element.
-     *
-     *
-     * */
+     */
     //TODO: Remove this method and put that in comparison issue
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAdded")
@@ -187,7 +187,7 @@ class ConverterTest {
 
         if (querySelectorAdded) {
 
-            assertThat(converted).containsExactly( "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+            assertThat(converted).containsExactly("%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s h1_001 = document.createElement('h1');".formatted(keyword),
                     "%s text_001 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
                     "h1_001.appendChild(text_001);",
@@ -255,7 +255,7 @@ class ConverterTest {
 
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
-    void comparisonBetweenJsGeneratorAndOtherConvertersWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded,final boolean commentConversionModeActivated) throws IOException {
+    void comparisonBetweenJsGeneratorAndOtherConvertersWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var converted = convert(
                 """
@@ -274,8 +274,8 @@ class ConverterTest {
         printConverted(converted);
 
         if (querySelectorAdded) {
-            if(commentConversionModeActivated){
-                assertThat(converted).containsExactly( "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+            if (commentConversionModeActivated) {
+                assertThat(converted).containsExactly("%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s h1_001 = document.createElement('h1');".formatted(keyword),
                         "%s text_001 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
                         "h1_001.appendChild(text_001);",
@@ -315,8 +315,8 @@ class ConverterTest {
                         "ol_001.appendChild(li_004);",
                         "targetElement_001.appendChild(ol_001);"
                 );
-            }else{
-                assertThat(converted).containsExactly( "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+            } else {
+                assertThat(converted).containsExactly("%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s h1_001 = document.createElement('h1');".formatted(keyword),
                         "%s text_001 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
                         "h1_001.appendChild(text_001);",
@@ -354,7 +354,7 @@ class ConverterTest {
                 );
             }
         } else {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s h1_001 = document.createElement('h1');".formatted(keyword),
                         "%s text_001 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
@@ -393,7 +393,7 @@ class ConverterTest {
                         "li_004.appendChild(text_011);",
                         "ol_001.appendChild(li_004);"
                 );
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s h1_001 = document.createElement('h1');".formatted(keyword),
                         "%s text_001 = document.createTextNode(`HTML To JavaScript`);".formatted(keyword),
@@ -480,7 +480,7 @@ class ConverterTest {
         printConverted(converted);
 
         if (querySelectorAdded) {
-            if (commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s comment_001 = document.createComment(`Angular Comment`);".formatted(keyword),
@@ -497,7 +497,7 @@ class ConverterTest {
                         "targetElement_001.appendChild(custom_web_component_001);",
                         "%s comment_003 = document.createComment(`Custom Tags`);".formatted(keyword),
                         "targetElement_001.appendChild(comment_003);");
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s custom_angulartext_001 = document.createElement('AngularText');".formatted(keyword),
@@ -510,7 +510,7 @@ class ConverterTest {
                         "targetElement_001.appendChild(custom_web_component_001);");
             }
         } else {
-            if (commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s comment_001 = document.createComment(`Angular Comment`);".formatted(keyword),
                         "%s custom_angulartext_001 = document.createElement('AngularText');".formatted(keyword),
@@ -521,7 +521,7 @@ class ConverterTest {
                         "%s text_002 = document.createTextNode(`Web Component`);".formatted(keyword),
                         "custom_web_component_001.appendChild(text_002);",
                         "%s comment_003 = document.createComment(`Custom Tags`);".formatted(keyword));
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s custom_angulartext_001 = document.createElement('AngularText');".formatted(keyword),
                         "%s text_001 = document.createTextNode(`Angular`);".formatted(keyword),
@@ -548,7 +548,7 @@ class ConverterTest {
         printConverted(converted);
 
         if (querySelectorAdded) {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s input_001 = document.createElement('input');".formatted(keyword),
@@ -572,7 +572,7 @@ class ConverterTest {
                         "script_001.text = `// no-comment`;",
                         "targetElement_001.appendChild(script_001);",
                         "}");
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s input_001 = document.createElement('input');".formatted(keyword),
@@ -596,7 +596,7 @@ class ConverterTest {
                         "}");
             }
         } else {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s input_001 = document.createElement('input');".formatted(keyword),
                         "input_001.setAttribute(`type`, `text`);",
@@ -613,7 +613,7 @@ class ConverterTest {
                         "} catch (_) {",
                         "script_001.text = `// no-comment`;",
                         "}");
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s input_001 = document.createElement('input');".formatted(keyword),
                         "input_001.setAttribute(`type`, `text`);",
@@ -644,11 +644,13 @@ class ConverterTest {
         printConverted(converted);
 
         if (querySelectorAdded) {
-                assertThat(converted).containsExactly(
-                        "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
-                        "%s text_001 = document.createTextNode(` < %s > & `);".formatted(keyword, token),
-                        "targetElement_001.appendChild(text_001);");
-        } else {assertThat(converted).containsExactly("%s text_001 = document.createTextNode(` < %s > & `);".formatted(keyword, token));}
+            assertThat(converted).containsExactly(
+                    "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
+                    "%s text_001 = document.createTextNode(` < %s > & `);".formatted(keyword, token),
+                    "targetElement_001.appendChild(text_001);");
+        } else {
+            assertThat(converted).containsExactly("%s text_001 = document.createTextNode(` < %s > & `);".formatted(keyword, token));
+        }
     }
 
     @ParameterizedTest
@@ -666,7 +668,9 @@ class ConverterTest {
                     "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                     "%s text_001 = document.createTextNode(`%s`);".formatted(keyword, token),
                     "targetElement_001.appendChild(text_001);");
-        } else {assertThat(converted).containsExactly("%s text_001 = document.createTextNode(`%s`);".formatted(keyword, token));}
+        } else {
+            assertThat(converted).containsExactly("%s text_001 = document.createTextNode(`%s`);".formatted(keyword, token));
+        }
     }
 
     @ParameterizedTest
@@ -675,29 +679,31 @@ class ConverterTest {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded, commentConversionModeActivated);
-        final var converted = convert("<!-- %s --> %s".formatted(token,token), configuration);
+        final var converted = convert("<!-- %s --> %s".formatted(token, token), configuration);
 
         printConverted(converted);
 
         if (querySelectorAdded) {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly("%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s comment_001 = document.createComment(` %s `);".formatted(keyword, token),
                         "targetElement_001.appendChild(comment_001);",
                         "%s text_001 = document.createTextNode(` %s`);".formatted(keyword, token),
                         "targetElement_001.appendChild(text_001);");
 
-            }else{
+            } else {
                 assertThat(converted).containsExactly("%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s text_001 = document.createTextNode(` %s`);".formatted(keyword, token),
                         "targetElement_001.appendChild(text_001);");
             }
         } else {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s comment_001 = document.createComment(` %s `);".formatted(keyword, token),
                         "%s text_001 = document.createTextNode(` %s`);".formatted(keyword, token));
-            }else{assertThat(converted).containsExactly("%s text_001 = document.createTextNode(` %s`);".formatted(keyword, token));}
+            } else {
+                assertThat(converted).containsExactly("%s text_001 = document.createTextNode(` %s`);".formatted(keyword, token));
+            }
         }
     }
 
@@ -707,25 +713,25 @@ class ConverterTest {
     void produceValidCodeWhenGivenComment(VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {
         final var token = randomUUID().toString();
         final var keyword = keyword(variableDeclaration);
-        final var configuration = new Configuration(variableDeclaration, querySelectorAdded,commentConversionModeActivated);
+        final var configuration = new Configuration(variableDeclaration, querySelectorAdded, commentConversionModeActivated);
         final var converted = convert("<!-- %s -->".formatted(token), configuration);
 
         printConverted(converted);
 
         if (querySelectorAdded) {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s comment_001 = document.createComment(` %s `);".formatted(keyword, token),
                         "targetElement_001.appendChild(comment_001);");
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword));
             }
         } else {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly("%s comment_001 = document.createComment(` %s `);".formatted(keyword, token));
-            }else{
+            } else {
                 assertThat(converted).containsExactly();
             }
         }
@@ -860,16 +866,16 @@ class ConverterTest {
 
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
-    void produceValidCodeWhenGivenTagWithAttributesWithComment(VariableDeclaration variableDeclaration, final boolean querySelectorAdded,final boolean commentConversionModeActivated) throws IOException {
+    void produceValidCodeWhenGivenTagWithAttributesWithComment(VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {
         final var keyword = keyword(variableDeclaration);
 
         if (querySelectorAdded) {
 
             String input = "<!-- Div with id --><div id=\"id-value\"></div>";
-            var configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
+            var configuration = new Configuration(variableDeclaration, true, commentConversionModeActivated);
             var converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -880,7 +886,7 @@ class ConverterTest {
                         "div_001.setAttribute(`id`, `id-value`);",
                         "targetElement_001.appendChild(div_001);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -892,10 +898,10 @@ class ConverterTest {
             }
 
             input = "<!-- Details tag with open attribute --><details open></details>";
-            configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
+            configuration = new Configuration(variableDeclaration, true, commentConversionModeActivated);
             converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -906,7 +912,7 @@ class ConverterTest {
                         "details_001.setAttribute(`open`, `true`);",
                         "targetElement_001.appendChild(details_001);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -918,10 +924,10 @@ class ConverterTest {
             }
 
             input = "<!-- Paragraph tag with empty class attribute --><p class></p>";
-            configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
+            configuration = new Configuration(variableDeclaration, true, commentConversionModeActivated);
             converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -932,7 +938,7 @@ class ConverterTest {
                         "p_001.setAttribute(`class`, ``);",
                         "targetElement_001.appendChild(p_001);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -943,10 +949,10 @@ class ConverterTest {
             }
 
             input = "<!-- Paragraph tag with class attribute --><p class=\"class-value\"></p>";
-            configuration = new Configuration(variableDeclaration, true,commentConversionModeActivated);
+            configuration = new Configuration(variableDeclaration, true, commentConversionModeActivated);
             converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -957,7 +963,7 @@ class ConverterTest {
                         "p_001.setAttribute(`class`, `class-value`);",
                         "targetElement_001.appendChild(p_001);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -970,17 +976,17 @@ class ConverterTest {
         } else {
 
             String input = "<!-- Div with id --><div id=\"id-value\"></div>";
-            var configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
+            var configuration = new Configuration(variableDeclaration, false, commentConversionModeActivated);
             var converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 printConverted(converted);
                 assertThat(converted).containsExactly(
                         "%s comment_001 = document.createComment(` Div with id `);".formatted(keyword),
                         "%s div_001 = document.createElement('div');".formatted(keyword),
                         "div_001.setAttribute(`id`, `id-value`);");
 
-            }else{
+            } else {
                 printConverted(converted);
                 assertThat(converted).containsExactly(
                         "%s div_001 = document.createElement('div');".formatted(keyword),
@@ -988,10 +994,10 @@ class ConverterTest {
             }
 
             input = "<!-- Details tag with open attribute --><details open></details>";
-            configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
+            configuration = new Configuration(variableDeclaration, false, commentConversionModeActivated);
             converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -999,7 +1005,7 @@ class ConverterTest {
                         "%s details_001 = document.createElement('details');".formatted(keyword),
                         "details_001.setAttribute(`open`, `true`);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -1009,10 +1015,10 @@ class ConverterTest {
 
 
             input = "<!-- Paragraph tag with empty class attribute --><p class></p>";
-            configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
+            configuration = new Configuration(variableDeclaration, false, commentConversionModeActivated);
             converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -1020,7 +1026,7 @@ class ConverterTest {
                         "%s p_001 = document.createElement('p');".formatted(keyword),
                         "p_001.setAttribute(`class`, ``);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -1029,10 +1035,10 @@ class ConverterTest {
             }
 
             input = "<!-- Paragraph tag with class attribute --><p class=\"class-value\"></p>";
-            configuration = new Configuration(variableDeclaration, false,commentConversionModeActivated);
+            configuration = new Configuration(variableDeclaration, false, commentConversionModeActivated);
             converted = convert(input, configuration);
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -1040,7 +1046,7 @@ class ConverterTest {
                         "%s p_001 = document.createElement('p');".formatted(keyword),
                         "p_001.setAttribute(`class`, `class-value`);");
 
-            }else{
+            } else {
 
                 printConverted(converted);
                 assertThat(converted).containsExactly(
@@ -1063,7 +1069,7 @@ class ConverterTest {
         printConverted(converted);
 
         if (querySelectorAdded) {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s comment_001 = document.createComment(` %s `);".formatted(keyword, token),
@@ -1071,18 +1077,18 @@ class ConverterTest {
                         "%s div_001 = document.createElement('div');".formatted(keyword),
                         "targetElement_001.appendChild(div_001);");
 
-            }else{
+            } else {
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
                         "%s div_001 = document.createElement('div');".formatted(keyword),
                         "targetElement_001.appendChild(div_001);");
             }
         } else {
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 assertThat(converted).containsExactly(
                         "%s comment_001 = document.createComment(` %s `);".formatted(keyword, token),
                         "%s div_001 = document.createElement('div');".formatted(keyword));
-            }else{
+            } else {
                 assertThat(converted).containsExactly("%s div_001 = document.createElement('div');".formatted(keyword));
             }
         }
@@ -1165,10 +1171,8 @@ class ConverterTest {
     void produceValidCodeWhenGivenPathToAFile(VariableDeclaration variableDeclaration, final boolean querySelectorAdded) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded);
-        //noinspection resource,ConstantConditions
-        final var input = getClass().getClassLoader()
-                .getResourceAsStream("htmlFilesInput/sample.html")
-                .readAllBytes();
+        final var input = Files.readAllBytes(Path.of(
+                "src", "test", "resources", "htmlFilesInput", "sample.html"));
         final var converted = convert(new String(input, UTF_8), configuration);
 
         printConverted(converted);
@@ -1387,10 +1391,8 @@ class ConverterTest {
     void produceValidCodeWhenGivenPathToAFileWithComment(VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws IOException {
         final var keyword = keyword(variableDeclaration);
         final var configuration = new Configuration(variableDeclaration, querySelectorAdded, commentConversionModeActivated);
-        //noinspection resource,ConstantConditions
-        final var input = getClass().getClassLoader()
-                .getResourceAsStream("htmlFilesInput/sampleWithComment.html")
-                .readAllBytes();
+        final var input = Files.readAllBytes(Path.of(
+                "src", "test", "resources", "htmlFilesInput", "sampleWithComment.html"));
         final var converted = convert(new String(input, UTF_8), configuration);
 
         printConverted(converted);
@@ -1402,7 +1404,7 @@ class ConverterTest {
 
         if (querySelectorAdded) {
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
@@ -1511,7 +1513,7 @@ class ConverterTest {
                         "targetElement_001.appendChild(html_001);");
 
 
-            }else{
+            } else {
 
                 assertThat(converted).containsExactly(
                         "%s targetElement_001 = document.querySelector(`:root > body`);".formatted(keyword),
@@ -1621,7 +1623,7 @@ class ConverterTest {
 
         } else {
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 assertThat(converted).containsExactly(
                         "%s html_001 = document.createElement('html');".formatted(keyword),
@@ -1728,7 +1730,7 @@ class ConverterTest {
                         "html_001.appendChild(body_001);");
 
 
-            }else{
+            } else {
 
                 assertThat(converted).containsExactly("%s html_001 = document.createElement('html');".formatted(keyword),
                         "%s text_001 = document.createTextNode(`    `);".formatted(keyword),
