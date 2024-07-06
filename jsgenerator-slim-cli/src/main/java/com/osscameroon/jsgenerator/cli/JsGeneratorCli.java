@@ -3,21 +3,25 @@ package com.osscameroon.jsgenerator.cli;
 import com.osscameroon.jsgenerator.cli.internal.CommandDefault;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.OutputStreamResolver;
+import com.osscameroon.jsgenerator.core.autoconfigure.JsGeneratorCoreAutoconfigure;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import picocli.CommandLine;
+
+import java.util.List;
 
 import static java.lang.System.exit;
 import static org.springframework.boot.SpringApplication.run;
 
 @EnableAutoConfiguration
 @SpringBootConfiguration
+@Import(JsGeneratorCoreAutoconfigure.class)
 public class JsGeneratorCli {
     public static void main(String[] args) {
-        //noinspection resource
-        run(JsGeneratorCli.class, args);
+        run(JsGeneratorCli.class, 0 == args.length ? new String[]{"--help"} : args);
     }
 
     @Bean
