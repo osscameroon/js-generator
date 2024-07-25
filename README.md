@@ -44,23 +44,11 @@ We would like to give credit to [jsoup](https://jsoup.org/) / [jsoup GitHub Repo
 
 ## Requirements
 
-+ JDK 17
-  > **Because we use modern JavaFX**
-  > 
-  > **NOTE:** For native build (CLI, for eg.), we use GraalVM with JDK 17.
-  >
-  > Recent versions of GraalVM are not bundling `native-image` CLI by default.
-  > We are required to install is manually, by running:
-  > ```shell
-  > # Where `gu` is an executable bundled with GraalVM
-  > gu install native-image
-  > ```
++ JDK 21
 + Maven 4
   > Because of its unique features over maven 3:
   > namely, multi module dependency resolution under common parent, when running a maven goal only on some child
-+ Spring 5.3.22
-  > A framework to bootstrap dependency injection and inversion of control for our modules
-+ Spring Boot 2.7.3
++ Spring Boot 3.3.1
   > Leverage convention over configuration and autoconfiguration discovery to enforce consistent a behaviour
   > throughout our frontends
 
@@ -125,8 +113,7 @@ Command Line Interface (CLI)
 mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments=--help
 
 # For example:
-mvn --also-make --projects :jsgenerator-cli clean spring-boot:run \
-  -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
+mvn --also-make --projects :jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
 ```
 
 ## Packaging
