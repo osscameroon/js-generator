@@ -18,7 +18,10 @@ import static org.springframework.boot.actuate.autoconfigure.security.servlet.En
 @EnableWebSecurity
 @EnableMethodSecurity
 /*
-* After migrating from Spring Boot 2.7.3 to 3.3.1 and deleting lombok, we got this issue described below then we added "com.osscameroon.jsgenerator.core" to be scanned
+* After migrating from Spring Boot 2.7.3 to 3.3.1 and deleting lombok, we got these 2 issues described below:
+*
+* Issue 1: We added "com.osscameroon.jsgenerator.core" to be scanned
+*
 ***************************
 APPLICATION FAILED TO START
 ***************************
@@ -26,8 +29,17 @@ Description:
 Parameter 0 of constructor in com.osscameroon.jsgenerator.api.rest.ConvertController required a bean of type 'com.osscameroon.jsgenerator.core.OutputStreamResolver' that could not be found.
 Action:
 Consider defining a bean of type 'com.osscameroon.jsgenerator.core.OutputStreamResolver' in your configuration.
+*
+*
+* Issue 2: API tests were failing then we add "proxyBeanMethods = false"
+*
+* org.springframework.beans.factory.BeanDefinitionStoreException: Could not enhance configuration class [com.osscameroon.jsgenerator.api.JsGeneratorApi].
+* Consider declaring @Configuration(proxyBeanMethods=false) without inter-bean references between @Bean methods on the configuration class,
+* avoiding the need for CGLIB enhancement.
+*
+* https://github.com/osscameroon/js-generator/actions/runs/10111080853/job/27962309332#step:4:11924
 * */
-@SpringBootApplication(scanBasePackages = {"com.osscameroon.jsgenerator.core"})
+@SpringBootApplication(proxyBeanMethods = false,scanBasePackages = {"com.osscameroon.jsgenerator.core"})
 public class JsGeneratorApi {
     public final static String ACTUATOR_ROLE = "ACTUATOR";
 
