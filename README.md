@@ -101,13 +101,13 @@ mvn clean test
 > 
 > ![](illustrations/intellij-maven-runner-configuration.png)
 
-API Server
+API Server : [jsgenerator-api](./README.api.md)
 ```shell
 # After starting the server, visit http://localhost:8080
 mvn --also-make --projects jsgenerator-api clean spring-boot:run
 ```
 
-Command Line Interface (CLI)
+Command Line Interface (CLI) : [jsgenerator-cli](./README.cli.md)
 ```shell
 # After reading the help, play out with different CLI options
 mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments=--help
@@ -121,9 +121,6 @@ mvn --also-make --projects :jsgenerator-cli clean spring-boot:run -Dspring-boot.
 ```shell
 # Will compile all the modules into JAR (or FAT JAR - see the table above)
 mvn clean package
-
-# Additionally, build CLI into native executable (require GraalVM - see requirements above)
-./cli-build.sh
 ```
 
 # Contribute
