@@ -114,6 +114,13 @@ mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.r
 
 # For example:
 mvn --also-make --projects :jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
+
+# It's also possible to create the jar first
+mvn clean package
+
+# then run the following commands and replace {version} by the current one (0.0.1-SNAPSHOT at this time)
+java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar # java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar --help
+java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar --tty --inline '<div>I am a <strong>tea pot</strong></div>'
 ```
 
 ## Packaging
