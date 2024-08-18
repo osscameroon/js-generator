@@ -1,17 +1,18 @@
 module com.osscameroon.jsgenerator.desktop {
+    exports com.osscameroon.jsgenerator.desktop.autoconfigure;
+    exports com.osscameroon.jsgenerator.desktop.controller;
+
+    opens com.osscameroon.jsgenerator.desktop.controller to javafx.fxml, spring.beans;
+    opens com.osscameroon.jsgenerator.desktop.autoconfigure to javafx.fxml, spring.beans;
 
     requires com.osscameroon.jsgenerator.core;
+
+    requires spring.boot.autoconfigure;
+    requires spring.boot;
+    requires spring.context;
+
+    requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
-    requires javafx.web;
-
-    requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires net.synedra.validatorfx;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.bootstrapfx.core;
-    requires eu.hansolo.tilesfx;
-
-    opens com.osscameroon.jsgenerator.desktop to javafx.fxml;
-    exports com.osscameroon.jsgenerator.desktop;
+    requires spring.core;
 }

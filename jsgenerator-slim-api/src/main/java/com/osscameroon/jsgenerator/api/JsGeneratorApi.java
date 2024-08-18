@@ -1,9 +1,11 @@
 package com.osscameroon.jsgenerator.api;
 
+import com.osscameroon.jsgenerator.core.autoconfigure.JsGeneratorCoreAutoconfigure;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -15,8 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.boot.SpringApplication.run;
 import static org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest.toAnyEndpoint;
 
-@EnableWebSecurity
-@EnableMethodSecurity
 /*
 * After migrating from Spring Boot 2.7.3 to 3.3.1 and deleting lombok, we got these 2 issues described below:
 *
@@ -39,7 +39,10 @@ Consider defining a bean of type 'com.osscameroon.jsgenerator.core.OutputStreamR
 *
 * https://github.com/osscameroon/js-generator/actions/runs/10111080853/job/27962309332#step:4:11924
 * */
-@SpringBootApplication(proxyBeanMethods = false,scanBasePackages = {"com.osscameroon.jsgenerator.core"})
+@EnableWebSecurity
+@EnableMethodSecurity
+@Import(JsGeneratorCoreAutoconfigure.class)
+@SpringBootApplication(proxyBeanMethods = false)//, scanBasePackageClasses = {Converter.class, JsGeneratorApi.class})
 public class JsGeneratorApi {
     public final static String ACTUATOR_ROLE = "ACTUATOR";
 
