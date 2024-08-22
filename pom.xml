@@ -31,6 +31,7 @@
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <maven.plugin.native.skip>true</maven.plugin.native.skip>
 
         <revision>0.0.1-SNAPSHOT</revision>
 
@@ -96,6 +97,11 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.11.0</version>
@@ -125,6 +131,34 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>native</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${maven.plugin.native.skip}</skip>
+                            <executable>native-image</executable>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}.jar
+                                </argument>
+                                <argument>-o</argument>
+                                <argument>
+                                    ${project.build.directory}/${project.artifactId}-${project.version}
+                                </argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Generating jacoco test report for codecov -->
             <plugin>
                 <groupId>org.jacoco</groupId>

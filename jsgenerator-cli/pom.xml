@@ -13,6 +13,7 @@
 
     <properties>
         <start-class>com.osscameroon.jsgenerator.cli.JsGeneratorCli</start-class>
+        <maven.plugin.native.skip>false</maven.plugin.native.skip>
     </properties>
 
     <build>

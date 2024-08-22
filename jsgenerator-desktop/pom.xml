@@ -15,6 +15,7 @@
 
     <properties>
         <start-class>com.osscameroon.jsgenerator.desktop.autoconfigure.JsGeneratorDesktop</start-class>
+        <maven.plugin.native.skip>false</maven.plugin.native.skip>
     </properties>
 
     <dependencies>
@@ -30,10 +31,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
