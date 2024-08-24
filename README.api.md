@@ -16,11 +16,11 @@ Content-Type: application/json
   "status": "SUCCESS"
   "content": [
     {
-      "content": "const targetElement_000 = document.querySelector(`:root > body`);\r\n\r\n\r\nconst hr_000 = document.createElement('hr');\r\ntargetElement_000.appendChild(hr_000);\r\n",
+      "content": "let targetElement_001 = document.querySelector(`:root > body`);\r\n\r\n\r\nlet hr_001 = document.createElement('hr');\r\ntargetElement_001.appendChild(hr_001);\r\n",
       "filename": "inline.0.js"
     },
     {
-      "content": "const targetElement_001 = document.querySelector(`:root > body`);\r\n\r\n\r\nconst button_000 = document.createElement('button');\r\nbutton_000.setAttribute(`disabled`, `true`);\r\nconst text_000 = document.createTextNode(`click me, please :sob:`);\r\nbutton_000.appendChild(text_000);\r\ntargetElement_001.appendChild(button_000);\r\n",
+      "content": "let targetElement_001 = document.querySelector(`:root > body`);\r\n\r\n\r\nconst button_000 = document.createElement('button');\r\nbutton_000.setAttribute(`disabled`, `true`);\r\nconst text_000 = document.createTextNode(`click me, please :sob:`);\r\nbutton_000.appendChild(text_000);\r\ntargetElement_001.appendChild(button_000);\r\n",
       "filename": "inline.1.js"
     }
   ]
