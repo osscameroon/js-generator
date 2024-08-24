@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<ScrollPane fitToWidth="true"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.osscameroon.jsgenerator.desktop.controller.HelloViewController">
+    <VBox prefWidth="320" prefHeight="640">
+        <TextArea fx:id="inputArea"/>
+        <VBox alignment="CENTER">
+            <Button text="CONVERT" onAction="#convert"/>
+        </VBox>
+        <Label fx:id="outputLabel"/>
+    </VBox>
+</ScrollPane>
