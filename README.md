@@ -68,13 +68,14 @@ js-generator:
 ## Architecture
 
 | THE MODULE                         | ITS CONTENT && DEPENDENCIES         | PACKAGING |
-|------------------------------------|-------------------------------------|-----------|
-| js-generator                       | Bill of Material, global properties | POM       |
-| jsgenerator-core                   | Core API, Spring Boot auto-conf     | JAR       |
-| jsgenerator-slim-api               | jsgenerator-core, spring-web        | JAR       |
-| jsgenerator-slim-cli               | jsgenerator-core, picocli           | JAR       |
-| [jsgenerator-api](./README.api.md) | jsgenerator-slim-api                | FAT JAR   |
-| [jsgenerator-cli](./README.cli.md) | jsgenerator-slim-cli                | FAT JAR   |
+|------------------------------------|-------------------------------------|-------|
+| js-generator                       | Bill of Material, global properties | POM   |
+| jsgenerator-core                   | Core API, Spring Boot auto-conf     | JAR   |
+| jsgenerator-slim-api               | jsgenerator-core, spring-web        | JAR   |
+| jsgenerator-slim-cli               | jsgenerator-core, picocli           | JAR   |
+| [jsgenerator-api](./README.api.md) | jsgenerator-slim-api                | FAT JAR |
+| [jsgenerator-cli](./README.cli.md) | jsgenerator-slim-cli                | FAT JAR |
+| [jsgenerator-desktop](./README.desktop.md) | jsgenerator-core, javafx-fxml               | JAR   |
 
 > **NOTE:** FAT JAR packaged modules are mere wrappers around slim modules. The separation is important because then,
 > the test modules can use slim JARs as dependencies, unlike FAT JARs. This has to do with how "normal" vs. FAT JARs
@@ -122,6 +123,16 @@ mvn clean package
 java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar # java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar --help
 java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar --tty --inline '<div>I am a <strong>tea pot</strong></div>'
 ```
+
+Desktop : [jsgenerator-desktop](./README.desktop.md)
+```shell
+# Create the jar first
+mvn clean package
+
+# then run this command and replace {version} by the current one (0.0.1-SNAPSHOT at this time)
+java -jar jsgenerator-desktop/target/jsgenerator-desktop-{version}.jar # java -jar jsgenerator-desktop/target/jsgenerator-desktop-0.0.1-SNAPSHOT.jar
+```
+
 
 ## Packaging
 
