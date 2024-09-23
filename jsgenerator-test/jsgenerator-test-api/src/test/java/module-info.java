@@ -3,12 +3,12 @@ module com.osscameroon.jsgenerator.test.api {
     requires com.osscameroon.jsgenerator.core;
 
     requires com.fasterxml.jackson.databind;
-    requires lombok;
     requires org.hamcrest;
     requires org.junit.jupiter.params;
     requires spring.beans;
     requires spring.boot.autoconfigure;
     requires spring.boot.test;
+    requires spring.context;
     requires spring.core;
     requires spring.security.test;
     requires spring.test;
@@ -18,4 +18,8 @@ module com.osscameroon.jsgenerator.test.api {
     requires org.junit.jupiter.api;
 
     requires org.apache.tomcat.embed.core;
+
+    exports com.osscameroon.jsgenerator.test.api to spring.beans, spring.context;
+
+    opens com.osscameroon.jsgenerator.test.api to org.junit.platform.commons, spring.core;
 }

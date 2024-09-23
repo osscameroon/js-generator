@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.osscameroon.jsgenerator.api.JsGeneratorApi;
 import com.osscameroon.jsgenerator.api.rest.ConvertController;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
+import com.osscameroon.jsgenerator.core.autoconfigure.JsGeneratorCoreAutoconfigure;
 import org.hamcrest.CustomMatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -13,18 +14,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -32,7 +30,6 @@ import static com.osscameroon.jsgenerator.test.api.helper.MultipartResultMatcher
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Map.of;
 import static java.util.UUID.randomUUID;
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.text.MatchesPattern.matchesPattern;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
@@ -44,20 +41,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@SpringBootTest(webEnvironment = MOCK)
+@SpringBootTest(webEnvironment = MOCK, classes = {ConvertController.class, JsGeneratorCoreAutoconfigure.class, JsGeneratorApi.class})
 class JsGeneratorApiTest {
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED = new ClassPathResource("jsFilesOutput/querySelectorAdded/sample.js");
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED = new ClassPathResource("jsFilesOutput/querySelectorNotAdded/sample.js");
+    private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED_AND_COMMENT_CONVERSION_MODE_NOT_ACTIVATED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorNotAdded", "commentConversionModeNotActivated", "sample.js");
+    private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED_AND_COMMENT_CONVERSION_MODE_ACTIVATED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorNotAdded", "commentConversionModeActivated", "sample.js");
+    private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED_AND_COMMENT_CONVERSION_MODE_NOT_ACTIVATED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorAdded", "commentConversionModeNotActivated", "sample.js");
+    private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED_AND_COMMENT_CONVERSION_MODE_ACTIVATED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorAdded", "commentConversionModeActivated", "sample.js");
+    private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorNotAdded", "sample.js");
+    private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorAdded", "sample.js");
+    private static final Path SAMPLE_INPUT_WITH_COMMENT = Path.of("src", "test", "resources", "htmlFilesInput", "sampleWithComment.html");
+    private static final Path SAMPLE_INPUT = Path.of("src", "test", "resources", "htmlFilesInput", "sample.html");
 
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED_AND_COMMENT_CONVERSION_MODE_ACTIVATED = new ClassPathResource("jsFilesOutput/querySelectorAdded/commentConversionModeActivated/sample.js");
-
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_ADDED_AND_COMMENT_CONVERSION_MODE_NOT_ACTIVATED = new ClassPathResource("jsFilesOutput/querySelectorAdded/commentConversionModeNotActivated/sample.js");
-
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED_AND_COMMENT_CONVERSION_MODE_ACTIVATED = new ClassPathResource("jsFilesOutput/querySelectorNotAdded/commentConversionModeActivated/sample.js");
-
-    private static final Resource SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED_AND_COMMENT_CONVERSION_MODE_NOT_ACTIVATED = new ClassPathResource("jsFilesOutput/querySelectorNotAdded/commentConversionModeNotActivated/sample.js");
-    private static final Resource SAMPLE_INPUT = new ClassPathResource("htmlFilesInput/sample.html");
-    private static final Resource SAMPLE_INPUT_WITH_COMMENT = new ClassPathResource("htmlFilesInput/sampleWithComment.html");
     @Autowired
     private WebApplicationContext webApplicationContext;
     private ObjectMapper objectMapper;
@@ -76,9 +70,8 @@ class JsGeneratorApiTest {
                 .toArray(String[]::new);
     }
 
-    private static String fileContent(final Resource resource) throws IOException {
-        return new BufferedReader(new InputStreamReader(resource.getInputStream(), UTF_8))
-                .lines().collect(joining("\r\n"));
+    private static String fileContent(final Path path) throws IOException {
+        return Files.readString(path, UTF_8);
     }
 
     private static Stream<Arguments> provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated() {
@@ -224,7 +217,7 @@ class JsGeneratorApiTest {
 
     @ParameterizedTest
     @MethodSource("provideVariableDeclarationsAndQuerySelectorAddedAndCommentConversionModeActivated")
-    void convertInlineContentWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded,final boolean commentConversionModeActivated) throws Exception {
+    void convertInlineContentWithComment(final VariableDeclaration variableDeclaration, final boolean querySelectorAdded, final boolean commentConversionModeActivated) throws Exception {
         final var keyword = keyword(variableDeclaration);
         final var extension = randomUUID().toString();
         final var prefix = randomUUID().toString();
@@ -233,7 +226,7 @@ class JsGeneratorApiTest {
 
         if (querySelectorAdded) {
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 mockMvc.perform(post(ConvertController.MAPPING)
                                 .header(CONTENT_TYPE, APPLICATION_JSON)
@@ -266,8 +259,7 @@ class JsGeneratorApiTest {
                                 })));
 
 
-
-            }else{
+            } else {
 
                 mockMvc.perform(post(ConvertController.MAPPING)
                                 .header(CONTENT_TYPE, APPLICATION_JSON)
@@ -302,7 +294,7 @@ class JsGeneratorApiTest {
 
         } else {
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
                 mockMvc.perform(post(ConvertController.MAPPING)
                                 .header(CONTENT_TYPE, APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(of(
@@ -330,7 +322,7 @@ class JsGeneratorApiTest {
                                 })));
 
 
-            }else{
+            } else {
 
                 mockMvc.perform(post(ConvertController.MAPPING)
                                 .header(CONTENT_TYPE, APPLICATION_JSON)
@@ -382,9 +374,9 @@ class JsGeneratorApiTest {
                                     "commentConversionModeActivated", true
                             )).getBytes(UTF_8)))
                             .file(new MockMultipartFile(
-                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream()))
+                                    "files", SAMPLE_INPUT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT)))
                             .file(new MockMultipartFile(
-                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream())))
+                                    "files", SAMPLE_INPUT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT))))
                     .andExpectAll(
                             status().isOk(),
                             withMultipart().size(2),
@@ -410,9 +402,9 @@ class JsGeneratorApiTest {
                                     "commentConversionModeActivated", true
                             )).getBytes(UTF_8)))
                             .file(new MockMultipartFile(
-                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream()))
+                                    "files", SAMPLE_INPUT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT)))
                             .file(new MockMultipartFile(
-                                    "files", SAMPLE_INPUT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT.getInputStream())))
+                                    "files", SAMPLE_INPUT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT))))
                     .andExpectAll(
                             status().isOk(),
                             withMultipart().size(2),
@@ -440,7 +432,7 @@ class JsGeneratorApiTest {
 
         if (querySelectorAdded) {
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 mockMvc.perform(multipart(ConvertController.MAPPING + "/files")
                                 .file(new MockMultipartFile(
@@ -452,9 +444,9 @@ class JsGeneratorApiTest {
                                         "commentConversionModeActivated", true
                                 )).getBytes(UTF_8)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream()))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream())))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT))))
                         .andExpectAll(
                                 status().isOk(),
                                 withMultipart().size(2),
@@ -468,7 +460,7 @@ class JsGeneratorApiTest {
                                 header().string(CONTENT_TYPE, matchesPattern("^%s;boundary=.*$".formatted(MULTIPART_FORM_DATA_VALUE))));
 
 
-            }else{
+            } else {
 
                 mockMvc.perform(multipart(ConvertController.MAPPING + "/files")
                                 .file(new MockMultipartFile(
@@ -480,9 +472,9 @@ class JsGeneratorApiTest {
                                         "commentConversionModeActivated", false
                                 )).getBytes(UTF_8)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream()))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream())))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT))))
                         .andExpectAll(
                                 status().isOk(),
                                 withMultipart().size(2),
@@ -500,7 +492,7 @@ class JsGeneratorApiTest {
 
         } else {
 
-            if(commentConversionModeActivated){
+            if (commentConversionModeActivated) {
 
                 mockMvc.perform(multipart(ConvertController.MAPPING + "/files")
                                 .file(new MockMultipartFile(
@@ -512,9 +504,9 @@ class JsGeneratorApiTest {
                                         "commentConversionModeActivated", true
                                 )).getBytes(UTF_8)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream()))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream())))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT))))
                         .andExpectAll(
                                 status().isOk(),
                                 withMultipart().size(2),
@@ -528,7 +520,7 @@ class JsGeneratorApiTest {
                                 header().string(CONTENT_TYPE, matchesPattern("^%s;boundary=.*$".formatted(MULTIPART_FORM_DATA_VALUE))));
 
 
-            }else{
+            } else {
 
                 mockMvc.perform(multipart(ConvertController.MAPPING + "/files")
                                 .file(new MockMultipartFile(
@@ -540,9 +532,9 @@ class JsGeneratorApiTest {
                                         "commentConversionModeActivated", false
                                 )).getBytes(UTF_8)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream()))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT)))
                                 .file(new MockMultipartFile(
-                                        "files", SAMPLE_INPUT_WITH_COMMENT.getFilename(), MULTIPART_FORM_DATA_VALUE, SAMPLE_INPUT_WITH_COMMENT.getInputStream())))
+                                        "files", SAMPLE_INPUT_WITH_COMMENT.toString(), MULTIPART_FORM_DATA_VALUE, Files.newInputStream(SAMPLE_INPUT_WITH_COMMENT))))
                         .andExpectAll(
                                 status().isOk(),
                                 withMultipart().size(2),
@@ -569,10 +561,6 @@ class JsGeneratorApiTest {
                         .header(CONTENT_TYPE, APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(of("extension", ".js"))))
                 .andExpectAll(status().isBadRequest());
-    }
-
-    @SpringBootApplication(exclude = JsGeneratorApi.class)
-    public static class Application extends JsGeneratorApi {
     }
 
     private static final class Match extends CustomMatcher<String> {

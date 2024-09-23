@@ -1,38 +1,44 @@
 package com.osscameroon.jsgenerator.api.rest;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.util.List;
 
-import static lombok.AccessLevel.PRIVATE;
+public sealed class Reply<T> {
+    private final T content;
+    private final Status status;
 
-@Data
-@AllArgsConstructor(access = PRIVATE)
-public class Reply<T> {
-    private T content;
-    private Status status;
+    private Reply(T content, Status status) {
+        this.content = content;
+        this.status = status;
+    }
+
+    public T getContent() {
+        return content;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
 
     public static <T> Reply<T> ofSuccess(final T content) {
-        return new SuccessReply<>(content);
+        return new Success<>(content);
     }
 
     public static <T> Reply<? extends List<? extends T>> ofSuccesses(final List<T> contents) {
-        return new SuccessReplies<>(contents);
+        return new Successes<>(contents);
     }
 
     public enum Status {
         SUCCESS, ERROR;
     }
 
-    public static class SuccessReply<T> extends Reply<T> {
-        public SuccessReply(final T content) {
+    public static final class Success<T> extends Reply<T> {
+        public Success(final T content) {
             super(content, Status.SUCCESS);
         }
     }
 
-    public static class SuccessReplies<T> extends Reply<List<? extends T>> {
-        public SuccessReplies(final List<T> content) {
+    public static final class Successes<T> extends Reply<List<? extends T>> {
+        public Successes(final List<T> content) {
             super(content, Status.SUCCESS);
         }
     }

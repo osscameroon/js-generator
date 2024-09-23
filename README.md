@@ -44,23 +44,11 @@ We would like to give credit to [jsoup](https://jsoup.org/) / [jsoup GitHub Repo
 
 ## Requirements
 
-+ JDK 17
-  > **Because we use modern JavaFX**
-  > 
-  > **NOTE:** For native build (CLI, for eg.), we use GraalVM with JDK 17.
-  >
-  > Recent versions of GraalVM are not bundling `native-image` CLI by default.
-  > We are required to install is manually, by running:
-  > ```shell
-  > # Where `gu` is an executable bundled with GraalVM
-  > gu install native-image
-  > ```
++ JDK 21
 + Maven 4
   > Because of its unique features over maven 3:
   > namely, multi module dependency resolution under common parent, when running a maven goal only on some child
-+ Spring 5.3.22
-  > A framework to bootstrap dependency injection and inversion of control for our modules
-+ Spring Boot 2.7.3
++ Spring Boot 3.3.1
   > Leverage convention over configuration and autoconfiguration discovery to enforce consistent a behaviour
   > throughout our frontends
 
@@ -80,13 +68,14 @@ js-generator:
 ## Architecture
 
 | THE MODULE                         | ITS CONTENT && DEPENDENCIES         | PACKAGING |
-|------------------------------------|-------------------------------------|-----------|
-| js-generator                       | Bill of Material, global properties | POM       |
-| jsgenerator-core                   | Core API, Spring Boot auto-conf     | JAR       |
-| jsgenerator-slim-api               | jsgenerator-core, spring-web        | JAR       |
-| jsgenerator-slim-cli               | jsgenerator-core, picocli           | JAR       |
-| [jsgenerator-api](./README.api.md) | jsgenerator-slim-api                | FAT JAR   |
-| [jsgenerator-cli](./README.cli.md) | jsgenerator-slim-cli                | FAT JAR   |
+|------------------------------------|-------------------------------------|-------|
+| js-generator                       | Bill of Material, global properties | POM   |
+| jsgenerator-core                   | Core API, Spring Boot auto-conf     | JAR   |
+| jsgenerator-slim-api               | jsgenerator-core, spring-web        | JAR   |
+| jsgenerator-slim-cli               | jsgenerator-core, picocli           | JAR   |
+| [jsgenerator-api](./README.api.md) | jsgenerator-slim-api                | FAT JAR |
+| [jsgenerator-cli](./README.cli.md) | jsgenerator-slim-cli                | FAT JAR |
+| [jsgenerator-desktop](./README.desktop.md) | jsgenerator-core, javafx-fxml               | JAR   |
 
 > **NOTE:** FAT JAR packaged modules are mere wrappers around slim modules. The separation is important because then,
 > the test modules can use slim JARs as dependencies, unlike FAT JARs. This has to do with how "normal" vs. FAT JARs
@@ -113,30 +102,43 @@ mvn clean test
 > 
 > ![](illustrations/intellij-maven-runner-configuration.png)
 
-API Server
+API Server : [jsgenerator-api](./README.api.md)
 ```shell
 # After starting the server, visit http://localhost:8080
 mvn --also-make --projects jsgenerator-api clean spring-boot:run
 ```
 
-Command Line Interface (CLI)
+Command Line Interface (CLI) : [jsgenerator-cli](./README.cli.md)
 ```shell
 # After reading the help, play out with different CLI options
 mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments=--help
 
 # For example:
-mvn --also-make --projects :jsgenerator-cli clean spring-boot:run \
-  -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
+mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
+
+# It's also possible to create the jar first
+mvn clean package
+
+# then run the following commands and replace {version} by the current one (0.0.1-SNAPSHOT at this time)
+java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar # java -jar jsgenerator-cli/target/jsgenerator-cli-0.0.1-SNAPSHOT.jar --help
+java -jar jsgenerator-cli/target/jsgenerator-cli-{version}.jar --tty --inline '<div>I am a <strong>tea pot</strong></div>'
 ```
+
+Desktop : [jsgenerator-desktop](./README.desktop.md)
+```shell
+# Create the jar first
+mvn clean package
+
+# then run this command and replace {version} by the current one (0.0.1-SNAPSHOT at this time)
+java -jar jsgenerator-desktop/target/jsgenerator-desktop-{version}.jar # java -jar jsgenerator-desktop/target/jsgenerator-desktop-0.0.1-SNAPSHOT.jar
+```
+
 
 ## Packaging
 
 ```shell
 # Will compile all the modules into JAR (or FAT JAR - see the table above)
 mvn clean package
-
-# Additionally, build CLI into native executable (require GraalVM - see requirements above)
-./cli-build.sh
 ```
 
 # Contribute

@@ -1,4 +1,5 @@
 module com.osscameroon.jsgenerator.api {
+    exports com.osscameroon.jsgenerator.api.domain;
     exports com.osscameroon.jsgenerator.api.rest;
     exports com.osscameroon.jsgenerator.api;
 
@@ -19,7 +20,6 @@ module com.osscameroon.jsgenerator.api {
     requires spring.security.web;
     requires spring.web;
 
-    requires lombok;
     requires org.slf4j;
-    requires java.validation;
+    requires jakarta.validation;
 }

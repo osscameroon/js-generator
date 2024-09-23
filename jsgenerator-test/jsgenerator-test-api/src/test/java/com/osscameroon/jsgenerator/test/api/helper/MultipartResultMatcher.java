@@ -1,6 +1,5 @@
 package com.osscameroon.jsgenerator.test.api.helper;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.function.BiConsumer;
@@ -54,10 +53,7 @@ public class MultipartResultMatcher {
         };
     }
 
-    @RequiredArgsConstructor
-    public static class IndexedMultipart {
-        private final int index;
-
+    public record IndexedMultipart(int index) {
         public ResultMatcher exists() {
             return match((getHeader, content) -> {
                 final var partsCount = parts(getHeader, content).length;
@@ -73,10 +69,7 @@ public class MultipartResultMatcher {
         }
     }
 
-    @RequiredArgsConstructor
-    public static class IndexedMappedMultipart<T> {
-        private final Function<String, T> mapper;
-        private final int index;
+    public record IndexedMappedMultipart<T>(Function<String, T> mapper, int index) {
 
         public ResultMatcher passContent(final AssertionConsumer<T> consumer) {
             return match((getHeader, content) -> {
