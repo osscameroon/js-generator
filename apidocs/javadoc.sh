@@ -1,1 +1,1 @@
-/usr/lib/jvm/temurin-17-jdk-amd64/bin/javadoc @options @packages @argfile
+/usr/lib/jvm/temurin-21-jdk-amd64/bin/javadoc @options @packages @argfile
