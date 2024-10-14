@@ -16,5 +16,10 @@
             <groupId>com.osscameroon</groupId>
             <artifactId>jsgenerator-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.junit-pioneer</groupId>
+            <artifactId>junit-pioneer</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
