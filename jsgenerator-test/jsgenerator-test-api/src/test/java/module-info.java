@@ -16,6 +16,7 @@ module com.osscameroon.jsgenerator.test.api {
 
     requires org.assertj.core;
     requires org.junit.jupiter.api;
+    requires org.junitpioneer;
 
     requires org.apache.tomcat.embed.core;
 

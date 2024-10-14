@@ -12,4 +12,6 @@ module com.osscameroon.jsgenerator.test.core {
 
     requires org.slf4j;
     requires spring.core;
+
+    requires org.junitpioneer;
 }

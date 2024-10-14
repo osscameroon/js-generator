@@ -41,6 +41,7 @@
         <!-- GitHub OAuth token & server : Generating github  gh pages & maven project documents -->
         <github.global.server>github</github.global.server>
         <github.global.oauth2Token>${env.MAVEN_SITE_GITHUB_OAUTH_TOKEN}</github.global.oauth2Token>
+        <junitPioneer.version>2.3.0</junitPioneer.version>
     </properties>
 
     <dependencies>
@@ -88,6 +89,12 @@
                 <groupId>com.osscameroon</groupId>
                 <artifactId>jsgenerator-slim-cli</artifactId>
                 <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit-pioneer</groupId>
+                <artifactId>junit-pioneer</artifactId>
+                <version>${junitPioneer.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
