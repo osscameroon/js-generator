@@ -111,7 +111,8 @@ mvn --also-make --projects jsgenerator-api clean spring-boot:run
 Command Line Interface (CLI) : [jsgenerator-cli](./README.cli.md)
 ```shell
 # After reading the help, play out with different CLI options
-mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments=--help
+mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments=--help # It works well inside Intellij
+mvn --also-make --projects jsgenerator-cli clean spring-boot:run # Or just use without arguments,  It works well outside Intellij
 
 # For example:
 mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
