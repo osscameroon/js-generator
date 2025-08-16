@@ -45,9 +45,20 @@ We would like to give credit to [jsoup](https://jsoup.org/) / [jsoup GitHub Repo
 ## Requirements
 
 + JDK 21
-+ Maven 4
++ Maven 4.0.0-rc-4
   > Because of its unique features over maven 3:
-  > namely, multi module dependency resolution under common parent, when running a maven goal only on some child
+  > namely, multi module dependency resolution under common parent, when running a maven goal only on some child.
+  > 
+  > Maven 4 is not yet generally available, at the moment we recommend using the latest 4.0.0-rc-4.
+  > > [Apache Maven 4 Archive Distribution Directory](https://archive.apache.org/dist/maven/maven-4/)
+  > > 
+  > > [Downloading Apache Maven 4.0.0-rc-4](https://maven.apache.org/download.cgi#Preview_4.x_Release)
+  > > 
+  > > [Maven Releases History](https://maven.apache.org/docs/history.html)
++ Intellij IDEA 2025.1 or latest
+  > [Starting with the IntelliJ IDEA version 2025.1, Maven version 4 is available](https://www.jetbrains.com/help/idea/maven-support.html).
+  > 
+  > **Any IDE supporting Maven 4 is welcomed.** It's just that we use Intellij 
 + Spring Boot 3.3.1
   > Leverage convention over configuration and autoconfiguration discovery to enforce consistent a behaviour
   > throughout our frontends
@@ -98,10 +109,6 @@ mvn clean test
 
 > Compiling the whole project before running child modules is advised.
 > 
-> To set up you IDE runner, follow this IntelliJ example:
-> 
-> ![](illustrations/intellij-maven-runner-configuration.png)
-
 API Server : [jsgenerator-api](./README.api.md)
 ```shell
 # After starting the server, visit http://localhost:8080
