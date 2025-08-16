@@ -1,19 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd" root="true">
+    <modelVersion>4.1.0</modelVersion>
     <groupId>com.osscameroon</groupId>
     <artifactId>jsgenerator</artifactId>
     <packaging>pom</packaging>
     <version>${revision}</version>
-    <modules>
-        <module>jsgenerator-core</module>
-        <module>jsgenerator-test</module>
-        <module>jsgenerator-slim-cli</module>
-        <module>jsgenerator-slim-api</module>
-        <module>jsgenerator-api</module>
-        <module>jsgenerator-cli</module>
-        <module>jsgenerator-desktop</module>
-    </modules>
+    <subprojects>
+        <subproject>jsgenerator-core</subproject>
+        <subproject>jsgenerator-test</subproject>
+        <subproject>jsgenerator-slim-cli</subproject>
+        <subproject>jsgenerator-slim-api</subproject>
+        <subproject>jsgenerator-api</subproject>
+        <subproject>jsgenerator-cli</subproject>
+        <subproject>jsgenerator-desktop</subproject>
+    </subprojects>
 
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
