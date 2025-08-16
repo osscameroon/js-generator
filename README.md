@@ -115,7 +115,7 @@ mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.r
 mvn --also-make --projects jsgenerator-cli clean spring-boot:run # Or just use without arguments,  It works well outside Intellij
 
 # For example:
-mvn --also-make --projects jsgenerator-cli clean spring-boot:run -Dspring-boot.run.arguments="--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
+mvn --also-make --projects jsgenerator-cli clean spring-boot:run "-Dspring-boot.run.arguments=--tty --inline '<div>I am a <strong>tea pot</strong></div>'"
 
 # It's also possible to create the jar first
 mvn clean package
