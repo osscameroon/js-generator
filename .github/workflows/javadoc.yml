@@ -23,6 +23,17 @@ jobs:
           # Given the fact that this is a multimodule project, build process will take long time so we activate caching
           # To know more: https://maven.apache.org/extensions/maven-build-cache-extension/cache.html
           cache: 'maven'
+
+      - name: Install Maven 4.0.0-rc-4
+        run: |
+          curl -sL https://archive.apache.org/dist/maven/maven-4/4.0.0-rc-4/binaries/apache-maven-4.0.0-rc-4-bin.tar.gz | tar xz
+          sudo mv apache-maven-4.0.0-rc-4 /opt/maven
+          echo "M2_HOME=/opt/maven" >> $GITHUB_ENV
+          echo "PATH=/opt/maven/bin:$PATH" >> $GITHUB_ENV
+  
+      - name: Verify Maven version
+        run: mvn -v
+          
       - name: Build Javadoc Site with Maven
         #To see the full stack trace of the errors, re-run Maven with the -e switch.
         #Re-run Maven using the -X switch to enable full debug logging.
