@@ -35,10 +35,10 @@ jobs:
         
 
     - name: Make the script installMaven4.0.0-rc-4.sh executable
-      run: chmod +x installMaven4.0.0-rc-4.sh
+      run: chmod +x .github/workflows/installMaven4.0.0-rc-4.sh
       
     - name: Install Maven 4.0.0-rc-4
-      run: ./installMaven4.0.0-rc-4.sh
+      run: .github/workflows/installMaven4.0.0-rc-4.sh
       
     - name: Verify Maven version
       run: mvn -v
