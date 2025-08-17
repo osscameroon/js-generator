@@ -33,6 +33,10 @@ jobs:
         # To know more: https://maven.apache.org/extensions/maven-build-cache-extension/cache.html
         cache: 'maven'
         
+
+    - name: Make the script installMaven4.0.0-rc-4.sh executable
+      run: chmod +x installMaven4.0.0-rc-4.sh
+      
     - name: Install Maven 4.0.0-rc-4
       run: ./installMaven4.0.0-rc-4.sh
       
