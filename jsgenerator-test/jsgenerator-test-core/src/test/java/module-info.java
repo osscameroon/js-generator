@@ -14,4 +14,5 @@ module com.osscameroon.jsgenerator.test.core {
     requires spring.core;
 
     requires org.junitpioneer;
+    //requires net.bytebuddy.agent;
 }

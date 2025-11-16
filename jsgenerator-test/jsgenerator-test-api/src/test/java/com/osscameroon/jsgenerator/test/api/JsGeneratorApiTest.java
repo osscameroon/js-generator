@@ -9,10 +9,12 @@ import com.osscameroon.jsgenerator.core.autoconfigure.JsGeneratorCoreAutoconfigu
 import org.hamcrest.CustomMatcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junitpioneer.jupiter.displaynamegenerator.ReplaceCamelCaseAndUnderscoreAndNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -41,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
+@DisplayNameGeneration(ReplaceCamelCaseAndUnderscoreAndNumber.class)
 @SpringBootTest(webEnvironment = MOCK, classes = {ConvertController.class, JsGeneratorCoreAutoconfigure.class, JsGeneratorApi.class})
 class JsGeneratorApiTest {
     private static final Path SAMPLE_OUTPUT_QUERY_SELECTOR_NOT_ADDED_AND_COMMENT_CONVERSION_MODE_NOT_ACTIVATED = Path.of("src", "test", "resources", "jsFilesOutput", "querySelectorNotAdded", "commentConversionModeNotActivated", "sample.js");

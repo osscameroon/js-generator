@@ -4,10 +4,13 @@ import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junitpioneer.jupiter.displaynamegenerator.ReplaceCamelCaseAndUnderscoreAndNumber;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.springframework.lang.NonNull;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -34,6 +38,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  *  To do so, just copy and paste the result from the method "printConverted(String[])".
  *
  * */
+@DisplayNameGeneration(ReplaceCamelCaseAndUnderscoreAndNumber.class)
 @ExtendWith(MockitoExtension.class)
 class ConverterTest {
     private static final Logger logger = getLogger(ConverterTest.class);
@@ -1836,6 +1841,49 @@ class ConverterTest {
         }
 
     }
+
+    @Test
+    void debugClasspath() {
+        System.out.println("---- CLASSPATH ----");
+        System.getProperty("java.class.path")
+                .lines()
+                .filter(s -> s.contains("byte-buddy"))
+                .forEach(System.out::println);
+
+        System.out.println("---- MODULEPATH ----");
+        Module m = getClass().getModule();
+
+        System.out.println("Module name: " + m.getName());
+        System.out.println("Is named: " + m.isNamed());
+
+        ModuleLayer.boot().modules().stream().filter(mod -> mod.getName().contains("net.bytebuddy.agent"))
+                .forEach(module -> System.out.println(
+                        module.getName() + " -> " + module.getDescriptor())
+                );
+
+        Optional<Module> buddy = ModuleLayer.boot().findModule("net.bytebuddy.agent");
+        if (buddy.isPresent()) {
+            Module module = buddy.get();
+            System.out.println("Module found: " + module.getName());
+            System.out.println("Is named: " + module.isNamed());
+            System.out.println("Packages: " + module.getPackages());
+        } else {
+            System.out.println("Module not found: ");
+        }
+
+        Optional<Module> core = ModuleLayer.boot().findModule("com.osscameroon.jsgenerator.test.core");
+        if (core.isPresent()) {
+            Module module = core.get();
+            System.out.println("Module found: " + module.getName());
+            System.out.println("Is named: " + module.isNamed());
+            System.out.println("Packages: " + module.getPackages());
+        } else {
+            System.out.println("Module not found: ");
+        }
+
+    }
+
+
 
 
     /**
