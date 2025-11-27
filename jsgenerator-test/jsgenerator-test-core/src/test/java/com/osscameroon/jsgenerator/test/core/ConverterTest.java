@@ -4,11 +4,12 @@ import com.osscameroon.jsgenerator.core.Configuration;
 import com.osscameroon.jsgenerator.core.Converter;
 import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junitpioneer.jupiter.displaynamegenerator.ReplaceCamelCaseAndUnderscoreAndNumber;
 import org.slf4j.Logger;
 import org.springframework.lang.NonNull;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -34,7 +36,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  *  To do so, just copy and paste the result from the method "printConverted(String[])".
  *
  * */
-@ExtendWith(MockitoExtension.class)
+@DisplayNameGeneration(ReplaceCamelCaseAndUnderscoreAndNumber.class)
 class ConverterTest {
     private static final Logger logger = getLogger(ConverterTest.class);
     private Converter converter;
@@ -1836,8 +1838,7 @@ class ConverterTest {
         }
 
     }
-
-
+    
     /**
      * A helper method to work with language-native String and array of data structures.
      *

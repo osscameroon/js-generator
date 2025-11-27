@@ -4,7 +4,7 @@
     <groupId>com.osscameroon</groupId>
     <artifactId>jsgenerator</artifactId>
     <packaging>pom</packaging>
-    <version>${revision}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <subprojects>
         <subproject>jsgenerator-core</subproject>
         <subproject>jsgenerator-test</subproject>
@@ -32,7 +32,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
 
-        <revision>0.0.1-SNAPSHOT</revision>
+<!--        <revision>0.0.1-SNAPSHOT</revision>-->
 
         <picocli.version>4.6.3</picocli.version>
 
@@ -78,17 +78,17 @@
             <dependency>
                 <groupId>com.osscameroon</groupId>
                 <artifactId>jsgenerator-core</artifactId>
-                <version>${revision}</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.osscameroon</groupId>
                 <artifactId>jsgenerator-slim-api</artifactId>
-                <version>${revision}</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.osscameroon</groupId>
                 <artifactId>jsgenerator-slim-cli</artifactId>
-                <version>${revision}</version>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.junit-pioneer</groupId>
