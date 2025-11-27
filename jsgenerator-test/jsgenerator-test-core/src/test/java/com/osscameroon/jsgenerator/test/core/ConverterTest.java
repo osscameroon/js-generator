@@ -1838,51 +1838,7 @@ class ConverterTest {
         }
 
     }
-
-    @Test
-    void debugClasspath() {
-        System.out.println("---- CLASSPATH ----");
-        System.getProperty("java.class.path")
-                .lines()
-                .filter(s -> s.contains("byte-buddy"))
-                .forEach(System.out::println);
-
-        System.out.println("---- MODULEPATH ----");
-        Module m = getClass().getModule();
-
-        System.out.println("Module name: " + m.getName());
-        System.out.println("Is named: " + m.isNamed());
-
-        ModuleLayer.boot().modules().stream().filter(mod -> mod.getName().contains("net.bytebuddy.agent"))
-                .forEach(module -> System.out.println(
-                        module.getName() + " -> " + module.getDescriptor())
-                );
-
-        Optional<Module> buddy = ModuleLayer.boot().findModule("net.bytebuddy.agent");
-        if (buddy.isPresent()) {
-            Module module = buddy.get();
-            System.out.println("Module found: " + module.getName());
-            System.out.println("Is named: " + module.isNamed());
-            System.out.println("Packages: " + module.getPackages());
-        } else {
-            System.out.println("Module not found: ");
-        }
-
-        Optional<Module> core = ModuleLayer.boot().findModule("com.osscameroon.jsgenerator.test.core");
-        if (core.isPresent()) {
-            Module module = core.get();
-            System.out.println("Module found: " + module.getName());
-            System.out.println("Is named: " + module.isNamed());
-            System.out.println("Packages: " + module.getPackages());
-        } else {
-            System.out.println("Module not found: ");
-        }
-
-    }
-
-
-
-
+    
     /**
      * A helper method to work with language-native String and array of data structures.
      *
