@@ -6,12 +6,10 @@ import com.osscameroon.jsgenerator.core.VariableDeclaration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junitpioneer.jupiter.displaynamegenerator.ReplaceCamelCaseAndUnderscoreAndNumber;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.springframework.lang.NonNull;
 
@@ -39,7 +37,6 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * */
 @DisplayNameGeneration(ReplaceCamelCaseAndUnderscoreAndNumber.class)
-@ExtendWith(MockitoExtension.class)
 class ConverterTest {
     private static final Logger logger = getLogger(ConverterTest.class);
     private Converter converter;
